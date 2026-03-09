@@ -117,7 +117,7 @@ export default defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/orbitalfoundrymodteam/StationeersLuaDocs/edit/main/docs/:path',
+      pattern: 'https://github.com/orbitalfoundrymodteam/StationeersLuaDocs/edit/master/docs/:path',
       text: 'Edit this page on GitHub'
     },
 
