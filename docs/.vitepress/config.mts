@@ -122,7 +122,7 @@ export default defineConfig({
     },
 
     footer: {
-      message: 'Made with ♥ by the Orbital Foundry Mod Team',
+      message: '⚠️ This documentation was AI-generated and may contain inaccuracies. Please submit pull requests with corrections as needed.',
       copyright: 'Stationeers is developed by Rocketwerkz'
     },
 

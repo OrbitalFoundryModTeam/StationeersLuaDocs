@@ -1,25 +1,25 @@
 # What is StationeersLua?
 
-StationeersLua is a [BepInEx](https://github.com/BepInEx/BepInEx) mod for [Stationeers](https://store.steampowered.com/app/544550/Stationeers/) that brings **full Lua 5.4 scripting** to programmable chips, replacing the vanilla IC10 assembly language with a modern, powerful scripting language.
+StationeersLua is a [BepInEx](https://github.com/BepInEx/BepInEx) mod for [Stationeers](https://store.steampowered.com/app/544550/Stationeers/) that brings **full Lua 5.2 scripting** to programmable chips, replacing the vanilla IC10 assembly language with a modern, powerful scripting language.
 
 ## Why Lua instead of IC10?
 
 IC10 assembly is powerful but painful at scale:
 
-| IC10 Pain Point | Lua Solution |
-|---|---|
-| 16 registers (`r0`–`r15`) | Unlimited local variables and tables |
-| Jump-label spaghetti (`j`, `beq`, `jal`) | `if/else`, `while`, `for`, functions |
-| Max 128 lines per chip | No practical line limit (disable in IC10Editor with `?` button) |
-| No strings (only ASCII-6 packing) | Native string support |
-| No data structures | Tables, arrays, maps |
-| No error recovery | `pcall()`, nil-safe reads |
-| No inter-chip communication | Full networking: messaging, pub/sub, RPC |
-| No code reuse across chips | Library chips with `require()` |
+| IC10 Pain Point                          | Lua Solution                                                    |
+| ---------------------------------------- | --------------------------------------------------------------- |
+| 16 registers (`r0`–`r15`)                | Unlimited local variables and tables                            |
+| Jump-label spaghetti (`j`, `beq`, `jal`) | `if/else`, `while`, `for`, functions                            |
+| Max 128 lines per chip                   | No practical line limit (disable in IC10Editor with `?` button) |
+| No strings (only ASCII-6 packing)        | Native string support                                           |
+| No data structures                       | Tables, arrays, maps                                            |
+| No error recovery                        | `pcall()`, nil-safe reads                                       |
+| No inter-chip communication              | Full networking: messaging, pub/sub, RPC                        |
+| No code reuse across chips               | Library chips with `require()`                                  |
 
 ## Key Features
 
-- **Full Lua 5.4 Runtime** — Standard Lua syntax with loops, functions, tables, closures, coroutines
+- **Full Lua 5.2 Runtime** — Standard Lua syntax with loops, functions, tables, closures, coroutines
 - **Integrated Circuit (Lua)** — New chip item that accepts Lua code instead of IC10 assembly
 - **IC10 Editor Integration** — Syntax highlighting and formatting in the in-game code editor
 - **Comprehensive Device API** — Read/write logic values, slots, reagents, memory, batch operations

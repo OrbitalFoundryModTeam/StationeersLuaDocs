@@ -1,25 +1,17 @@
 # Installation
 
-## Requirements
+## Install from Steam Workshop (Recommended)
 
-| Dependency | Description |
-|---|---|
-| [BepInEx 5.x](https://github.com/BepInEx/BepInEx) | Unity mod framework |
-| [StationeersLaunchPad](https://github.com/StationeersLaunchPad/StationeersLaunchPad) | Stationeers modding framework |
-| [IC10Editor](https://steamcommunity.com/sharedfiles/filedetails/?id=3389894703) | In-game code editor (Steam Workshop) |
+All required mods are available on the **Steam Workshop**. Simply subscribe to each:
 
-## Install Steps
+1. Install **[StationeersLaunchPad](https://github.com/StationeersLaunchPad/StationeersLaunchPad)** (BepInEx modding framework — see its GitHub for install instructions)
+2. Subscribe to **[StationeersLua](https://steamcommunity.com/sharedfiles/filedetails/?id=3659911735)** on the Steam Workshop
+3. Subscribe to **[IC10Editor](https://steamcommunity.com/sharedfiles/filedetails/?id=3592775931)** on the Steam Workshop (in-game code editor)
+4. Launch Stationeers — all mods load automatically
 
-1. **Install BepInEx** for Stationeers if you haven't already
-2. **Install StationeersLaunchPad** plugin
-3. **Subscribe to IC10Editor** on the Steam Workshop
-4. **Place the `StationeersLua` folder** in your Stationeers mods directory:
-
-```
-%USERPROFILE%\Documents\My Games\Stationeers\mods\StationeersLua\
-```
-
-5. **Launch the game** — the mod will automatically load
+::: tip
+When creating or joining a world, make sure the mods are enabled in the mod list.
+:::
 
 ::: tip Verify Installation
 If StationeersLua is loaded correctly, you'll be able to craft or spawn an **Integrated Circuit (Lua)** item in-game. Check the BepInEx console for any error messages if things aren't working.
@@ -27,11 +19,7 @@ If StationeersLua is loaded correctly, you'll be able to craft or spawn an **Int
 
 ## Optional: ScriptedScreens
 
-For custom touchscreen UIs on computer consoles and tablets, also install the **ScriptedScreens** companion mod:
-
-```
-%USERPROFILE%\Documents\My Games\Stationeers\mods\ScriptedScreens\
-```
+For custom touchscreen UIs on computer consoles and tablets, also subscribe to the **[ScriptedScreens](https://steamcommunity.com/sharedfiles/filedetails/?id=3666779631)** mod on the Steam Workshop.
 
 ScriptedScreens requires StationeersLua — it validates the version on load and will self-disable if StationeersLua is missing or too old.
 

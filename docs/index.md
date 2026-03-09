@@ -4,6 +4,9 @@ hero:
   name: StationeersLua
   text: Lua Scripting for Stationeers
   tagline: Write cleaner, more powerful automation code using Lua instead of IC10 assembly
+  image:
+    src: /logo.png
+    alt: StationeersLua Logo
   actions:
     - theme: brand
       text: Get Started
@@ -12,12 +15,12 @@ hero:
       text: API Reference
       link: /api/device-io
     - theme: alt
-      text: View on GitHub
-      link: https://github.com/your-org/StationeersLua
+      text: Steam Workshop
+      link: https://steamcommunity.com/sharedfiles/filedetails/?id=3659911735
 
 features:
   - icon: 🚀
-    title: Full Lua 5.4 Runtime
+    title: Full Lua 5.2 Runtime
     details: Write scripts using standard Lua syntax — loops, functions, tables, closures, and more. No more 16-register limits or jump-label spaghetti.
   - icon: 🔌
     title: Complete Device API
@@ -52,4 +55,8 @@ end
 
 ::: tip New to StationeersLua?
 Check out the [Getting Started guide](/guide/getting-started) for a step-by-step walkthrough, or jump straight to the [API Reference](/api/device-io) if you know what you're looking for.
+:::
+
+::: warning AI-Generated Documentation
+This documentation was AI-generated and may contain inaccuracies. If you find errors, please [submit a pull request](https://github.com/OrbitalFoundry/StationeersLuaDocs) with corrections.
 :::

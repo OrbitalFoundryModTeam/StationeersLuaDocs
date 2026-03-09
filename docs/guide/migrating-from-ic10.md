@@ -4,24 +4,24 @@ If you're coming from IC10 assembly, here's a quick translation guide.
 
 ## Instruction Mapping
 
-| IC10 | Lua |
-|---|---|
-| `alias Temp r0` | `local temp` |
-| `define PI 3.14` | `local PI = 3.14` |
-| `l r0 d0 Temperature` | `local temp = read(0, LT.Temperature)` |
-| `s d0 On 1` | `write(0, LT.On, 1)` |
-| `ls r0 d0 0 Occupied` | `local occ = read_slot(0, 0, LST.Occupied)` |
+| IC10                                    | Lua                                                                      |
+| --------------------------------------- | ------------------------------------------------------------------------ |
+| `alias Temp r0`                         | `local temp`                                                             |
+| `define PI 3.14`                        | `local PI = 3.14`                                                        |
+| `l r0 d0 Temperature`                   | `local temp = read(0, LT.Temperature)`                                   |
+| `s d0 On 1`                             | `write(0, LT.On, 1)`                                                     |
+| `ls r0 d0 0 Occupied`                   | `local occ = read_slot(0, 0, LST.Occupied)`                              |
 | `lb r0 HASH("GasSensor") Temperature 2` | `local avg = batch_read(hash("GasSensor"), LT.Temperature, LBM.Average)` |
-| `push 42` | `stack_push(42)` |
-| `pop r0` | `local val = stack_pop()` |
-| `move r0 r1` | `local a = b` |
-| `add r0 r1 r2` | `local a = b + c` |
-| `and r0 r1 r2` | `local a = bit_and(b, c)` |
-| `j label` | `while true do ... end` or `goto label` |
-| `beq r0 0 label` | `if r0 == 0 then ... end` |
-| `sleep 5` | `sleep(5)` |
-| `yield` | `yield()` |
-| `hcf` | `hcf()` |
+| `push 42`                               | `stack_push(42)`                                                         |
+| `pop r0`                                | `local val = stack_pop()`                                                |
+| `move r0 r1`                            | `local a = b`                                                            |
+| `add r0 r1 r2`                          | `local a = b + c`                                                        |
+| `and r0 r1 r2`                          | `local a = bit_and(b, c)`                                                |
+| `j label`                               | `while true do ... end` or `goto label`                                  |
+| `beq r0 0 label`                        | `if r0 == 0 then ... end`                                                |
+| `sleep 5`                               | `sleep(5)`                                                               |
+| `yield`                                 | `yield()`                                                                |
+| `hcf`                                   | `hcf()`                                                                  |
 
 ## Key Differences
 
@@ -52,11 +52,11 @@ end
 
 ## Numeric Formats
 
-| IC10 | Lua |
-|---|---|
-| `$FF` | `0xFF` |
-| `$E1B2` | `0xE1B2` |
-| `%101010` | `0b101010` (Lua 5.4) |
+| IC10      | Lua                                                               |
+| --------- | ----------------------------------------------------------------- |
+| `$FF`     | `0xFF`                                                            |
+| `$E1B2`   | `0xE1B2`                                                          |
+| `%101010` | No binary literal syntax in Lua 5.2 — use `tonumber("101010", 2)` |
 
 ## Hashes
 

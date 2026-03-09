@@ -26,14 +26,21 @@ local temp = read(0, LT.Temperature, 0)  -- with network index
 
 ### By Reference ID
 
-For stable addressing that doesn't depend on pin wiring:
+For stable addressing that doesn't depend on pin wiring. Get a device's ReferenceId via `device_list()` or `find()`:
 
 ```lua
-local id = device_id(0)  -- Get the ReferenceId of device on d0
+-- Find a device by its label (set with the Labeller tool)
+local id = find("My Sensor")
+if id then
+    local temp = read_id(id, LT.Temperature)
+    write_id(id, LT.On, 1)
+end
 
--- read_id(deviceId, logicType [, networkIndex])
-local temp = read_id(id, LT.Temperature)
-write_id(id, LT.On, 1)
+-- Or get all matching devices
+local ids = find_all("Solar Panel")
+for _, id in ipairs(ids) do
+    write_id(id, LT.On, 1)
+end
 ```
 
 ## Writing Logic Values
@@ -50,9 +57,11 @@ write_id(id, LT.On, 1)
 
 ::: warning
 `write()` can throw if the device is missing. Use `pcall()` for safe writes:
+
 ```lua
 local ok, err = pcall(write, 0, LT.On, 1)
 ```
+
 :::
 
 ## Device Labels & Names
@@ -64,9 +73,6 @@ label(0, "Main Sensor")  -- shorthand
 
 -- Get the live display name
 local name = device_name(0)
-
--- Get the device's ReferenceId
-local id = device_id(0)
 
 -- Get a prefab name from a hash
 local prefab = prefab_name(-2045627372)  -- "SolarPanel"
@@ -90,12 +96,12 @@ end
 
 Each entry contains:
 
-| Field | Type | Description |
-|---|---|---|
-| `ref_id` | number | Device ReferenceId (for `read_id`/`write_id`) |
-| `prefab_hash` | number | Prefab hash (for `batch_read`/`batch_write`) |
-| `name_hash` | number | Name hash |
-| `display_name` | string | Current display name |
+| Field          | Type   | Description                                   |
+| -------------- | ------ | --------------------------------------------- |
+| `ref_id`       | number | Device ReferenceId (for `read_id`/`write_id`) |
+| `prefab_hash`  | number | Prefab hash (for `batch_read`/`batch_write`)  |
+| `name_hash`    | number | Name hash                                     |
+| `display_name` | string | Current display name                          |
 
 Accepts an optional `networkIndex`: `device_list(networkIndex)`.
 
@@ -110,16 +116,20 @@ local ch0 = read(ic.const.BASE_UNIT_INDEX, LT.Channel0, 0)
 
 ## Function Reference
 
-| Function | Returns | Description |
-|---|---|---|
-| `read(dev, logicType [, net])` | number \| nil | Read logic value |
-| `write(dev, logicType, value [, net])` | — | Write logic value |
-| `read_id(id, logicType [, net])` | number \| nil | Read by ReferenceId |
-| `write_id(id, logicType, value [, net])` | — | Write by ReferenceId |
-| `device_id(dev)` | number | Get device ReferenceId |
-| `device_name(dev [, net])` | string \| nil | Get device display name |
-| `device_label(dev, name)` | — | Set device label |
-| `label(dev, name)` | — | Alias for `device_label` |
-| `device_list([net])` | table[] | List all network devices |
-| `prefab_name(hash)` | string \| nil | Hash → prefab name |
-| `namehash_name(devHash, nameHash [, net])` | string \| nil | Resolve nameHash |
+| Function                                   | Returns       | Description                                          |
+| ------------------------------------------ | ------------- | ---------------------------------------------------- |
+| `read(dev, logicType [, net])`             | number \| nil | Read logic value                                     |
+| `write(dev, logicType, value [, net])`     | —             | Write logic value                                    |
+| `read_id(id, logicType [, net])`           | number \| nil | Read by ReferenceId                                  |
+| `write_id(id, logicType, value [, net])`   | —             | Write by ReferenceId                                 |
+| `find(name [, net])`                       | number \| nil | Find device by label, returns ReferenceId            |
+| `find_all(name [, net])`                   | number[]      | Find all devices by label, returns ReferenceId array |
+| `device_name(dev [, net])`                 | string \| nil | Get device display name                              |
+| `device_label(dev, name)`                  | —             | Set device label                                     |
+| `label(dev, name)`                         | —             | Alias for `device_label`                             |
+| `device_list([net])`                       | table[]       | List all network devices                             |
+| `prefab_name(hash)`                        | string \| nil | Hash → prefab name                                   |
+| `namehash_name(devHash, nameHash [, net])` | string \| nil | Resolve nameHash                                     |
+| `raise_error(state)`                       | —             | Set the IC housing error state (1=error, 0=clear)    |
+| `clear_error()`                            | —             | Clear the IC housing error state                     |
+| `hcf()`                                    | —             | Halt and catch fire (stops the chip)                 |
