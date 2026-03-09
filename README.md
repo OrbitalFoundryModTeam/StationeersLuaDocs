@@ -1,6 +1,6 @@
 # StationeersLua Documentation
 
-Documentation site for [StationeersLua](https://github.com/your-org/StationeersLua) — Lua scripting for Stationeers programmable chips.
+Documentation site for [StationeersLua](https://github.com/orbitalfoundrymodteam/StationeersLua) — Lua scripting for Stationeers programmable chips.
 
 Built with [VitePress](https://vitepress.dev/).
 
@@ -35,5 +35,3 @@ In `docs/.vitepress/config.mts`, update the `base` field to match your GitHub re
 ```ts
 base: '/StationeersLuaDocs/',
 ```
-
-Also update any `your-org` references in links to your actual GitHub organization/username.

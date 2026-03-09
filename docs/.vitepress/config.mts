@@ -19,7 +19,7 @@ export default defineConfig({
       {
         text: 'Links',
         items: [
-          { text: 'ScriptedScreens Docs', link: 'https://your-org.github.io/ScriptedScreensDocs/' },
+          { text: 'ScriptedScreens Docs', link: 'https://orbitalfoundrymodteam.github.io/ScriptedScreensDocs/' },
           { text: 'Discord', link: 'https://discord.gg/HxvySSu5G3' },
           { text: 'Ko-fi', link: 'https://ko-fi.com/G2G61S5ZB5' },
         ]
@@ -117,7 +117,7 @@ export default defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/your-org/StationeersLuaDocs/edit/main/docs/:path',
+      pattern: 'https://github.com/orbitalfoundrymodteam/StationeersLuaDocs/edit/main/docs/:path',
       text: 'Edit this page on GitHub'
     },
 
