@@ -11,7 +11,7 @@ This guide walks you through creating and running your first Lua script on a pro
 ## Your First Script
 
 1. Craft or spawn an **Integrated Circuit (Lua)**
-2. Insert it into any **IC Housing** (or Advanced IC Housing)
+2. Insert it into any **IC Housing**
 3. Open the housing's code editor
 4. If your script is getting too long, click the **`?`** button in IC10Editor to disable the script-length and line-length limits
 5. Paste this:
