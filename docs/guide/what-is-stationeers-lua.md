@@ -27,10 +27,13 @@ IC10 assembly is powerful but painful at scale:
 - **Inter-Chip Networking** — Direct messaging, topic-based pub/sub, and RPC between Lua chips
 - **Library Chips** — Write reusable modules loaded via `require()` across the data network
 - **Event System** — Register handlers for game and mod events
+- **VS Code Debugger** — Attach breakpoints, step execution, inspect stack/scopes/variables, and view runtime output externally
+- **Wireless Development Access** — Reach remote data networks through the wearable wireless development board on supported suits
 - **Save/Load Persistence** — Opt-in `serialize()`/`deserialize()` hooks for custom state
 - **Instruction Limits** — Built-in safety limits prevent infinite loops
 - **Multiplayer Compatible** — Fully synced across all connected clients
 - **Server-Authoritative** — All execution on the server/host; clients see results via game state sync
+- **Advanced Computing Compatible** — Rack-mounted Lua chips are discovered individually when the Advanced Computing mod is installed
 
 ## Architecture
 

@@ -31,6 +31,9 @@ features:
   - icon: 📚
     title: Library Chips
     details: Write reusable modules on library chips. Other chips load them with require() — just like real Lua development.
+  - icon: 🪲
+    title: VS Code Debugging
+    details: Attach from VS Code with breakpoints, pause/step controls, stack/scopes/variables, and runtime output routed into the debug session.
   - icon: 💾
     title: Save/Load Persistence
     details: Chip memory persists automatically. Opt-in serialize/deserialize hooks let you save custom Lua state across game saves.

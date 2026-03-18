@@ -23,6 +23,16 @@ For custom touchscreen UIs on computer consoles and tablets, also subscribe to t
 
 ScriptedScreens requires StationeersLua — it validates the version on load and will self-disable if StationeersLua is missing or too old.
 
+## Optional: VS Code Extension
+
+For external editing, chip browsing, and debugger attach, install the **StationeersLua VS Code extension** from the repository alongside this mod.
+
+::: info Multiplayer Debugging Model
+In multiplayer, VS Code talks to a **local StationeersLua bridge** running in your own game client. That local bridge proxies debugger traffic to the authoritative server over in-game mod network messages when the server enables multiplayer debug proxying.
+
+Dedicated servers do **not** expose the HTTP/MCP listener directly.
+:::
+
 ## Building from Source
 
 ### Prerequisites

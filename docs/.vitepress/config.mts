@@ -84,6 +84,7 @@ export default defineConfig({
             { text: 'Temperature', link: '/api/temperature' },
             { text: 'Time', link: '/api/time' },
             { text: 'JSON', link: '/api/json' },
+            { text: 'HTTP', link: '/api/http' },
             { text: 'Events', link: '/api/events' },
           ]
         },

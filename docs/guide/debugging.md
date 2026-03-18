@@ -26,6 +26,39 @@ The **MotherboardLuaDebugger** is a special motherboard you can craft and instal
 
 Select a target chip from the dropdown to view its debug information.
 
+## VS Code Debugger
+
+StationeersLua also supports attaching the **VS Code debugger** to an in-game Lua chip.
+
+When attached, the debugger can:
+
+- Set and clear **source breakpoints**
+- **Pause**, **continue**, **step over**, **step in**, and **step out**
+- Inspect **stack frames**, **scopes**, and **variables**
+- Surface `print(...)` output and runtime diagnostics in the **Debug Console** / **Output** view
+- Attach to chips discovered from the current file, the in-game editor selection, or the chip explorer sidebar
+
+## Output & Error Surfacing
+
+- `print(...)` output is still written to the in-game **Lua Debugger Logs** tab
+- When a VS Code debug session is attached, log output and runtime errors are also forwarded to the attached debug session
+- Runtime errors include the cleaned error message plus the captured Lua traceback when available
+- ScriptedScreens-hosted Lua chips also surface through the same debug event/output path; the host board or cartridge appears as the endpoint device
+
+## Multiplayer & Remote Debugging
+
+- All Lua execution remains **server-authoritative**
+- In multiplayer, VS Code connects to a **local bridge in the player’s own game client**, not to the dedicated server over HTTP
+- If the host enables multiplayer debug proxying, that local bridge forwards debug traffic to the authoritative server over in-game mod network messages
+- **Dedicated servers do not expose the HTTP/MCP listener**
+- Multiplayer debug sessions are owned by the attaching client, so one client cannot drive another client’s active chip session
+
+## Debugger Availability
+
+- The in-game debugger motherboard remains the authority gate for in-game debugging workflows
+- Wireless development access may require a debugger motherboard installed in the wireless development board, depending on the path you are using
+- If the debugger is unavailable, the debugger reports the authoritative reason instead of pretending the transport is broken
+
 ## Checking Device Connections
 
 ```lua
