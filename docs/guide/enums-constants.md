@@ -13,41 +13,41 @@ local LRM = ic.enums.LogicReagentMode   -- TotalContents, ...
 
 ### LogicType (commonly used values)
 
-| Name                    | Description                 |
-| ----------------------- | --------------------------- |
-| `On`                    | Device power state (0/1)    |
-| `Open`                  | Door/vent open state        |
-| `Temperature`           | Temperature in Kelvin       |
-| `Pressure`              | Pressure in kPa             |
-| `Setting`               | Generic setting value       |
-| `Mode`                  | Device operating mode       |
-| `Activate`              | Sensor activation state     |
-| `Charge`                | Battery charge (Joules)     |
-| `Maximum`               | Battery max charge          |
-| `Ratio`                 | Generic ratio (0-1)         |
-| `Power`                 | Power draw (Watts)          |
-| `Vertical`              | Vertical angle              |
-| `Horizontal`            | Horizontal angle            |
-| `Color`                 | Paint color index           |
-| `Error`                 | Error flag                  |
-| `PrefabHash`            | Device prefab hash          |
-| `Channel0`–`Channel7`   | Data network channels       |
-| `RatioOxygen`           | O₂ gas ratio                |
-| `RatioCarbonDioxide`    | CO₂ gas ratio               |
-| `RatioNitrogen`         | N₂ gas ratio                |
-| `RatioPollutant`        | Pollutant gas ratio         |
-| `RatioMethane`          | Volatiles/Methane gas ratio |
-| `RatioWater`            | H₂O gas ratio               |
-| `RatioNitrousOxide`     | N₂O gas ratio               |
-| `RatioHydrogen`         | H₂ gas ratio                |
-| `RatioSteam`            | Steam ratio                 |
-| `RatioPollutedWater`    | Polluted water ratio        |
-| `RatioHydrazine`        | Hydrazine ratio             |
-| `RatioLiquidAlcohol`    | Ethanol ratio               |
-| `RatioHelium`           | Helium ratio                |
-| `RatioSilanol`          | Silanol/Coolant ratio       |
-| `RatioHydrochloricAcid` | HCl ratio                   |
-| `RatioOzone`            | Ozone ratio                 |
+| Name                    | Description                                 |
+| ----------------------- | ------------------------------------------- |
+| `On`                    | Device power state (0/1)                    |
+| `Open`                  | Door/vent open state                        |
+| `Temperature`           | Temperature in Kelvin                       |
+| `Pressure`              | Pressure in kPa                             |
+| `Setting`               | Generic setting value                       |
+| `Mode`                  | Device operating mode                       |
+| `Activate`              | Sensor activation state                     |
+| `Charge`                | Battery charge (Joules)                     |
+| `Maximum`               | Battery max charge                          |
+| `Ratio`                 | Generic ratio (0-1)                         |
+| `Power`                 | Power draw (Watts)                          |
+| `Vertical`              | Vertical angle                              |
+| `Horizontal`            | Horizontal angle                            |
+| `Color`                 | Paint color index                           |
+| `Error`                 | Error flag                                  |
+| `PrefabHash`            | Device prefab hash                          |
+| `Channel0`–`Channel7`   | Data network channels                       |
+| `RatioOxygen`           | O₂ gas ratio                                |
+| `RatioCarbonDioxide`    | CO₂ gas ratio                               |
+| `RatioNitrogen`         | N₂ gas ratio                                |
+| `RatioPollutant`        | Pollutant gas ratio                         |
+| `RatioMethane`          | Methane gas ratio (formerly RatioVolatiles) |
+| `RatioWater`            | H₂O gas ratio                               |
+| `RatioNitrousOxide`     | N₂O gas ratio                               |
+| `RatioHydrogen`         | H₂ gas ratio                                |
+| `RatioSteam`            | Steam ratio                                 |
+| `RatioPollutedWater`    | Polluted water ratio                        |
+| `RatioHydrazine`        | Hydrazine ratio                             |
+| `RatioLiquidAlcohol`    | Ethanol ratio                               |
+| `RatioHelium`           | Helium ratio                                |
+| `RatioSilanol`          | Silanol/Coolant ratio                       |
+| `RatioHydrochloricAcid` | HCl ratio                                   |
+| `RatioOzone`            | Ozone ratio                                 |
 
 ### LogicBatchMethod
 
