@@ -33,6 +33,8 @@ IC10 assembly is powerful but painful at scale:
 - **Instruction Limits** — Built-in safety limits prevent infinite loops
 - **Multiplayer Compatible** — Fully synced across all connected clients
 - **Server-Authoritative** — All execution on the server/host; clients see results via game state sync
+- **MCP Server** — Built-in Model Context Protocol server for AI-aware editors (Cursor, Windsurf, etc.) with chip discovery, code sync, and debug tools
+- **In-Game Reference Panel** — Searchable Lua API reference replaces the IC10 help buttons when editing Lua in the IC editor
 - **Advanced Computing Compatible** — Rack-mounted Lua chips are discovered individually when the Advanced Computing mod is installed
 
 ## Architecture

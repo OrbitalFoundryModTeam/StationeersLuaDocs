@@ -52,6 +52,7 @@ export default defineConfig({
             { text: 'Save/Load Persistence', link: '/guide/persistence' },
             { text: 'Library Chips (require)', link: '/guide/library-chips' },
             { text: 'Debugging', link: '/guide/debugging' },
+            { text: 'MCP Server & Reference Panel', link: '/guide/mcp-server' },
             { text: 'Error Handling', link: '/guide/error-handling' },
             { text: 'Migrating from IC10', link: '/guide/migrating-from-ic10' },
           ]

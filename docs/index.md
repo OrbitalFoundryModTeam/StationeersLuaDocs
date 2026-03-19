@@ -34,6 +34,9 @@ features:
   - icon: 🪲
     title: VS Code Debugging
     details: Attach from VS Code with breakpoints, pause/step controls, stack/scopes/variables, and runtime output routed into the debug session.
+  - icon: 🤖
+    title: MCP Server & AI Editors
+    details: Built-in Model Context Protocol server lets AI-aware editors discover chips, read/write code, and drive the debugger.
   - icon: 💾
     title: Save/Load Persistence
     details: Chip memory persists automatically. Opt-in serialize/deserialize hooks let you save custom Lua state across game saves.

@@ -49,14 +49,26 @@ When attached, the debugger can:
 
 - All Lua execution remains **server-authoritative**
 - In multiplayer, VS Code connects to a **local bridge in the player’s own game client**, not to the dedicated server over HTTP
-- If the host enables multiplayer debug proxying, that local bridge forwards debug traffic to the authoritative server over in-game mod network messages
+- If the server has `AllowMultiplayerDebugProxy = true` in the `[MCP Server]` config, that local bridge forwards debug traffic to the authoritative server over in-game mod network messages
 - **Dedicated servers do not expose the HTTP/MCP listener**
 - Multiplayer debug sessions are owned by the attaching client, so one client cannot drive another client’s active chip session
 
+## In-Game Lua Reference Panel
+
+When the active formatter in the IC editor is Lua, the three reference buttons in the editor header open the Lua reference panel instead of the vanilla IC10 script help window:
+
+| Button | Panel Tab            |
+| ------ | -------------------- |
+| `f`    | Functions            |
+| `x`    | Logic Variables (LT) |
+| `s(x)` | Slot Variables (LST) |
+
+When ScriptedScreens is installed alongside StationeersLua, its API sections are appended to the panel.
+
 ## Debugger Availability
 
-- The in-game debugger motherboard remains the authority gate for in-game debugging workflows
-- Wireless development access may require a debugger motherboard installed in the wireless development board, depending on the path you are using
+- The in-game debugger motherboard remains the authority gate for in-game debugging workflows.
+- You must either have a debugger motherboard installed in a computer on the data network (and turned on), or have the wireless development board with a debugger motherboard installed.
 - If the debugger is unavailable, the debugger reports the authoritative reason instead of pretending the transport is broken
 
 ## Checking Device Connections

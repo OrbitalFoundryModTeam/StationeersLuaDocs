@@ -13,52 +13,60 @@ local LRM = ic.enums.LogicReagentMode   -- TotalContents, ...
 
 ### LogicType (commonly used values)
 
-| Name | Description |
-|---|---|
-| `On` | Device power state (0/1) |
-| `Open` | Door/vent open state |
-| `Temperature` | Temperature in Kelvin |
-| `Pressure` | Pressure in kPa |
-| `Setting` | Generic setting value |
-| `Mode` | Device operating mode |
-| `Activate` | Sensor activation state |
-| `Charge` | Battery charge (Joules) |
-| `Maximum` | Battery max charge |
-| `Ratio` | Generic ratio (0-1) |
-| `Power` | Power draw (Watts) |
-| `Vertical` | Vertical angle |
-| `Horizontal` | Horizontal angle |
-| `Color` | Paint color index |
-| `Error` | Error flag |
-| `PrefabHash` | Device prefab hash |
-| `Channel0`–`Channel7` | Data network channels |
-| `RatioOxygen` | O₂ gas ratio |
-| `RatioCarbonDioxide` | CO₂ gas ratio |
-| `RatioNitrogen` | N₂ gas ratio |
-| `RatioPollutant` | Pollutant gas ratio |
-| `RatioVolatiles` | Volatiles gas ratio |
-| `RatioWater` | H₂O gas ratio |
-| `RatioNitrousOxide` | N₂O gas ratio |
-| `RatioHydrogen` | H₂ gas ratio |
+| Name                    | Description                 |
+| ----------------------- | --------------------------- |
+| `On`                    | Device power state (0/1)    |
+| `Open`                  | Door/vent open state        |
+| `Temperature`           | Temperature in Kelvin       |
+| `Pressure`              | Pressure in kPa             |
+| `Setting`               | Generic setting value       |
+| `Mode`                  | Device operating mode       |
+| `Activate`              | Sensor activation state     |
+| `Charge`                | Battery charge (Joules)     |
+| `Maximum`               | Battery max charge          |
+| `Ratio`                 | Generic ratio (0-1)         |
+| `Power`                 | Power draw (Watts)          |
+| `Vertical`              | Vertical angle              |
+| `Horizontal`            | Horizontal angle            |
+| `Color`                 | Paint color index           |
+| `Error`                 | Error flag                  |
+| `PrefabHash`            | Device prefab hash          |
+| `Channel0`–`Channel7`   | Data network channels       |
+| `RatioOxygen`           | O₂ gas ratio                |
+| `RatioCarbonDioxide`    | CO₂ gas ratio               |
+| `RatioNitrogen`         | N₂ gas ratio                |
+| `RatioPollutant`        | Pollutant gas ratio         |
+| `RatioMethane`          | Volatiles/Methane gas ratio |
+| `RatioWater`            | H₂O gas ratio               |
+| `RatioNitrousOxide`     | N₂O gas ratio               |
+| `RatioHydrogen`         | H₂ gas ratio                |
+| `RatioSteam`            | Steam ratio                 |
+| `RatioPollutedWater`    | Polluted water ratio        |
+| `RatioHydrazine`        | Hydrazine ratio             |
+| `RatioLiquidAlcohol`    | Ethanol ratio               |
+| `RatioHelium`           | Helium ratio                |
+| `RatioSilanol`          | Silanol/Coolant ratio       |
+| `RatioHydrochloricAcid` | HCl ratio                   |
+| `RatioOzone`            | Ozone ratio                 |
 
 ### LogicBatchMethod
 
-| Name | Description |
-|---|---|
+| Name      | Description                    |
+| --------- | ------------------------------ |
 | `Average` | Average of all matching values |
-| `Sum` | Sum of all matching values |
-| `Minimum` | Smallest value |
-| `Maximum` | Largest value |
+| `Sum`     | Sum of all matching values     |
+| `Minimum` | Smallest value                 |
+| `Maximum` | Largest value                  |
 
 ### LogicSlotType (commonly used)
 
-| Name | Description |
-|---|---|
-| `Occupied` | Whether the slot has an item (0/1) |
-| `Quantity` | Stack count in slot |
-| `Charge` | Charge level of item in slot |
-| `MaxQuantity` | Max stack size |
-| `PrefabHash` | Prefab hash of item in slot |
+| Name          | Description                        |
+| ------------- | ---------------------------------- |
+| `Occupied`    | Whether the slot has an item (0/1) |
+| `Quantity`    | Stack count in slot                |
+| `Charge`      | Charge level of item in slot       |
+| `MaxQuantity` | Max stack size                     |
+| `PrefabHash`  | Prefab hash of item in slot        |
 
 ## Constants
 
