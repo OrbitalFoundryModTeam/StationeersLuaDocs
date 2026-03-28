@@ -15,11 +15,11 @@ print("Script initialized, threshold = " .. threshold)
 
 -- Called every game tick (~0.5s)
 function tick(dt)
-    local temp = read(0, LT.Temperature)
+    local temp = ic.read(0, LT.Temperature)
     if temp ~= nil and temp > threshold then
-        write(1, LT.On, 1)  -- Turn on cooling
+        ic.write(1, LT.On, 1)  -- Turn on cooling
     else
-        write(1, LT.On, 0)  -- Turn off cooling
+        ic.write(1, LT.On, 0)  -- Turn off cooling
     end
 end
 ```
@@ -40,11 +40,11 @@ Don't define `tick()`. Instead, use a `while true` loop with `yield()` or `sleep
 local LT = ic.enums.LogicType
 
 while true do
-    local temp = read(0, LT.Temperature)
+    local temp = ic.read(0, LT.Temperature)
     if temp ~= nil and temp > 25 then
-        write(1, LT.On, 1)
+        ic.write(1, LT.On, 1)
     else
-        write(1, LT.On, 0)
+        ic.write(1, LT.On, 0)
     end
     yield()  -- Wait until next tick
 end
@@ -75,7 +75,7 @@ print("Coroutine finished!")
 
 -- tick() keeps running even after the coroutine ends
 function tick(dt)
-    local temp = read(0, LT.Temperature)
-    write(ic.const.BASE_UNIT_INDEX, LT.Setting, temp or 0)
+    local temp = ic.read(0, LT.Temperature)
+    ic.write(ic.const.BASE_UNIT_INDEX, LT.Setting, temp or 0)
 end
 ```

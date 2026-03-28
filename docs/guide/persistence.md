@@ -64,6 +64,6 @@ local count = mem_read(ADDR_COUNT) or 0
 function tick(dt)
     count = count + 1
     mem_write(ADDR_COUNT, count)
-    write(ic.const.BASE_UNIT_INDEX, ic.enums.LogicType.Setting, count)
+    ic.write(ic.const.BASE_UNIT_INDEX, ic.enums.LogicType.Setting, count)
 end
 ```

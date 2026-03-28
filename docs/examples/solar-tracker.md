@@ -17,13 +17,13 @@ local LBM = ic.enums.LogicBatchMethod
 local panelHash = hash("StructureSolarPanel")
 
 function tick(dt)
-    local sensorV = read(0, LT.Vertical)
-    local sensorH = read(0, LT.Horizontal)
+    local sensorV = ic.read(0, LT.Vertical)
+    local sensorH = ic.read(0, LT.Horizontal)
     if sensorV == nil or sensorH == nil then return end
 
     -- Solar panels need +90° offset from sensor vertical angle
-    batch_write(panelHash, LT.Vertical, sensorV + 90)
-    batch_write(panelHash, LT.Horizontal, sensorH)
+    ic.batch_write(panelHash, LT.Vertical, sensorV + 90)
+    ic.batch_write(panelHash, LT.Horizontal, sensorH)
 end
 ```
 

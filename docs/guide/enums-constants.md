@@ -2,7 +2,7 @@
 
 ## Built-in enumerations
 
-Game enumerations are exposed via names and numeric codes under `ic.enums`. Each table maps **name → integer value** (for use with `read()`, `write()`, and batch helpers).
+Game enumerations are exposed via names and numeric codes under `ic.enums`. Each table maps **name → integer value** (for use with `ic.read()`, `ic.write()`, and batch helpers).
 
 ```lua
 local LT  = ic.enums.LogicType         -- On, Off, Temperature, Pressure, ...
@@ -54,7 +54,7 @@ local LRM = ic.enums.LogicReagentMode   -- TotalContents, ...
 
 Analysers, tanks, and many pipe machines expose **molar ratios** as separate names. Gases use names like `RatioOxygen`; **liquids** use `RatioLiquid…` (for example liquid methane is `RatioLiquidMethane`). Machines with multiple ports often add `Input`, `Input2`, `Output`, and `Output2` suffixes for the same substance.
 
-Typical **liquid** ratio names you can use with `read()` / `write()`:
+Typical **liquid** ratio names you can use with `ic.read()` / `ic.write()`:
 
 | Substance (liquid form) | Ratio name |
 | ----------------------- | ---------- |
@@ -106,10 +106,10 @@ This is the device index for the IC Housing itself (equivalent to `db` in IC10).
 
 ```lua
 -- Write a value to the housing's Setting display
-write(ic.const.BASE_UNIT_INDEX, LT.Setting, 42)
+ic.write(ic.const.BASE_UNIT_INDEX, LT.Setting, 42)
 
 -- Read the housing's power state
-local powered = read(ic.const.BASE_UNIT_INDEX, LT.On)
+local powered = ic.read(ic.const.BASE_UNIT_INDEX, LT.On)
 ```
 
 ## Using Enums
@@ -122,5 +122,5 @@ print(LT.Temperature)  -- prints the integer value
 print(LT.On)           -- prints the integer value
 
 -- Compare with enum values
-local temp = read(0, LT.Temperature)
+local temp = ic.read(0, LT.Temperature)
 ```

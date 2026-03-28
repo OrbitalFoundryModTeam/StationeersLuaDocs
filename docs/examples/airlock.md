@@ -20,34 +20,34 @@ local OUTER = 1
 local VENT  = 2
 
 local function close_all()
-    write(INNER, LT.Open, 0)
-    write(OUTER, LT.Open, 0)
+    ic.write(INNER, LT.Open, 0)
+    ic.write(OUTER, LT.Open, 0)
 end
 
 local function depressurize()
     close_all()
-    write(VENT, LT.On, 1)
-    write(VENT, LT.Mode, 0)   -- Outward
+    ic.write(VENT, LT.On, 1)
+    ic.write(VENT, LT.Mode, 0)   -- Outward
     sleep(5)
-    write(VENT, LT.On, 0)
+    ic.write(VENT, LT.On, 0)
 end
 
 local function pressurize()
     close_all()
-    write(VENT, LT.On, 1)
-    write(VENT, LT.Mode, 1)   -- Inward
+    ic.write(VENT, LT.On, 1)
+    ic.write(VENT, LT.Mode, 1)   -- Inward
     sleep(5)
-    write(VENT, LT.On, 0)
+    ic.write(VENT, LT.On, 0)
 end
 
 -- Cycle: inner open → close → depressurize → outer open → close → pressurize
 while true do
     pressurize()
-    write(INNER, LT.Open, 1)
+    ic.write(INNER, LT.Open, 1)
     sleep(5)
     close_all()
     depressurize()
-    write(OUTER, LT.Open, 1)
+    ic.write(OUTER, LT.Open, 1)
     sleep(5)
     close_all()
 end

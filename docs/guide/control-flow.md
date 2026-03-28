@@ -6,7 +6,7 @@ Pauses the script until the next game tick. Use in a loop to run code once per t
 
 ```lua
 while true do
-    local temp = read(0, ic.enums.LogicType.Temperature)
+    local temp = ic.read(0, ic.enums.LogicType.Temperature)
     print("Temp: " .. tostring(temp))
     yield()
 end

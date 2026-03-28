@@ -48,7 +48,7 @@ local on = false
 
 while true do
     on = not on
-    write(0, LT.On, on and 1 or 0)
+    ic.write(0, LT.On, on and 1 or 0)
     sleep(1)
 end
 ```
