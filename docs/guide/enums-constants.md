@@ -1,8 +1,8 @@
 # Enumerations & Constants
 
-## Game Enumerations
+## Built-in enumerations
 
-Game enumerations are available under `ic.enums`. Each enum table maps **name → integer value**.
+Game enumerations are exposed via names and numeric codes under `ic.enums`. Each table maps **name → integer value** (for use with `read()`, `write()`, and batch helpers).
 
 ```lua
 local LT  = ic.enums.LogicType         -- On, Off, Temperature, Pressure, ...
@@ -36,7 +36,7 @@ local LRM = ic.enums.LogicReagentMode   -- TotalContents, ...
 | `RatioCarbonDioxide`    | CO₂ gas ratio                               |
 | `RatioNitrogen`         | N₂ gas ratio                                |
 | `RatioPollutant`        | Pollutant gas ratio                         |
-| `RatioMethane`          | Methane gas ratio (formerly RatioVolatiles) |
+| `RatioMethane`          | Methane gas ratio (older scripts may still say `RatioVolatiles`) |
 | `RatioWater`            | H₂O gas ratio                               |
 | `RatioNitrousOxide`     | N₂O gas ratio                               |
 | `RatioHydrogen`         | H₂ gas ratio                                |
@@ -48,6 +48,29 @@ local LRM = ic.enums.LogicReagentMode   -- TotalContents, ...
 | `RatioSilanol`          | Silanol/Coolant ratio                       |
 | `RatioHydrochloricAcid` | HCl ratio                                   |
 | `RatioOzone`            | Ozone ratio                                 |
+| `RatioLiquidOzone`      | Liquid ozone ratio                          |
+
+### More ratio names (liquids and pipes)
+
+Analysers, tanks, and many pipe machines expose **molar ratios** as separate names. Gases use names like `RatioOxygen`; **liquids** use `RatioLiquid…` (for example liquid methane is `RatioLiquidMethane`). Machines with multiple ports often add `Input`, `Input2`, `Output`, and `Output2` suffixes for the same substance.
+
+Typical **liquid** ratio names you can use with `read()` / `write()`:
+
+| Substance (liquid form) | Ratio name |
+| ----------------------- | ---------- |
+| Liquid nitrogen | `RatioLiquidNitrogen` |
+| Liquid oxygen | `RatioLiquidOxygen` |
+| Liquid methane | `RatioLiquidMethane` |
+| Liquid CO₂ | `RatioLiquidCarbonDioxide` |
+| Liquid pollutant | `RatioLiquidPollutant` |
+| Liquid nitrous oxide | `RatioLiquidNitrousOxide` |
+| Liquid hydrogen | `RatioLiquidHydrogen` |
+| Liquid hydrazine | `RatioLiquidHydrazine` |
+| Liquid silanol | `RatioLiquidSilanol` |
+| Liquid hydrochloric acid | `RatioLiquidHydrochloricAcid` |
+| Liquid ozone | `RatioLiquidOzone` |
+
+You can use the optional **`gas` library** (`Examples/LibraryModule_Gas.lua`): it maps `gas.TYPE` flags to the right ratio name for each substance.
 
 ### LogicBatchMethod
 
