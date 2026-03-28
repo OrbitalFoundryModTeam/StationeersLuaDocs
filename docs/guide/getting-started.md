@@ -23,7 +23,7 @@ local on = false
 
 while true do
     on = not on
-    write(0, LT.On, on and 1 or 0)
+    ic.write(0, LT.On, on and 1 or 0)
     sleep(1)
 end
 ```
@@ -48,13 +48,13 @@ local on = false
 -- Main loop — runs forever
 while true do
     on = not on                          -- Toggle the state
-    write(0, LT.On, on and 1 or 0)      -- Write to device on pin d0  // [!code focus]
+    ic.write(0, LT.On, on and 1 or 0)      -- Write to device on pin d0  // [!code focus]
     sleep(1)                             -- Wait 1 second  // [!code focus]
 end
 ```
 
 - **`ic.enums.LogicType`** — Game enum containing property names like `On`, `Temperature`, `Pressure`, etc.
-- **`write(0, LT.On, value)`** — Write a value to the device connected to pin `d0`
+- **`ic.write(0, LT.On, value)`** — Write a value to the device connected to pin `d0`
 - **`sleep(1)`** — Pause execution for 1 second (the script resumes automatically)
 
 ## Reading Sensor Data
@@ -69,15 +69,15 @@ local LT = ic.enums.LogicType
 local SETPOINT = 295  -- ~22°C in Kelvin
 
 function tick(dt)
-    local temp = read(0, LT.Temperature)
+    local temp = ic.read(0, LT.Temperature)
     
-    -- read() returns nil if device is missing
+    -- ic.read() returns nil if device is missing
     if temp == nil then return end
     
     if temp > SETPOINT + 2 then
-        write(1, LT.On, 1)  -- Turn on cooler
+        ic.write(1, LT.On, 1)  -- Turn on cooler
     elseif temp < SETPOINT - 2 then
-        write(1, LT.On, 0)  -- Turn off cooler
+        ic.write(1, LT.On, 0)  -- Turn off cooler
     end
 end
 ```
@@ -104,14 +104,14 @@ local lightHash  = hash("StructureWallLight")
 
 function tick(dt)
     -- Read average temperature from ALL gas sensors on the network
-    local avgTemp = batch_read(sensorHash, LT.Temperature, LBM.Average)
+    local avgTemp = ic.batch_read(sensorHash, LT.Temperature, LBM.Average)
     
     if avgTemp ~= nil and avgTemp > 310 then
         -- Turn on ALL wall lights (as a warning)
-        batch_write(lightHash, LT.On, 1)
-        batch_write(lightHash, LT.Color, 2)  -- Red
+        ic.batch_write(lightHash, LT.On, 1)
+        ic.batch_write(lightHash, LT.Color, 2)  -- Red
     else
-        batch_write(lightHash, LT.On, 0)
+        ic.batch_write(lightHash, LT.On, 0)
     end
 end
 ```

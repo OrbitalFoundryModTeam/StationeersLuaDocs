@@ -84,10 +84,10 @@ end
 
 ## Checking Nil Returns
 
-Many `read*` functions return `nil` when a device is missing:
+Many `ic.read*` helpers return `nil` when a device is missing:
 
 ```lua
-local temp = read(0, LT.Temperature)
+local temp = ic.read(0, LT.Temperature)
 if temp == nil then
     print("Device on d0 is not connected or doesn't support Temperature")
 else

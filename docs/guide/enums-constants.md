@@ -1,8 +1,8 @@
 # Enumerations & Constants
 
-## Game Enumerations
+## Built-in enumerations
 
-Game enumerations are available under `ic.enums`. Each enum table maps **name → integer value**.
+Game enumerations are exposed via names and numeric codes under `ic.enums`. Each table maps **name → integer value** (for use with `ic.read()`, `ic.write()`, and batch helpers).
 
 ```lua
 local LT  = ic.enums.LogicType         -- On, Off, Temperature, Pressure, ...
@@ -11,304 +11,66 @@ local LBM = ic.enums.LogicBatchMethod   -- Average, Sum, Minimum, Maximum
 local LRM = ic.enums.LogicReagentMode   -- TotalContents, ...
 ```
 
-### LogicType (full authoritative list)
+### LogicType (commonly used values)
 
-Source: game enum `Assets.Scripts.Objects.Motherboards.LogicType` from `Assembly-CSharp`. This list is complete for the current repository snapshot.
+| Name                    | Description                                 |
+| ----------------------- | ------------------------------------------- |
+| `On`                    | Device power state (0/1)                    |
+| `Open`                  | Door/vent open state                        |
+| `Temperature`           | Temperature in Kelvin                       |
+| `Pressure`              | Pressure in kPa                             |
+| `Setting`               | Generic setting value                       |
+| `Mode`                  | Device operating mode                       |
+| `Activate`              | Sensor activation state                     |
+| `Charge`                | Battery charge (Joules)                     |
+| `Maximum`               | Battery max charge                          |
+| `Ratio`                 | Generic ratio (0-1)                         |
+| `Power`                 | Power draw (Watts)                          |
+| `Vertical`              | Vertical angle                              |
+| `Horizontal`            | Horizontal angle                            |
+| `Color`                 | Paint color index                           |
+| `Error`                 | Error flag                                  |
+| `PrefabHash`            | Device prefab hash                          |
+| `Channel0`–`Channel7`   | Data network channels                       |
+| `RatioOxygen`           | O₂ gas ratio                                |
+| `RatioCarbonDioxide`    | CO₂ gas ratio                               |
+| `RatioNitrogen`         | N₂ gas ratio                                |
+| `RatioPollutant`        | Pollutant gas ratio                         |
+| `RatioMethane`          | Methane gas ratio (older scripts may still say `RatioVolatiles`) |
+| `RatioWater`            | H₂O gas ratio                               |
+| `RatioNitrousOxide`     | N₂O gas ratio                               |
+| `RatioHydrogen`         | H₂ gas ratio                                |
+| `RatioSteam`            | Steam ratio                                 |
+| `RatioPollutedWater`    | Polluted water ratio                        |
+| `RatioHydrazine`        | Hydrazine ratio                             |
+| `RatioLiquidAlcohol`    | Ethanol ratio                               |
+| `RatioHelium`           | Helium ratio                                |
+| `RatioSilanol`          | Silanol/Coolant ratio                       |
+| `RatioHydrochloricAcid` | HCl ratio                                   |
+| `RatioOzone`            | Ozone ratio                                 |
+| `RatioLiquidOzone`      | Liquid ozone ratio                          |
 
-| Name | Value |
-| --- | ---: |
-| `Power` | 1 |
-| `Open` | 2 |
-| `Mode` | 3 |
-| `Error` | 4 |
-| `Pressure` | 5 |
-| `Temperature` | 6 |
-| `PressureExternal` | 7 |
-| `PressureInternal` | 8 |
-| `Activate` | 9 |
-| `Lock` | 10 |
-| `Charge` | 11 |
-| `Setting` | 12 |
-| `Reagents` | 13 |
-| `RatioOxygen` | 14 |
-| `RatioCarbonDioxide` | 15 |
-| `RatioNitrogen` | 16 |
-| `RatioPollutant` | 17 |
-| `RatioMethane` | 18 |
-| `RatioWater` | 19 |
-| `Horizontal` | 20 |
-| `Vertical` | 21 |
-| `SolarAngle` | 22 |
-| `Maximum` | 23 |
-| `Ratio` | 24 |
-| `PowerPotential` | 25 |
-| `PowerActual` | 26 |
-| `Quantity` | 27 |
-| `On` | 28 |
-| `ImportQuantity` | 29 |
-| `ImportSlotOccupant` | 30 |
-| `ExportQuantity` | 31 |
-| `ExportSlotOccupant` | 32 |
-| `RequiredPower` | 33 |
-| `HorizontalRatio` | 34 |
-| `VerticalRatio` | 35 |
-| `PowerRequired` | 36 |
-| `Idle` | 37 |
-| `Color` | 38 |
-| `ElevatorSpeed` | 39 |
-| `ElevatorLevel` | 40 |
-| `RecipeHash` | 41 |
-| `ExportSlotHash` | 42 |
-| `ImportSlotHash` | 43 |
-| `PlantHealth1` | 44 |
-| `PlantHealth2` | 45 |
-| `PlantHealth3` | 46 |
-| `PlantHealth4` | 47 |
-| `PlantGrowth1` | 48 |
-| `PlantGrowth2` | 49 |
-| `PlantGrowth3` | 50 |
-| `PlantGrowth4` | 51 |
-| `PlantEfficiency1` | 52 |
-| `PlantEfficiency2` | 53 |
-| `PlantEfficiency3` | 54 |
-| `PlantEfficiency4` | 55 |
-| `PlantHash1` | 56 |
-| `PlantHash2` | 57 |
-| `PlantHash3` | 58 |
-| `PlantHash4` | 59 |
-| `RequestHash` | 60 |
-| `CompletionRatio` | 61 |
-| `ClearMemory` | 62 |
-| `ExportCount` | 63 |
-| `ImportCount` | 64 |
-| `PowerGeneration` | 65 |
-| `TotalMoles` | 66 |
-| `Volume` | 67 |
-| `Plant` | 68 |
-| `Harvest` | 69 |
-| `Output` | 70 |
-| `PressureSetting` | 71 |
-| `TemperatureSetting` | 72 |
-| `TemperatureExternal` | 73 |
-| `Filtration` | 74 |
-| `AirRelease` | 75 |
-| `PositionX` | 76 |
-| `PositionY` | 77 |
-| `PositionZ` | 78 |
-| `VelocityMagnitude` | 79 |
-| `VelocityRelativeX` | 80 |
-| `VelocityRelativeY` | 81 |
-| `VelocityRelativeZ` | 82 |
-| `RatioNitrousOxide` | 83 |
-| `PrefabHash` | 84 |
-| `ForceWrite` | 85 |
-| `SignalStrength` | 86 |
-| `SignalID` | 87 |
-| `TargetX` | 88 |
-| `TargetY` | 89 |
-| `TargetZ` | 90 |
-| `SettingInput` | 91 |
-| `SettingOutput` | 92 |
-| `CurrentResearchPodType` | 93 |
-| `ManualResearchRequiredPod` | 94 |
-| `MineablesInVicinity` | 95 |
-| `MineablesInQueue` | 96 |
-| `NextWeatherEventTime` | 97 |
-| `Combustion` | 98 |
-| `Fuel` | 99 |
-| `ReturnFuelCost` | 100 |
-| `CollectableGoods` | 101 |
-| `Time` | 102 |
-| `Bpm` | 103 |
-| `EnvironmentEfficiency` | 104 |
-| `WorkingGasEfficiency` | 105 |
-| `PressureInput` | 106 |
-| `TemperatureInput` | 107 |
-| `RatioOxygenInput` | 108 |
-| `RatioCarbonDioxideInput` | 109 |
-| `RatioNitrogenInput` | 110 |
-| `RatioPollutantInput` | 111 |
-| `RatioMethaneInput` | 112 |
-| `RatioWaterInput` | 113 |
-| `RatioNitrousOxideInput` | 114 |
-| `TotalMolesInput` | 115 |
-| `PressureInput2` | 116 |
-| `TemperatureInput2` | 117 |
-| `RatioOxygenInput2` | 118 |
-| `RatioCarbonDioxideInput2` | 119 |
-| `RatioNitrogenInput2` | 120 |
-| `RatioPollutantInput2` | 121 |
-| `RatioMethaneInput2` | 122 |
-| `RatioWaterInput2` | 123 |
-| `RatioNitrousOxideInput2` | 124 |
-| `TotalMolesInput2` | 125 |
-| `PressureOutput` | 126 |
-| `TemperatureOutput` | 127 |
-| `RatioOxygenOutput` | 128 |
-| `RatioCarbonDioxideOutput` | 129 |
-| `RatioNitrogenOutput` | 130 |
-| `RatioPollutantOutput` | 131 |
-| `RatioMethaneOutput` | 132 |
-| `RatioWaterOutput` | 133 |
-| `RatioNitrousOxideOutput` | 134 |
-| `TotalMolesOutput` | 135 |
-| `PressureOutput2` | 136 |
-| `TemperatureOutput2` | 137 |
-| `RatioOxygenOutput2` | 138 |
-| `RatioCarbonDioxideOutput2` | 139 |
-| `RatioNitrogenOutput2` | 140 |
-| `RatioPollutantOutput2` | 141 |
-| `RatioMethaneOutput2` | 142 |
-| `RatioWaterOutput2` | 143 |
-| `RatioNitrousOxideOutput2` | 144 |
-| `TotalMolesOutput2` | 145 |
-| `CombustionInput` | 146 |
-| `CombustionInput2` | 147 |
-| `CombustionOutput` | 148 |
-| `CombustionOutput2` | 149 |
-| `OperationalTemperatureEfficiency` | 150 |
-| `TemperatureDifferentialEfficiency` | 151 |
-| `PressureEfficiency` | 152 |
-| `CombustionLimiter` | 153 |
-| `Throttle` | 154 |
-| `Rpm` | 155 |
-| `Stress` | 156 |
-| `InterrogationProgress` | 157 |
-| `TargetPadIndex` | 158 |
-| `SizeX` | 160 |
-| `SizeY` | 161 |
-| `SizeZ` | 162 |
-| `MinimumWattsToContact` | 163 |
-| `WattsReachingContact` | 164 |
-| `Channel0` | 165 |
-| `Channel1` | 166 |
-| `Channel2` | 167 |
-| `Channel3` | 168 |
-| `Channel4` | 169 |
-| `Channel5` | 170 |
-| `Channel6` | 171 |
-| `Channel7` | 172 |
-| `LineNumber` | 173 |
-| `Flush` | 174 |
-| `SoundAlert` | 175 |
-| `SolarIrradiance` | 176 |
-| `RatioLiquidNitrogen` | 177 |
-| `RatioLiquidNitrogenInput` | 178 |
-| `RatioLiquidNitrogenInput2` | 179 |
-| `RatioLiquidNitrogenOutput` | 180 |
-| `RatioLiquidNitrogenOutput2` | 181 |
-| `VolumeOfLiquid` | 182 |
-| `RatioLiquidOxygen` | 183 |
-| `RatioLiquidOxygenInput` | 184 |
-| `RatioLiquidOxygenInput2` | 185 |
-| `RatioLiquidOxygenOutput` | 186 |
-| `RatioLiquidOxygenOutput2` | 187 |
-| `RatioLiquidMethane` | 188 |
-| `RatioLiquidMethaneInput` | 189 |
-| `RatioLiquidMethaneInput2` | 190 |
-| `RatioLiquidMethaneOutput` | 191 |
-| `RatioLiquidMethaneOutput2` | 192 |
-| `RatioSteam` | 193 |
-| `RatioSteamInput` | 194 |
-| `RatioSteamInput2` | 195 |
-| `RatioSteamOutput` | 196 |
-| `RatioSteamOutput2` | 197 |
-| `ContactTypeId` | 198 |
-| `RatioLiquidCarbonDioxide` | 199 |
-| `RatioLiquidCarbonDioxideInput` | 200 |
-| `RatioLiquidCarbonDioxideInput2` | 201 |
-| `RatioLiquidCarbonDioxideOutput` | 202 |
-| `RatioLiquidCarbonDioxideOutput2` | 203 |
-| `RatioLiquidPollutant` | 204 |
-| `RatioLiquidPollutantInput` | 205 |
-| `RatioLiquidPollutantInput2` | 206 |
-| `RatioLiquidPollutantOutput` | 207 |
-| `RatioLiquidPollutantOutput2` | 208 |
-| `RatioLiquidNitrousOxide` | 209 |
-| `RatioLiquidNitrousOxideInput` | 210 |
-| `RatioLiquidNitrousOxideInput2` | 211 |
-| `RatioLiquidNitrousOxideOutput` | 212 |
-| `RatioLiquidNitrousOxideOutput2` | 213 |
-| `Progress` | 214 |
-| `DestinationCode` | 215 |
-| `Acceleration` | 216 |
-| `ReferenceId` | 217 |
-| `AutoShutOff` | 218 |
-| `Mass` | 219 |
-| `DryMass` | 220 |
-| `Thrust` | 221 |
-| `Weight` | 222 |
-| `ThrustToWeight` | 223 |
-| `TimeToDestination` | 224 |
-| `BurnTimeRemaining` | 225 |
-| `AutoLand` | 226 |
-| `ForwardX` | 227 |
-| `ForwardY` | 228 |
-| `ForwardZ` | 229 |
-| `Orientation` | 230 |
-| `VelocityX` | 231 |
-| `VelocityY` | 232 |
-| `VelocityZ` | 233 |
-| `PassedMoles` | 234 |
-| `ExhaustVelocity` | 235 |
-| `FlightControlRule` | 236 |
-| `ReEntryAltitude` | 237 |
-| `Apex` | 238 |
-| `EntityState` | 239 |
-| `DrillCondition` | 240 |
-| `Index` | 241 |
-| `CelestialHash` | 242 |
-| `AlignmentError` | 243 |
-| `DistanceAu` | 244 |
-| `OrbitPeriod` | 245 |
-| `Inclination` | 246 |
-| `Eccentricity` | 247 |
-| `SemiMajorAxis` | 248 |
-| `DistanceKm` | 249 |
-| `CelestialParentHash` | 250 |
-| `TrueAnomaly` | 251 |
-| `RatioHydrogen` | 252 |
-| `RatioLiquidHydrogen` | 253 |
-| `RatioPollutedWater` | 254 |
-| `Discover` | 255 |
-| `Chart` | 256 |
-| `Survey` | 257 |
-| `NavPoints` | 258 |
-| `ChartedNavPoints` | 259 |
-| `Sites` | 260 |
-| `CurrentCode` | 261 |
-| `Density` | 262 |
-| `Richness` | 263 |
-| `Size` | 264 |
-| `TotalQuantity` | 265 |
-| `MinedQuantity` | 266 |
-| `BestContactFilter` | 267 |
-| `NameHash` | 268 |
-| `Altitude` | 269 |
-| `TargetSlotIndex` | 270 |
-| `TargetPrefabHash` | 271 |
-| `Extended` | 272 |
-| `NetworkFault` | 273 |
-| `ProportionalGain` | 274 |
-| `IntegralGain` | 275 |
-| `DerivativeGain` | 276 |
-| `Minimum` | 277 |
-| `Setpoint` | 278 |
-| `Reset` | 279 |
-| `StackSize` | 280 |
-| `NextWeatherHash` | 281 |
-| `ContactSlotIndex` | 282 |
-| `RatioHydrazine` | 283 |
-| `RatioLiquidHydrazine` | 284 |
-| `RatioLiquidAlcohol` | 285 |
-| `RatioHelium` | 286 |
-| `RatioLiquidSodiumChloride` | 287 |
-| `RatioSilanol` | 288 |
-| `RatioLiquidSilanol` | 289 |
-| `RatioHydrochloricAcid` | 290 |
-| `RatioLiquidHydrochloricAcid` | 291 |
-| `RatioOzone` | 292 |
-| `RatioLiquidOzone` | 293 |
+### More ratio names (liquids and pipes)
+
+Analysers, tanks, and many pipe machines expose **molar ratios** as separate names. Gases use names like `RatioOxygen`; **liquids** use `RatioLiquid…` (for example liquid methane is `RatioLiquidMethane`). Machines with multiple ports often add `Input`, `Input2`, `Output`, and `Output2` suffixes for the same substance.
+
+Typical **liquid** ratio names you can use with `ic.read()` / `ic.write()`:
+
+| Substance (liquid form) | Ratio name |
+| ----------------------- | ---------- |
+| Liquid nitrogen | `RatioLiquidNitrogen` |
+| Liquid oxygen | `RatioLiquidOxygen` |
+| Liquid methane | `RatioLiquidMethane` |
+| Liquid CO₂ | `RatioLiquidCarbonDioxide` |
+| Liquid pollutant | `RatioLiquidPollutant` |
+| Liquid nitrous oxide | `RatioLiquidNitrousOxide` |
+| Liquid hydrogen | `RatioLiquidHydrogen` |
+| Liquid hydrazine | `RatioLiquidHydrazine` |
+| Liquid silanol | `RatioLiquidSilanol` |
+| Liquid hydrochloric acid | `RatioLiquidHydrochloricAcid` |
+| Liquid ozone | `RatioLiquidOzone` |
+
+You can use the optional **`gas` library** (`Examples/LibraryModule_Gas.lua`): it maps `gas.TYPE` flags to the right ratio name for each substance.
 
 ### LogicBatchMethod
 
@@ -344,10 +106,10 @@ This is the device index for the IC Housing itself (equivalent to `db` in IC10).
 
 ```lua
 -- Write a value to the housing's Setting display
-write(ic.const.BASE_UNIT_INDEX, LT.Setting, 42)
+ic.write(ic.const.BASE_UNIT_INDEX, LT.Setting, 42)
 
 -- Read the housing's power state
-local powered = read(ic.const.BASE_UNIT_INDEX, LT.On)
+local powered = ic.read(ic.const.BASE_UNIT_INDEX, LT.On)
 ```
 
 ## Using Enums
@@ -360,5 +122,5 @@ print(LT.Temperature)  -- prints the integer value
 print(LT.On)           -- prints the integer value
 
 -- Compare with enum values
-local temp = read(0, LT.Temperature)
+local temp = ic.read(0, LT.Temperature)
 ```

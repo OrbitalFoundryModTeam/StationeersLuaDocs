@@ -19,13 +19,13 @@ local setpoint = 295.0   -- Target temp in Kelvin (~22°C)
 local deadband = 2.0     -- ±2K deadband
 
 function tick(dt)
-    local temp = read(0, LT.Temperature)
+    local temp = ic.read(0, LT.Temperature)
     if temp == nil then return end
 
     if temp > setpoint + deadband then
-        write(1, LT.On, 1)   -- Too hot — turn on cooling
+        ic.write(1, LT.On, 1)   -- Too hot — turn on cooling
     elseif temp < setpoint - deadband then
-        write(1, LT.On, 0)   -- Cool enough — turn off
+        ic.write(1, LT.On, 0)   -- Cool enough — turn off
     end
     -- Inside deadband: do nothing (prevents rapid toggling)
 end
@@ -47,7 +47,7 @@ local kp, ki, kd = 2.0, 0.1, 0.5
 local integral, prev_error = 0, 0
 
 function tick(dt)
-    local temp = read(0, LT.Temperature)
+    local temp = ic.read(0, LT.Temperature)
     if temp == nil then return end
 
     local error = setpoint - temp
@@ -59,6 +59,6 @@ function tick(dt)
     local output = kp * error + ki * integral + kd * derivative
     output = math.max(0, math.min(100, output))
 
-    write(1, LT.Setting, output)
+    ic.write(1, LT.Setting, output)
 end
 ```

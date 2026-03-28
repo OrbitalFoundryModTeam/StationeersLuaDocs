@@ -8,7 +8,7 @@ Units: `"K"` (Kelvin), `"C"` (Celsius), `"F"` (Fahrenheit). Case-insensitive.
 
 ```lua
 -- Stationeers sensors report Kelvin — convert to Celsius
-local tempK = read(0, ic.enums.LogicType.Temperature)
+local tempK = ic.read(0, ic.enums.LogicType.Temperature)
 local tempC = util.temp(tempK, "K", "C")
 print(tempC)  -- e.g. 21.85
 

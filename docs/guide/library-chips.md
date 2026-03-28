@@ -91,5 +91,5 @@ local atmos = require("atmos", true)  -- Clears cache, re-compiles
 
 - Library chips have **no VM** — they don't tick, can't read devices, and don't consume CPU
 - Scope is per **data cable network** — only chips on the same physical cable segment can see each other
-- The library source runs inside the **requesting chip's** VM, so `read()`, `write()`, `ic.*` all refer to the consumer's devices
+- The library source runs inside the **requesting chip's** VM, so `ic.read`, `ic.write`, and the rest of `ic.*` refer to the consumer's devices
 - Library chips persist via existing chip source save/load — no new save data needed

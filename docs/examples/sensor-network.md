@@ -13,9 +13,9 @@ local LT = ic.enums.LogicType
 local zoneName = device_name(ic.const.BASE_UNIT_INDEX) or "Unknown"
 
 while true do
-    local temp     = read(0, LT.Temperature) or 0
-    local pressure = read(0, LT.Pressure) or 0
-    local o2       = read(0, LT.RatioOxygen) or 0
+    local temp     = ic.read(0, LT.Temperature) or 0
+    local pressure = ic.read(0, LT.Pressure) or 0
+    local o2       = ic.read(0, LT.RatioOxygen) or 0
 
     ic.net.publish("sensors/" .. zoneName, {
         zone     = zoneName,

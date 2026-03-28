@@ -1,27 +1,36 @@
 # Quick Reference Card
 
-## Global Functions
+Device logic (read/write by pin or id, slots, reagents, batch ops, find) is exposed on **`ic`** (mirrored under `ic.logic`). The global environment uses IC10-style names for the same operations: `logic_read`, `logic_write`, `logic_read_id`, `logic_batch_read`, `logic_find`, etc.
+
+## `ic` — logic, slots, batch, lookup
 
 | Function                                                               | Description                               |
 | ---------------------------------------------------------------------- | ----------------------------------------- |
-| `read(dev, logicType [, net])`                                         | Read logic value                          |
-| `write(dev, logicType, value [, net])`                                 | Write logic value                         |
-| `read_id(id, logicType [, net])`                                       | Read by ReferenceId                       |
-| `write_id(id, logicType, value [, net])`                               | Write by ReferenceId                      |
-| `read_slot(dev, slot, slotType [, net])`                               | Read slot value                           |
-| `write_slot(dev, slot, slotType, value [, net])`                       | Write slot value                          |
-| `read_slot_id(id, slot, slotType [, net])`                             | Read slot by ReferenceId                  |
-| `write_slot_id(id, slot, slotType, value [, net])`                     | Write slot by ReferenceId                 |
-| `read_reagent(dev, mode, hash [, net])`                                | Read reagent value                        |
-| `rmap(dev [, net])`                                                    | Get reagent→prefab map                    |
-| `batch_read(hash, logicType, method [, net])`                          | Batch read                                |
-| `batch_read_name(hash, nameHash, logicType, method [, net])`           | Batch read + name filter                  |
-| `batch_read_slot(hash, slot, slotType, method [, net])`                | Batch read slot                           |
-| `batch_read_slot_name(hash, nameHash, slot, slotType, method [, net])` | Batch read slot + name                    |
-| `batch_write(hash, logicType, value [, net])`                          | Batch write                               |
-| `batch_write_name(hash, nameHash, logicType, value [, net])`           | Batch write + name                        |
-| `batch_write_slot(hash, slot, slotType, value [, net])`                | Batch write slot                          |
-| `batch_write_slot_name(hash, nameHash, slot, slotType, value [, net])` | Batch write slot + name                   |
+| `ic.read(dev, logicType [, net])`                                         | Read logic value                          |
+| `ic.write(dev, logicType, value [, net])`                                 | Write logic value                         |
+| `ic.read_id(id, logicType [, net])`                                       | Read by ReferenceId                       |
+| `ic.write_id(id, logicType, value [, net])`                               | Write by ReferenceId                      |
+| `ic.read_slot(dev, slot, slotType [, net])`                               | Read slot value                           |
+| `ic.write_slot(dev, slot, slotType, value [, net])`                       | Write slot value                          |
+| `ic.read_slot_id(id, slot, slotType [, net])`                             | Read slot by ReferenceId                  |
+| `ic.write_slot_id(id, slot, slotType, value [, net])`                     | Write slot by ReferenceId                 |
+| `ic.read_reagent(dev, mode, hash [, net])`                                | Read reagent value                        |
+| `ic.rmap(dev [, net])`                                                    | Get reagent→prefab map                    |
+| `ic.batch_read(hash, logicType, method [, net])`                          | Batch read                                |
+| `ic.batch_read_name(hash, nameHash, logicType, method [, net])`           | Batch read + name filter                  |
+| `ic.batch_read_slot(hash, slot, slotType, method [, net])`                | Batch read slot                           |
+| `ic.batch_read_slot_name(hash, nameHash, slot, slotType, method [, net])` | Batch read slot + name                    |
+| `ic.batch_write(hash, logicType, value [, net])`                          | Batch write                               |
+| `ic.batch_write_name(hash, nameHash, logicType, value [, net])`           | Batch write + name                        |
+| `ic.batch_write_slot(hash, slot, slotType, value [, net])`                | Batch write slot                          |
+| `ic.batch_write_slot_name(hash, nameHash, slot, slotType, value [, net])` | Batch write slot + name                   |
+| `ic.find(name [, net])`                                                   | Find device by label → ReferenceId        |
+| `ic.find_all(name [, net])`                                               | Find all devices by label → ReferenceId[] |
+
+## Global functions
+
+| Function                                                               | Description                               |
+| ---------------------------------------------------------------------- | ----------------------------------------- |
 | `mem_read(addr)`                                                       | Read chip memory                          |
 | `mem_write(addr, value)`                                               | Write chip memory                         |
 | `mem_clear()`                                                          | Clear chip memory                         |
@@ -39,10 +48,8 @@
 | `stack_get_ra()` / `stack_set_ra(v)`                                   | Get/set return address                    |
 | `hash(str)`                                                            | String → hash                             |
 | `prefab_name(hash)`                                                    | Hash → prefab name                        |
-| `find(name [, net])`                                                   | Find device by label → ReferenceId        |
-| `find_all(name [, net])`                                               | Find all devices by label → ReferenceId[] |
 | `device_name(dev [, net])`                                             | Get device display name                   |
-| `device_label(dev, name)` / `label(dev, name)`                         | Set device label                          |
+| `device_label(dev, name)`                                              | Set device label                          |
 | `namehash_name(devHash, nameHash [, net])`                             | Resolve nameHash to display name          |
 | `device_list([net])`                                                   | List all devices on the data network      |
 | `pack_ascii6(str)`                                                     | Pack string to number                     |

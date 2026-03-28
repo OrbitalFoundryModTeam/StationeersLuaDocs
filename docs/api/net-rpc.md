@@ -9,8 +9,8 @@ Request/response pattern with correlation IDs and timeouts. Call a function on a
 ic.net.register("get_status", function(payload, fromId, fromName)
     print("get_status called by " .. fromName)
     
-    local temp = read(0, ic.enums.LogicType.Temperature)
-    local pressure = read(0, ic.enums.LogicType.Pressure)
+    local temp = ic.read(0, ic.enums.LogicType.Temperature)
+    local pressure = ic.read(0, ic.enums.LogicType.Pressure)
     
     -- Return value becomes the response payload
     return {
