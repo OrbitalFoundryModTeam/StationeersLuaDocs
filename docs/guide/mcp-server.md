@@ -13,6 +13,8 @@ Each surface is enabled independently via its own config toggle. Both share the 
 
 ## MCP Tools
 
+### Editor & Chip Management
+
 | Tool                   | Description                                                              |
 | ---------------------- | ------------------------------------------------------------------------ |
 | `get_editor_state`     | Query the current in-game editor selection, network scope, and chip list |
@@ -21,19 +23,50 @@ Each surface is enabled independently via its own config toggle. Both share the 
 | `list_chips`           | Enumerate accessible Lua chips on the current data network(s)            |
 | `get_chip_code`        | Read a chip's current source by ref ID                                   |
 | `set_chip_code`        | Write source to a chip by ref ID — compiles and exports immediately      |
+| `patch_chip_code`      | Apply exact substring replacements to a chip's source without rewriting the entire file. Supports ordered replacements, `replace_all`, and `occurrence` targeting |
 | `get_chip_errors`      | Retrieve error details for chips with debugger authority                 |
+| `get_chip_logs`        | Get buffered `print()` / script log output for a chip, including the current log revision |
 | `list_library_modules` | List library chip modules visible on the current network(s)              |
-| `get_network_devices`  | Enumerate devices on the current data network                            |
-| `get_game_state`       | Query world name, time, and other top-level game state                   |
-| `search_docs`          | Full-text search across all embedded documentation resources             |
 
-::: tip `set_editor_code` vs `set_chip_code`
-`set_editor_code` updates what is displayed in the in-game IC editor without compiling or exporting. Use it when you want to stage a change for the player to review. `set_chip_code` writes directly to the chip and compiles immediately — equivalent to pressing Export in the editor.
+### Device & Network
+
+| Tool                     | Description                                                            |
+| ------------------------ | ---------------------------------------------------------------------- |
+| `get_network_devices`    | Enumerate devices on the current data network                          |
+| `get_all_network_devices`| List all data cable networks in the world and their connected devices  |
+| `read_device_value`      | Read a logic value from a device by reference ID and LogicType name    |
+| `get_device_logic_types` | Get all readable and writable LogicType values for a device            |
+
+### World & Workflow
+
+| Tool                              | Description                                                                           |
+| --------------------------------- | ------------------------------------------------------------------------------------- |
+| `get_game_state`                  | Query world name, time, and other top-level game state                                |
+| `search_docs`                     | Full-text search across all embedded documentation resources                          |
+| `get_extension_workflow_status`   | Query VS Code extension SSE connection state, pending intents, and recommended workflow mode |
+
+### Debugger Tools <Badge type="info" text="conditional" />
+
+These tools are only registered when **both** `Enabled` and `EnableExtensionApi` are `true`:
+
+| Tool                      | Description                                                                      |
+| ------------------------- | -------------------------------------------------------------------------------- |
+| `get_debug_session_state` | Get the active VS Code debugger session state for an attached chip               |
+| `get_debug_stack_trace`   | Get the stack trace for a paused chip in the active debugger session             |
+| `get_debug_scopes`        | Get debugger scopes for a paused frame (use `get_debug_stack_trace` for frame IDs) |
+| `get_debug_variables`     | Get debugger variables for a scope or variable reference                         |
+
+::: tip `set_editor_code` vs `set_chip_code` vs `patch_chip_code`
+- `set_editor_code` updates what is displayed in the in-game IC editor without compiling or exporting. Use it when you want to stage a change for the player to review.
+- `set_chip_code` writes directly to the chip and compiles immediately — equivalent to pressing Export in the editor.
+- `patch_chip_code` applies targeted substring replacements to the chip's current source. Use it for small edits so tool arguments stay small instead of rewriting the entire source.
 :::
 
 ## MCP Resources
 
 The server exposes the following resources that AI editors can read for context:
+
+### Guides & API
 
 | URI                             | Content                                      |
 | ------------------------------- | -------------------------------------------- |
@@ -49,6 +82,23 @@ The server exposes the following resources that AI editors can read for context:
 | `stationeers://lua/api/events`  | Event system reference                       |
 | `stationeers://lua/api/library` | Library chip / `require()` reference         |
 
+### Enums
+
+| URI                                        | Content                                                                 |
+| ------------------------------------------ | ----------------------------------------------------------------------- |
+| `stationeers://lua/enums/logic_type`       | Complete `LogicType` enum values with descriptions (`LT.*`)             |
+| `stationeers://lua/enums/logic_slot_type`  | Complete `LogicSlotType` enum values for slot-based reads (`LST.*`)     |
+| `stationeers://lua/enums/batch_method`     | `LogicBatchMethod` enum values (Sum, Average, Minimum, Maximum)         |
+
+### Bundled Examples
+
+| URI                                        | Content                                                                 |
+| ------------------------------------------ | ----------------------------------------------------------------------- |
+| `stationeers://lua/examples/index`         | Catalog of all example scripts shipped with StationeersLua              |
+| `stationeers://lua/examples/<path>`        | Individual example file (`.lua`, `.ic10`, or `.md`)                     |
+
+Example files are loaded from the `Examples/` directory next to the mod DLL at startup. Other mods (e.g. ScriptedScreens) can register their own example bundles under separate URI prefixes.
+
 The `stationeers://lua/readme` text is also provided as `initialize.result.instructions` so MCP clients display it automatically when the server is selected.
 
 ## Configuration
@@ -60,6 +110,7 @@ All settings live in the StationeersLua config file under `[MCP Server]`:
 | `Enabled`                                     | `false` | Enable the MCP JSON-RPC surface for AI editors                                                                                                                                                                                               |
 | `EnableExtensionApi`                          | `false` | Enable the REST surface for the VS Code extension — can be used without enabling `Enabled`                                                                                                                                                   |
 | `Port`                                        | `3030`  | Shared HTTP listener port for both surfaces                                                                                                                                                                                                  |
+| `BindAddress`                                 | `127.0.0.1` | Bind address for the HTTP listener. Use `AllowRemoteConnections` instead of changing this to `0.0.0.0`                                                                                                                                   |
 | `AllowRemoteConnections`                      | `false` | Bind to all interfaces instead of localhost only                                                                                                                                                                                             |
 | `AllowNetworkChipAccess`                      | `false` | Master toggle for network-wide chip access. When disabled, both MCP and the VS Code extension stay single-chip scoped.                                                                                                                       |
 | `AllowNetworkChipAccessOnlyForWirelessBoards` | `true`  | When network access is enabled, keep the normal IC editor single-chip scoped and allow only the Wireless Development Board to expose full network scope. Set to `false` to let the normal wired IC editor expose its whole data network too. |
