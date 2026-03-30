@@ -59,7 +59,13 @@ The extension tracks a `source_version` for each chip. When external changes are
 - If you have **no local modifications**, the remote change is auto-synced silently
 - If you have **unsaved local changes**, you're prompted to accept the remote update or keep your local version
 
-## Debugger
+## Debugger <Badge type="warning" text="Experimental" />
+
+The VS Code debugger requires `EnableExperimentalDebugger = true` in the `[MCP Server]` config section. When disabled (the default), the Debug button is hidden in the Chip Explorer and all debug endpoints return an error.
+
+::: warning Experimental Feature
+The VS Code debugger is experimental and may have bugs. If you encounter issues, please report them on the [Discord server](https://discord.gg/HxvySSu5G3).
+:::
 
 The extension includes a full **Debug Adapter Protocol** implementation for Lua chips.
 

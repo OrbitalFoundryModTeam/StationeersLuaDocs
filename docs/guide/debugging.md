@@ -26,9 +26,13 @@ The **MotherboardLuaDebugger** is a special motherboard you can craft and instal
 
 Select a target chip from the dropdown to view its debug information.
 
-## VS Code Debugger
+## VS Code Debugger <Badge type="warning" text="Experimental" />
 
-StationeersLua also supports attaching the **VS Code debugger** to an in-game Lua chip.
+StationeersLua also supports attaching the **VS Code debugger** to an in-game Lua chip. This feature requires `EnableExperimentalDebugger = true` in the `[MCP Server]` config section (disabled by default).
+
+::: warning Experimental Feature
+The VS Code debugger is experimental and may have bugs. If you encounter issues, please report them on the [Discord server](https://discord.gg/HxvySSu5G3).
+:::
 
 When attached, the debugger can:
 
