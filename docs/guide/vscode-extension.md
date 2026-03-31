@@ -2,6 +2,8 @@
 
 The **StationeersLua VS Code extension** connects VS Code to the running game, giving you a full external editing and debugging workflow for Lua (and IC10) chips.
 
+**[Install from VS Code Marketplace →](https://marketplace.visualstudio.com/items?itemName=OrbitalFoundryModdingCrew.stationeers-lua)**
+
 ## Installation
 
 Install the extension from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=OrbitalFoundryModdingCrew.stationeers-lua).
