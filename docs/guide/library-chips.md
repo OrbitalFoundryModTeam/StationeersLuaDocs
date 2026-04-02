@@ -87,6 +87,12 @@ local atmos = require("atmos", true)  -- Clears cache, re-compiles
 | `AllowMultiModule` | `true` | Allow multiple `--@module` annotations per chip |
 | `LibraryLoadInstructionBudget` | `200000` | Max instructions for loading a library module |
 
+## Editor Completions
+
+When typing `require("...")`, both the in-game editor and VS Code suggest module names from library chips on the active data network. Suggestions include the module name and the housing it's on.
+
+In VS Code, completions are scoped to the specific chip's network — if you have files open for chips on different networks, each gets the correct set of module suggestions.
+
 ## Key Rules
 
 - Library chips have **no VM** — they don't tick, can't read devices, and don't consume CPU

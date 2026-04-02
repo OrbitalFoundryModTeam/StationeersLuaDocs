@@ -112,6 +112,18 @@ ic.write(ic.const.BASE_UNIT_INDEX, LT.Setting, 42)
 local powered = ic.read(ic.const.BASE_UNIT_INDEX, LT.On)
 ```
 
+## Editor Completions
+
+Both the in-game IC10Editor and VS Code provide **contextual autocomplete** for enums and constants:
+
+- Typing `ic.enums.` shows all available enum tables (`LogicType`, `LogicSlotType`, etc.)
+- Typing `ic.enums.LogicType.` shows all members with their numeric values
+- Typing `ic.const.` shows all available constants
+- When typing the second argument of `ic.read()` or `ic.write()`, `LogicType` members are suggested automatically
+- When typing the third argument of `ic.read_slot()`, `LogicSlotType` members are suggested automatically
+
+In VS Code, this requires `EnableLspServer = true` in the mod config. The in-game editor provides these completions automatically.
+
 ## Using Enums
 
 ```lua

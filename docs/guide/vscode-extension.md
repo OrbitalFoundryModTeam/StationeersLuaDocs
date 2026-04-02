@@ -103,9 +103,13 @@ Debugging is **Lua chips only** — IC10 chips can be opened and exported but no
 
 In multiplayer, debug sessions are proxied through the mod's network layer. VS Code connects to your local game client, which routes debug traffic to the authoritative server over mod network messages. This requires `AllowMultiplayerDebugProxy` to be enabled on the server.
 
-## IntelliSense & Type Stubs
+## IntelliSense & Language Server
 
-When connected to the game, the extension automatically adds its bundled **Lua type stub** files to the Sumneko Lua workspace library. This gives you autocomplete, hover docs, and type checking for:
+The extension provides two layers of code intelligence that work together:
+
+### Sumneko Lua (General Lua)
+
+When connected to the game, the extension automatically adds its bundled **Lua type stub** files to the Sumneko Lua workspace library. This gives you general-purpose Lua autocomplete, hover docs, type checking, go-to-definition, and refactoring for:
 
 | Stub file | Coverage |
 |---|---|
@@ -113,6 +117,26 @@ When connected to the game, the extension automatically adds its bundled **Lua t
 | `stationeers-globals.lua` | Global functions — `sleep`, `yield`, `print`, `device_id`, etc. |
 | `stationeers-util.lua` | Utility API — `util.*` functions |
 | `stationeers-ss.lua` | ScriptedScreens API (when ScriptedScreens is installed) |
+
+### Stationeers LSP (Game-Specific Intelligence)
+
+When `EnableLspServer` is enabled in the mod config, the extension also connects to a **Stationeers-specific LSP server** running inside the game. This provides live, context-aware intelligence that static stubs cannot:
+
+| Feature | Description |
+|---|---|
+| Diagnostics | Real-time Lua parse and compile error highlighting |
+| Enum completions | `ic.enums.LogicType.` triggers member completions with numeric values |
+| Constant completions | `ic.const.` triggers all game constants |
+| Parameter-aware completions | Second arg of `ic.read()` suggests LogicType members; third arg of `ic.read_slot()` suggests LogicSlotType members |
+| `require()` completions | Inside `require("...")`, module names from library chips on the chip's data network are suggested |
+| Hover | Enum member and constant values, API signatures and descriptions |
+| Signature help | Function parameter highlighting with documentation |
+
+Completions are **scoped to the data network** of the chip being edited — `require()` suggestions only show modules reachable from that chip's network. This works correctly with wired editors, wireless development boards, and combined access.
+
+::: tip
+The two language servers complement each other: Sumneko handles general Lua analysis (types, refactoring, unused variables), while the Stationeers LSP provides live game data (actual enum values, available library modules, parse diagnostics from the game's Lua compiler).
+:::
 
 ## Snippets
 
@@ -166,6 +190,7 @@ The **StationeersLua: Configure AI Editor (MCP)** command generates MCP config f
 | `stationeers-lua.syncOnSave` | boolean | `true` | Sync the in-game editor draft on save |
 | `stationeers-lua.autoRefreshChipExplorer` | boolean | `true` | Auto-poll chip explorer metadata |
 | `stationeers-lua.chipExplorerRefreshIntervalMs` | number | `5000` | Poll interval in ms (1000–60000) |
+| `stationeers-lua.lspPort` | number | `3031` | TCP port for the Stationeers LSP server (must match `LspPort` in mod config) |
 
 ## Status Bar
 
