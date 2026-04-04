@@ -107,6 +107,48 @@ Each entry contains:
 
 Accepts an optional `networkIndex`: `device_list(networkIndex)`.
 
+## Host Info
+
+`ic.host_info()` returns metadata about the chip's host device — the thing the chip is physically installed in:
+
+```lua
+local info = ic.host_info()
+print(info.name)         -- "Hardsuit", "Circuit Housing", etc.
+print(info.ref_id)       -- host ReferenceId
+print(info.prefab_hash)  -- host prefab hash
+print(info.type)         -- "suit", "circuit_housing", "tablet", "device", or "unknown"
+```
+
+| Field         | Type           | Description                                            |
+| ------------- | -------------- | ------------------------------------------------------ |
+| `name`        | string         | Display name of the host device                        |
+| `ref_id`      | number         | Host device ReferenceId                                |
+| `prefab_hash` | number         | Host device prefab hash                                |
+| `type`        | string         | Host category (see below)                              |
+| `wearer`      | string \| nil  | Player name (suits only; `nil` for all other hosts)    |
+
+**Type values:**
+
+| Type              | Host device                                       |
+| ----------------- | ------------------------------------------------- |
+| `"suit"`          | EVA suit (HardSuit, SpaceSuit, etc.)               |
+| `"circuit_housing"` | Standard IC housing                              |
+| `"tablet"`        | Tablet                                             |
+| `"device"`        | Pipe device, machine, or other `Device` subclass   |
+| `"unknown"`       | Unrecognized host                                  |
+
+For suits, the `wearer` field contains the display name of the player currently wearing the suit. This is particularly useful for multiplayer telemetry:
+
+```lua
+local info = ic.host_info()
+if info.type == "suit" and info.wearer then
+    ic.net.publish("suit/telemetry", {
+        player = info.wearer,
+        pressure = ic.read(ic.const.BASE_UNIT_INDEX, LT.Pressure),
+    }, { retain = true, ttl = 30 })
+end
+```
+
 ## Network Index
 
 Most read/write functions accept an optional `networkIndex` parameter for multi-network setups:
@@ -131,6 +173,7 @@ local ch0 = ic.read(ic.const.BASE_UNIT_INDEX, LT.Channel0, 0)
 | `device_list([net])`                       | table[]       | List all network devices                             |
 | `prefab_name(hash)`                        | string \| nil | Hash → prefab name                                   |
 | `namehash_name(devHash, nameHash [, net])` | string \| nil | Resolve nameHash                                     |
+| `ic.host_info()`                           | table         | Host device metadata (name, type, wearer for suits)  |
 | `raise_error(state)`                       | —             | Set the IC housing error state (1=error, 0=clear)    |
 | `clear_error()`                            | —             | Clear the IC housing error state                     |
 | `hcf()`                                    | —             | Halt and catch fire (stops the chip)                 |

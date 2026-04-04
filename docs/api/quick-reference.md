@@ -26,6 +26,7 @@ Device logic (read/write by pin or id, slots, reagents, batch ops, find) is expo
 | `ic.batch_write_slot_name(hash, nameHash, slot, slotType, value [, net])` | Batch write slot + name                   |
 | `ic.find(name [, net])`                                                   | Find device by label → ReferenceId        |
 | `ic.find_all(name [, net])`                                               | Find all devices by label → ReferenceId[] |
+| `ic.host_info()`                                                          | Host metadata (name, type, wearer for suits) |
 
 ## Global functions
 
@@ -52,6 +53,7 @@ Device logic (read/write by pin or id, slots, reagents, batch ops, find) is expo
 | `device_label(dev, name)`                                              | Set device label                          |
 | `namehash_name(devHash, nameHash [, net])`                             | Resolve nameHash to display name          |
 | `device_list([net])`                                                   | List all devices on the data network      |
+| `host_info()`                                                          | Host metadata (name, type, wearer for suits) |
 | `pack_ascii6(str)`                                                     | Pack string to number                     |
 | `unpack_ascii6(num)`                                                   | Unpack number to string                   |
 | `strip_color_tags(str)`                                                | Remove Unity color tags                   |
@@ -65,8 +67,8 @@ Device logic (read/write by pin or id, slots, reagents, batch ops, find) is expo
 | `bit_ext(val, pos, len)`                                               | Extract bit field                         |
 | `bit_ins(dst, src, pos, len)`                                          | Insert bit field                          |
 | `require(modname [, reload])`                                          | Load module from library chip             |
-| `sleep(seconds)`                                                       | Pause script                              |
-| `yield()`                                                              | Pause until next tick                     |
+| `sleep(seconds)`                                                       | Pause current context (main, tick, or user coroutine) |
+| `yield()`                                                              | Pause until next tick (main, tick, or user coroutine) |
 | `throw(msg)`                                                           | Throw runtime error                       |
 | `hcf()`                                                                | Halt and Catch Fire                       |
 | `raise_error(state)`                                                   | Set IC housing error state                |

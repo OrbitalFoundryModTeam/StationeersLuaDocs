@@ -58,6 +58,12 @@ When mesh is disabled, the board stays locked to the specific transmitter you se
 Dedicated servers do not expose the HTTP/MCP listener directly. In multiplayer, a client can use its own local StationeersLua bridge while the game routes debug traffic to the server over mod network messages.
 :::
 
+## Suit Chip Scripting
+
+Lua chips installed directly in a suit run automatically while the suit has battery power and the player is wearing it. If a Wireless Development Board is also installed, the chip gains full network access (read/write devices, pub/sub, RPC).
+
+See the `SuitTelemetry.lua` and `SuitDashboard.lua` examples for a complete per-player telemetry system using pub/sub.
+
 ## Combining with the IC Editor
 
 If you have the in-game IC editor open on a wired computer **and** a wireless development board connected to a different network, both networks are accessible at the same time. This means you can edit a local chip at a terminal while also monitoring remote chips over wireless.

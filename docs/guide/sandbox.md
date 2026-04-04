@@ -18,7 +18,7 @@ Exceeding limits triggers a runtime error on the chip (red light on the housing)
 | `math` | Full: `math.sin`, `math.floor`, `math.random`, etc. |
 | `string` | Full: `string.format`, `string.sub`, `string.find`, etc. |
 | `table` | Full: `table.insert`, `table.remove`, `table.sort`, etc. |
-| `coroutine` | Used internally by `sleep`/`yield` |
+| `coroutine` | Full: `coroutine.create`, `coroutine.resume`, `coroutine.yield`, etc. `sleep`/`yield` work inside user coroutines. |
 | `utf8` | UTF-8 string handling |
 | `os.clock` | High-resolution timer |
 | `os.time` | Current Unix timestamp |

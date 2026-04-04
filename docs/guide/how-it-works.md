@@ -31,8 +31,9 @@ Every game tick (~0.5 seconds), the runtime performs these steps **in order**:
 
 1. **Network messages** — Incoming messages from other Lua chips are delivered to handlers
 2. **Events** — Registered event handlers are dispatched
-3. **Main coroutine** — If the script used `sleep()` or `yield()`, the coroutine is resumed
-4. **`tick(dt)`** — If a global `tick` function is defined, it's called with the delta time
+3. **User coroutines** — Any user-created coroutines that called `sleep()`/`yield()` and whose timers have expired are resumed
+4. **Main coroutine** — If the script used `sleep()` or `yield()`, the coroutine is resumed
+5. **`tick(dt)`** — If a global `tick` function is defined, it's called with the delta time
 
 Each tick has a budget of **50,000 instructions**.
 
@@ -66,7 +67,7 @@ Lua chips run in a restricted environment:
 
 - **No filesystem I/O** — `io`, `dofile`, `loadfile` are blocked
 - **No process control** — `os.execute`, `os.exit` are blocked
-- **No threads** — Only `sleep`/`yield` for pausing (coroutine-based)
+- **Coroutine-based concurrency** — `sleep`/`yield` work in the main script, `tick()`, and user-created coroutines (no OS threads)
 - **No `require` from files** — `require()` loads from library chips on the data network, not from disk
 
 ### Advanced Computing Compatibility

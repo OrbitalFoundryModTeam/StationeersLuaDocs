@@ -107,6 +107,7 @@ export default defineConfig({
             { text: 'Solar Tracker', link: '/examples/solar-tracker' },
             { text: 'Airlock Controller', link: '/examples/airlock' },
             { text: 'Sensor Network', link: '/examples/sensor-network' },
+            { text: 'Suit Telemetry', link: '/examples/suit-telemetry' },
           ]
         },
       ],

@@ -52,6 +52,7 @@ end
 
 - `yield()` pauses until the next game tick
 - `sleep(seconds)` pauses for a real-time duration
+- Both also work inside user-created coroutines (`coroutine.create`)
 
 ::: tip When to use
 Best for **sequential logic** — airlock cycles, state machines, multi-step processes where the order of operations matters.
