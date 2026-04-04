@@ -64,6 +64,26 @@ Lua chips installed directly in a suit run automatically while the suit has batt
 
 See the `SuitTelemetry.lua` and `SuitDashboard.lua` examples for a complete per-player telemetry system using pub/sub.
 
+## Scripting API (`ic.wireless`)
+
+Suit chips and wireless tablet cartridges can programmatically control their wireless connection via the `ic.wireless` table:
+
+| Function | Description |
+|---|---|
+| `ic.wireless.list()` | Returns a 1-indexed array of in-range transmitters. Each entry: `{ id, network_id, name, distance, max_distance }` |
+| `ic.wireless.connect(id [, mesh])` | Connect to a transmitter or network by id. `mesh` defaults to `true`. Returns `true` on success, or `false, error_string` on failure. |
+| `ic.wireless.disconnect()` | Clear the current wireless connection. |
+| `ic.wireless.status()` | Returns a table with `available`, `connected`, `in_range`, `mesh`, `network_id`, `transmitter_id`, `transmitter_name`, `distance`, `max_distance`. Never throws. |
+| `ic.wireless.set_mesh(enabled)` | Toggle mesh handoff mode without reconnecting. |
+
+::: tip
+`ic.wireless.status()` is safe to call from any chip — if no wireless device is available, it returns `{ available = false, connected = false }`. All other functions throw an error if no wireless device is present.
+:::
+
+::: tip ScriptedScreens Alias
+On wireless tablet cartridges, `ss.tablet.wireless` is still available as an alias for backward compatibility. Both `ic.wireless` and `ss.tablet.wireless` resolve to the same underlying device.
+:::
+
 ## Combining with the IC Editor
 
 If you have the in-game IC editor open on a wired computer **and** a wireless development board connected to a different network, both networks are accessible at the same time. This means you can edit a local chip at a terminal while also monitoring remote chips over wireless.
