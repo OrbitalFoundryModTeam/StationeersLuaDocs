@@ -17,7 +17,7 @@ Each surface is enabled independently via its own config toggle. Both share the 
 
 | Tool                   | Description                                                              |
 | ---------------------- | ------------------------------------------------------------------------ |
-| `get_editor_state`     | Query the current in-game editor selection, network scope, and chip list |
+| `get_editor_state`     | Query the current in-game editor selection, network scope, chip list, and wireless-only context |
 | `get_editor_code`      | Read the live IC editor draft text (not the compiled chip source)        |
 | `set_editor_code`      | Update the IC editor draft — does **not** compile or export to the chip  |
 | `list_chips`           | Enumerate accessible Lua chips on the current data network(s)            |
@@ -43,6 +43,7 @@ Each surface is enabled independently via its own config toggle. Both share the 
 | --------------------------------- | ------------------------------------------------------------------------------------- |
 | `get_game_state`                  | Query world name, time, and other top-level game state                                |
 | `search_docs`                     | Full-text search across all embedded documentation resources                          |
+| `search_stationpedia`             | Full-text search over the in-game Stationpedia encyclopedia entries                     |
 | `get_extension_workflow_status`   | Query VS Code extension SSE connection state, pending intents, and recommended workflow mode |
 
 ### Debugger Tools <Badge type="info" text="conditional" />
@@ -141,6 +142,15 @@ When a player has the **Wireless Development Board** installed in their equipped
 ::: tip
 This requires `AllowNetworkChipAccess` to be enabled. The wireless board also has an internal `MotherboardLuaDebugger` slot — install a debugger motherboard there to enable wireless chip error inspection and VS Code debug sessions on the wireless network.
 :::
+
+### `get_editor_state` and REST `/api/editor` fields
+
+When the suit **Wireless Development Board** supplies MCP/REST scope but **no** IC motherboard editor is open, the response includes:
+
+- `wireless_remote_access_only`: `true` — the suit board is only a **remote data-network bridge**, not a selected chip or circuit housing.
+- `selected_chip_ref_id`, `selected_housing_ref_id`, and `selected_housing_name` are unset (`null`) in that mode. Use `network_id`, `network_ids`, and `network_names` for where you are connected.
+
+When a normal IC editor is open, `wireless_remote_access_only` is `false` and the holder fields describe the dropdown-selected chip’s holder as usual. Wired plus wireless scope can be merged when both are active and config allows it.
 
 ## In-Game Lua Reference Panel
 

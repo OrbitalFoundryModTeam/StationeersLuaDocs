@@ -137,6 +137,8 @@ print(info.type)         -- "suit", "circuit_housing", "tablet", "device", or "u
 | `"device"`        | Pipe device, machine, or other `Device` subclass   |
 | `"unknown"`       | Unrecognized host                                  |
 
+Lua chips in **pipe-style machine hosts** (for example filtration units, deep miners, dispersal towers — types using `DeviceInputOutputCircuit`) report `type` `"device"` and behave like other powered device hosts on their data network.
+
 For suits, the `wearer` field contains the display name of the player currently wearing the suit. This is particularly useful for multiplayer telemetry:
 
 ```lua

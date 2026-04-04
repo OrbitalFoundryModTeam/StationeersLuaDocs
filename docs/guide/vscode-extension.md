@@ -16,8 +16,12 @@ The extension depends on the [Lua Language Server](https://marketplace.visualstu
 2. Launch Stationeers and load a world
 3. Open your Lua workspace in VS Code
 4. Run **StationeersLua: Connect to Game Server** from the command palette
-5. Open the in-game IC editor on any computer
+5. Ensure the game exposes chips to the bridge:
+   - **Wired:** open the in-game IC editor on a computer and select a chip, **or**
+   - **Wireless:** equip a suit with the **Wireless Development Board** connected to a network, with `AllowNetworkChipAccess` enabled in the StationeersLua config (see the [Wireless Development Board](./wireless-dev-board.md) guide)
 6. Use the **Chips** sidebar to browse and open chips
+
+You do **not** need the IC editor open when wireless remote access alone is enough — the explorer lists every chip the server reports as accessible.
 
 ## Chip Explorer
 
@@ -169,4 +173,13 @@ The **StationeersLua: Configure AI Editor (MCP)** command generates MCP config f
 
 ## Status Bar
 
-The extension adds a status bar item showing the current connection state. Click it to connect or reconnect. When connected, it displays a summary of the in-game editor and chip context.
+The extension adds a status bar item showing the current connection state. Click it to connect or reconnect.
+
+When connected:
+
+- **IC editor open with a selected chip** — shows the holder label from the game (what you see in the in-game dropdown) and a tooltip that includes the chip `ref` when the game provides one.
+- **Wireless-only remote access** (`wireless_remote_access_only` from the game) — shows **Wireless link**; the tooltip names the remote data network and explains that there is no IC editor selection — pick chips from the explorer.
+- **IC editor open but no holder label** — **Editor Open**.
+- **Otherwise** — **No Editor** (no bridge context yet).
+
+The tooltip does not show a bogus `ref null` line when no chip ref is available.
