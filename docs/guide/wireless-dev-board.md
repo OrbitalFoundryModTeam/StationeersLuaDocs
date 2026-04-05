@@ -39,8 +39,9 @@ The board has three interactions (accessible from your suit inventory):
 - You cycle through available transmitters and pick one to connect to
 - Once connected, all Lua chips on that transmitter's data network become visible to MCP and VS Code
 - The connection **persists across save/load** — on relog, the board reconnects automatically if the network is still in range
-- Brief transmitter outages (e.g., momentary power loss) are tolerated with a short reconnect grace period
+- Brief outages (momentary power loss, multiplayer replication/streaming gaps) are tolerated with a **reconnect grace period** (~5 seconds) before the panel shows the selected network as unavailable
 - **Removing the suit or the board** immediately drops the wireless connection
+- **Power:** while you stay **connected and in range**, the board slowly draws extra power from the **suit battery**. When you inspect the board, the description includes a note while this extra drain is happening. The wireless **Lua tablet cartridge** uses the same drain rate (see ScriptedScreens docs).
 
 ### Mesh Handoff
 

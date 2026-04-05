@@ -83,6 +83,8 @@ local prefab = prefab_name(-2045627372)  -- "SolarPanel"
 local resolved = namehash_name(deviceHash, nameHash)
 ```
 
+On **ScriptedScreens** motherboards/circuitboards, optional **pin hints** for the config screen (what *your* script uses each `d0`–`d5` wire for) are separate from `device_label`: use `ss.pin_label(0, "…")` … `ss.pin_label(5, "…")` (see ScriptedScreens docs).
+
 ## Device List
 
 Enumerate all devices visible on the chip's data cable network:

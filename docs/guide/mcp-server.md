@@ -37,14 +37,13 @@ Each surface is enabled independently via its own config toggle. Both share the 
 | `read_device_value`      | Read a logic value from a device by reference ID and LogicType name    |
 | `get_device_logic_types` | Get all readable and writable LogicType values for a device            |
 
-### World & Workflow
+### World & search
 
-| Tool                              | Description                                                                           |
-| --------------------------------- | ------------------------------------------------------------------------------------- |
-| `get_game_state`                  | Query world name, time, and other top-level game state                                |
-| `search_docs`                     | Full-text search across all embedded documentation resources                          |
-| `search_stationpedia`             | Full-text search over the in-game Stationpedia encyclopedia entries                     |
-| `get_extension_workflow_status`   | Query VS Code extension SSE connection state, pending intents, and recommended workflow mode |
+| Tool                  | Description                                                      |
+| --------------------- | ---------------------------------------------------------------- |
+| `get_game_state`      | Query world name, time, and other top-level game state           |
+| `search_docs`         | Full-text search across all embedded documentation resources     |
+| `search_stationpedia` | Full-text search over the in-game Stationpedia encyclopedia entries |
 
 ### Debugger Tools <Badge type="info" text="conditional" />
 
