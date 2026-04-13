@@ -24,8 +24,8 @@ Device logic (read/write by pin or id, slots, reagents, batch ops, find) is expo
 | `ic.batch_write_name(hash, nameHash, logicType, value [, net])`           | Batch write + name                        |
 | `ic.batch_write_slot(hash, slot, slotType, value [, net])`                | Batch write slot                          |
 | `ic.batch_write_slot_name(hash, nameHash, slot, slotType, value [, net])` | Batch write slot + name                   |
-| `ic.find(name [, net])`                                                   | Find device by label → ReferenceId        |
-| `ic.find_all(name [, net])`                                               | Find all devices by label → ReferenceId[] |
+| `ic.find(name [, mode [, net]])`                                           | Find by label/pattern → ReferenceId (`mode`: auto/exact/glob/regex); one number only → `net` |
+| `ic.find_all(name [, mode [, net]])`                                      | Find all matches → ReferenceId[]                                    |
 | `ic.host_info()`                                                          | Host metadata (name, type, wearer for suits) |
 
 ## Global functions

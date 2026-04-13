@@ -43,6 +43,11 @@ local ids = ic.find_all("Solar Panel")
 for _, id in ipairs(ids) do
     ic.write_id(id, LT.On, 1)
 end
+
+-- Optional match mode (3rd arg): "auto" (default), "exact", "glob", "regex" (.NET).
+-- Use nil for networkIndex when you only pass mode, e.g.:
+-- local id = ic.find("(?i)power", "regex")
+-- local id = ic.find("2 * 5kPa", "exact")
 ```
 
 ## Writing Logic Values
@@ -170,8 +175,8 @@ local ch0 = ic.read(ic.const.BASE_UNIT_INDEX, LT.Channel0, 0)
 | `ic.write(dev, logicType, value [, net])`     | —             | Write logic value                                    |
 | `ic.read_id(id, logicType [, net])`           | number \| nil | Read by ReferenceId                                  |
 | `ic.write_id(id, logicType, value [, net])`   | —             | Write by ReferenceId                                 |
-| `ic.find(name [, net])`                       | number \| nil | Find device by label, returns ReferenceId            |
-| `ic.find_all(name [, net])`                   | number[]      | Find all devices by label, returns ReferenceId array |
+| `ic.find(name [, mode [, net]])`              | number \| nil | Find by display name; `mode`: auto / exact / glob / regex; a single number is `net` only |
+| `ic.find_all(name [, mode [, net]])`          | number[]      | Find all matches; same modes as `ic.find`                 |
 | `device_name(dev [, net])`                 | string \| nil | Get device display name                              |
 | `device_label(dev, name)`                  | —             | Set device label (also `ic.device_label`) |
 | `device_list([net])`                       | table[]       | List all network devices                             |
