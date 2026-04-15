@@ -183,6 +183,8 @@ local ch0 = ic.read(ic.const.BASE_UNIT_INDEX, LT.Channel0, 0)
 | `prefab_name(hash)`                        | string \| nil | Hash → prefab name                                   |
 | `namehash_name(devHash, nameHash [, net])` | string \| nil | Resolve nameHash                                     |
 | `ic.host_info()`                           | table         | Host device metadata (name, type, wearer for suits)  |
-| `raise_error(state)`                       | —             | Set the IC housing error state (1=error, 0=clear)    |
-| `clear_error()`                            | —             | Clear the IC housing error state                     |
+| `raise_error(state)`                       | —             | Set the IC housing error state (1=error, 0=clear); non-zero **latches** until cleared (see below) |
+| `clear_error()`                            | —             | Clear the IC housing error state and the latch       |
 | `hcf()`                                    | —             | Halt and catch fire (stops the chip)                 |
+
+**Housing error vs successful ticks:** After each tick that finishes without a runtime exception, the runtime clears the chip’s runtime error fields and normally clears the housing error flag. A non-zero `raise_error` (or writing `LogicType.Error` on the base unit `db`) sets a **manual latch** so that automatic clear does **not** clear the housing until `clear_error()` / `raise_error(0)`, the script is reloaded (`ClearAllErrors`), the VM is disposed after a hard fault, or a **real** runtime error is recorded (`throw(...)`, failed API call, etc. — those clear the latch and drive the normal error UI). Use **`throw("message")`** when you want an immediate fault with traceback, not a latched lamp.

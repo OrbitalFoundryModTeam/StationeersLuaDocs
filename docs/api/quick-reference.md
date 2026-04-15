@@ -71,8 +71,8 @@ Device logic (read/write by pin or id, slots, reagents, batch ops, find) is expo
 | `yield()`                                                              | Pause until next tick (main, tick, or user coroutine) |
 | `throw(msg)`                                                           | Throw runtime error                       |
 | `hcf()`                                                                | Halt and Catch Fire                       |
-| `raise_error(state)`                                                   | Set IC housing error state                |
-| `clear_error()`                                                        | Clear IC housing error state              |
+| `raise_error(state)`                                                   | Set housing error (non-zero latches until clear; see device-io) |
+| `clear_error()`                                                        | Clear housing error and latch             |
 | `print(...)`                                                           | Print to debugger logs                    |
 
 ## Namespaces
