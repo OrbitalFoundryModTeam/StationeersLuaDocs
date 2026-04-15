@@ -39,8 +39,9 @@ The board has three interactions (accessible from your suit inventory):
 - You cycle through available transmitters and pick one to connect to
 - Once connected, all Lua chips on that transmitter's data network become visible to MCP and VS Code
 - The connection **persists across save/load** — on relog, the board reconnects automatically if the network is still in range
-- Brief transmitter outages (e.g., momentary power loss) are tolerated with a short reconnect grace period
+- Brief outages (momentary power loss, multiplayer replication/streaming gaps) are tolerated with a **reconnect grace period** (~5 seconds) before the panel shows the selected network as unavailable
 - **Removing the suit or the board** immediately drops the wireless connection
+- **Power:** while you stay **connected and in range**, the board slowly draws extra power from the **suit battery**. When you inspect the board, the description includes a note while this extra drain is happening. The wireless **Lua tablet cartridge** uses the same drain rate (see ScriptedScreens docs).
 
 ### Mesh Handoff
 
@@ -56,6 +57,32 @@ When mesh is disabled, the board stays locked to the specific transmitter you se
 
 ::: warning Dedicated Servers
 Dedicated servers do not expose the HTTP/MCP listener directly. In multiplayer, a client can use its own local StationeersLua bridge while the game routes debug traffic to the server over mod network messages.
+:::
+
+## Suit Chip Scripting
+
+Lua chips installed directly in a suit run automatically while the suit has battery power and the player is wearing it. If a Wireless Development Board is also installed, the chip gains full network access (read/write devices, pub/sub, RPC).
+
+See the `SuitTelemetry.lua` and `SuitDashboard.lua` examples for a complete per-player telemetry system using pub/sub.
+
+## Scripting API (`ic.wireless`)
+
+Suit chips and wireless tablet cartridges can programmatically control their wireless connection via the `ic.wireless` table:
+
+| Function | Description |
+|---|---|
+| `ic.wireless.list()` | Returns a 1-indexed array of in-range transmitters. Each entry: `{ id, network_id, name, distance, max_distance }` |
+| `ic.wireless.connect(id [, mesh])` | Connect to a transmitter or network by id. `mesh` defaults to `true`. Returns `true` on success, or `false, error_string` on failure. |
+| `ic.wireless.disconnect()` | Clear the current wireless connection. |
+| `ic.wireless.status()` | Returns a table with `available`, `connected`, `in_range`, `mesh`, `network_id`, `transmitter_id`, `transmitter_name`, `distance`, `max_distance`. Never throws. |
+| `ic.wireless.set_mesh(enabled)` | Toggle mesh handoff mode without reconnecting. |
+
+::: tip
+`ic.wireless.status()` is safe to call from any chip — if no wireless device is available, it returns `{ available = false, connected = false }`. All other functions throw an error if no wireless device is present.
+:::
+
+::: tip ScriptedScreens Alias
+On wireless tablet cartridges, `ss.tablet.wireless` is still available as an alias for backward compatibility. Both `ic.wireless` and `ss.tablet.wireless` resolve to the same underlying device.
 :::
 
 ## Combining with the IC Editor

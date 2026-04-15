@@ -69,6 +69,8 @@ When the active formatter in the IC editor is Lua, the three reference buttons i
 
 When ScriptedScreens is installed alongside StationeersLua, its API sections are appended to the panel.
 
+With the **Lua** formatter active, the IC10Editor also applies **Lua auto-indent/dedent** (block keywords, `end`/`until` alignment, 4-space tab / Shift+Tab, Vim `>>` / `<<`).
+
 ## Debugger Availability
 
 - The in-game debugger motherboard remains the authority gate for in-game debugging workflows.

@@ -43,6 +43,11 @@ local ids = ic.find_all("Solar Panel")
 for _, id in ipairs(ids) do
     ic.write_id(id, LT.On, 1)
 end
+
+-- Optional match mode (3rd arg): "auto" (default), "exact", "glob", "regex" (.NET).
+-- Use nil for networkIndex when you only pass mode, e.g.:
+-- local id = ic.find("(?i)power", "regex")
+-- local id = ic.find("2 * 5kPa", "exact")
 ```
 
 ## Writing Logic Values
@@ -83,6 +88,8 @@ local prefab = prefab_name(-2045627372)  -- "SolarPanel"
 local resolved = namehash_name(deviceHash, nameHash)
 ```
 
+On **ScriptedScreens** motherboards/circuitboards, optional **pin hints** for the config screen (what *your* script uses each `d0`–`d5` wire for) are separate from `device_label`: use `ss.pin_label(0, "…")` … `ss.pin_label(5, "…")` (see ScriptedScreens docs).
+
 ## Device List
 
 Enumerate all devices visible on the chip's data cable network:
@@ -107,6 +114,50 @@ Each entry contains:
 
 Accepts an optional `networkIndex`: `device_list(networkIndex)`.
 
+## Host Info
+
+`ic.host_info()` returns metadata about the chip's host device — the thing the chip is physically installed in:
+
+```lua
+local info = ic.host_info()
+print(info.name)         -- "Hardsuit", "Circuit Housing", etc.
+print(info.ref_id)       -- host ReferenceId
+print(info.prefab_hash)  -- host prefab hash
+print(info.type)         -- "suit", "circuit_housing", "tablet", "device", or "unknown"
+```
+
+| Field         | Type           | Description                                            |
+| ------------- | -------------- | ------------------------------------------------------ |
+| `name`        | string         | Display name of the host device                        |
+| `ref_id`      | number         | Host device ReferenceId                                |
+| `prefab_hash` | number         | Host device prefab hash                                |
+| `type`        | string         | Host category (see below)                              |
+| `wearer`      | string \| nil  | Player name (suits only; `nil` for all other hosts)    |
+
+**Type values:**
+
+| Type              | Host device                                       |
+| ----------------- | ------------------------------------------------- |
+| `"suit"`          | EVA suit (HardSuit, SpaceSuit, etc.)               |
+| `"circuit_housing"` | Standard IC housing                              |
+| `"tablet"`        | Tablet                                             |
+| `"device"`        | Pipe device, machine, or other `Device` subclass   |
+| `"unknown"`       | Unrecognized host                                  |
+
+Lua chips in **pipe-style machine hosts** (for example filtration units, deep miners, dispersal towers — types using `DeviceInputOutputCircuit`) report `type` `"device"` and behave like other powered device hosts on their data network.
+
+For suits, the `wearer` field contains the display name of the player currently wearing the suit. This is particularly useful for multiplayer telemetry:
+
+```lua
+local info = ic.host_info()
+if info.type == "suit" and info.wearer then
+    ic.net.publish("suit/telemetry", {
+        player = info.wearer,
+        pressure = ic.read(ic.const.BASE_UNIT_INDEX, LT.Pressure),
+    }, { retain = true, ttl = 30 })
+end
+```
+
 ## Network Index
 
 Most read/write functions accept an optional `networkIndex` parameter for multi-network setups:
@@ -124,13 +175,14 @@ local ch0 = ic.read(ic.const.BASE_UNIT_INDEX, LT.Channel0, 0)
 | `ic.write(dev, logicType, value [, net])`     | —             | Write logic value                                    |
 | `ic.read_id(id, logicType [, net])`           | number \| nil | Read by ReferenceId                                  |
 | `ic.write_id(id, logicType, value [, net])`   | —             | Write by ReferenceId                                 |
-| `ic.find(name [, net])`                       | number \| nil | Find device by label, returns ReferenceId            |
-| `ic.find_all(name [, net])`                   | number[]      | Find all devices by label, returns ReferenceId array |
+| `ic.find(name [, mode [, net]])`              | number \| nil | Find by display name; `mode`: auto / exact / glob / regex; a single number is `net` only |
+| `ic.find_all(name [, mode [, net]])`          | number[]      | Find all matches; same modes as `ic.find`                 |
 | `device_name(dev [, net])`                 | string \| nil | Get device display name                              |
 | `device_label(dev, name)`                  | —             | Set device label (also `ic.device_label`) |
 | `device_list([net])`                       | table[]       | List all network devices                             |
 | `prefab_name(hash)`                        | string \| nil | Hash → prefab name                                   |
 | `namehash_name(devHash, nameHash [, net])` | string \| nil | Resolve nameHash                                     |
+| `ic.host_info()`                           | table         | Host device metadata (name, type, wearer for suits)  |
 | `raise_error(state)`                       | —             | Set the IC housing error state (1=error, 0=clear)    |
 | `clear_error()`                            | —             | Clear the IC housing error state                     |
 | `hcf()`                                    | —             | Halt and catch fire (stops the chip)                 |
