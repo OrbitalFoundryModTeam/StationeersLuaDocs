@@ -52,6 +52,7 @@ export default defineConfig({
             { text: 'Save/Load Persistence', link: '/guide/persistence' },
             { text: 'Library Chips (require)', link: '/guide/library-chips' },
             { text: 'VS Code Extension', link: '/guide/vscode-extension' },
+            { text: 'Language servers', link: '/guide/language-servers' },
             { text: 'Debugging', link: '/guide/debugging' },
             { text: 'Wireless Development Board', link: '/guide/wireless-dev-board' },
             { text: 'MCP Server & Reference Panel', link: '/guide/mcp-server' },

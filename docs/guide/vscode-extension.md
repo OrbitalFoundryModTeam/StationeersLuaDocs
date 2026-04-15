@@ -109,6 +109,8 @@ In multiplayer, debug sessions are proxied through the mod's network layer. VS C
 
 ## IntelliSense & Language Server
 
+For a **full map** of where intelligence runs (in-game vs VS Code vs optional lua-language-server), see **[Language servers](./language-servers.md)**.
+
 The extension provides two layers of code intelligence that work together:
 
 ### Sumneko Lua (General Lua)
