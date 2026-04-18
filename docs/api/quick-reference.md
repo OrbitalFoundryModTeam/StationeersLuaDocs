@@ -79,7 +79,7 @@ Device logic (read/write by pin or id, slots, reagents, batch ops, find) is expo
 
 | Namespace           | Key Members                                                                        |
 | ------------------- | ---------------------------------------------------------------------------------- |
-| `ic.enums`          | `LogicType`, `LogicSlotType`, `LogicBatchMethod`, `LogicReagentMode`, `SoundAlert` |
+| `ic.enums`          | `LogicType`, `LogicSlotType`, `LogicBatchMethod`, `LogicReagentMode`, `SoundAlert`, `SorterInstruction`, `ConditionOperation` |
 | `ic.const`          | `BASE_UNIT_INDEX`, `BASE_NETWORK_INDEX`, game constants                            |
 | `ic.events`         | `.on(name, handler)`, `.off(name)`                                                 |
 | `ic.net`            | `.id()`, `.peers()`, `.send()`, `.broadcast()`, `.recv()`, `.listen()`             |

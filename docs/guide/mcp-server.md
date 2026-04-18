@@ -89,6 +89,8 @@ The server exposes the following resources that AI editors can read for context:
 | `stationeers://lua/enums/logic_type`       | Complete `LogicType` enum values with descriptions (`LT.*`)             |
 | `stationeers://lua/enums/logic_slot_type`  | Complete `LogicSlotType` enum values for slot-based reads (`LST.*`)     |
 | `stationeers://lua/enums/batch_method`     | `LogicBatchMethod` enum values (Sum, Average, Minimum, Maximum)         |
+| `stationeers://lua/enums/sorter_instruction` | `SorterInstruction` enum (Logic Sorter stack opcodes)               |
+| `stationeers://lua/enums/condition_operation` | `ConditionOperation` enum (packed compare modes)                 |
 
 ### Bundled Examples
 

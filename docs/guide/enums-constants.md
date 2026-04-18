@@ -9,6 +9,8 @@ local LT  = ic.enums.LogicType         -- On, Off, Temperature, Pressure, ...
 local LST = ic.enums.LogicSlotType      -- Occupied, Quantity, Charge, ...
 local LBM = ic.enums.LogicBatchMethod   -- Average, Sum, Minimum, Maximum
 local LRM = ic.enums.LogicReagentMode   -- TotalContents, ...
+local SI  = ic.enums.SorterInstruction  -- Logic Sorter stack opcodes (memory API)
+local CO  = ic.enums.ConditionOperation   -- Compare ops inside packed stack words
 ```
 
 ### LogicType (commonly used values)
@@ -91,6 +93,31 @@ You can use the optional **`gas` library** (`Examples/LibraryModule_Gas.lua`): i
 | `MaxQuantity` | Max stack size                     |
 | `PrefabHash`  | Prefab hash of item in slot        |
 
+### SorterInstruction
+
+Opcode names for **Logic Sorter** program rows. Values match the game enum; use them when building filter programs via `ic.mem_put` / `ic.mem_get` on the sorter device (same semantics as IC10 memory on the sorter pin). Full bit packing is vanilla game behavior; see the [Logic Sorter wiki](https://stationeers-wiki.com/Logic_Sorter) for row layout.
+
+| Name | Role |
+| ---- | ---- |
+| `None` | Unused row / padding |
+| `FilterPrefabHashEquals` | Prefab hash equality filter |
+| `FilterPrefabHashNotEquals` | Prefab hash inequality filter |
+| `FilterSortingClassCompare` | Sorting class compare |
+| `FilterSlotTypeCompare` | Slot type compare |
+| `FilterQuantityCompare` | Quantity compare |
+| `LimitNextExecutionByCount` | Cap executions of the following row |
+
+### ConditionOperation
+
+Comparison mode embedded in packed stack words (for example prefab hash filters pair an opcode with `Equals` or `NotEquals`).
+
+| Name | Role |
+| ---- | ---- |
+| `Equals` | Equal |
+| `Greater` | Greater than |
+| `Less` | Less than |
+| `NotEquals` | Not equal |
+
 ## Constants
 
 Constants are under `ic.const`:
@@ -116,7 +143,7 @@ local powered = ic.read(ic.const.BASE_UNIT_INDEX, LT.On)
 
 Both the in-game IC10Editor and VS Code provide **contextual autocomplete** for enums and constants:
 
-- Typing `ic.enums.` shows all available enum tables (`LogicType`, `LogicSlotType`, etc.)
+- Typing `ic.enums.` shows all available enum tables (`LogicType`, `LogicSlotType`, `SorterInstruction`, `ConditionOperation`, etc.)
 - Typing `ic.enums.LogicType.` shows all members with their numeric values
 - Typing `ic.const.` shows all available constants
 - When typing the second argument of `ic.read()` or `ic.write()`, `LogicType` members are suggested automatically

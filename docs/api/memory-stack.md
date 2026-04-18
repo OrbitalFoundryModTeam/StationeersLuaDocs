@@ -39,6 +39,17 @@ mem_put_id(deviceId, 5, 100)
 mem_clear_id(deviceId)
 ```
 
+## Logic Sorter (device memory)
+
+The **Logic Sorter** stores its filter program as 64-bit values in **device memory** (same addresses you reach with IC10 `get` / `put` on the sorter pin). StationeersLua does not build those words for you, but it exposes the game's opcode and compare enums so literals stay readable:
+
+- `ic.enums.SorterInstruction` — `None`, `FilterPrefabHashEquals`, `FilterPrefabHashNotEquals`, `FilterSortingClassCompare`, `FilterSlotTypeCompare`, `FilterQuantityCompare`, `LimitNextExecutionByCount`
+- `ic.enums.ConditionOperation` — `Equals`, `Greater`, `Less`, `NotEquals`
+
+Use `mem_put` / `mem_get` (or `*_id`) with the sorter's device index or reference id. Row layout and bit packing are vanilla game behavior; the [Logic Sorter (community wiki)](https://stationeers-wiki.com/Logic_Sorter) documents how to assemble each word.
+
+See also [Enumerations & Constants](/guide/enums-constants).
+
 ## Stack Operations
 
 The chip has an internal stack (shared with memory). These map directly to IC10 `push`/`pop`/`peek`/`poke`:

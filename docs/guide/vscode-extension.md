@@ -131,7 +131,7 @@ When `EnableLspServer` is enabled in the mod config, the extension also connects
 | Feature | Description |
 |---|---|
 | Diagnostics | Real-time Lua parse and compile error highlighting |
-| Enum completions | `ic.enums.LogicType.` triggers member completions with numeric values |
+| Enum completions | `ic.enums.LogicType.` and other `ic.enums.*` tables (including `SorterInstruction`, `ConditionOperation`) trigger member completions with numeric values |
 | Constant completions | `ic.const.` triggers all game constants |
 | Parameter-aware completions | Second arg of `ic.read()` suggests LogicType members; third arg of `ic.read_slot()` suggests LogicSlotType members |
 | `require()` completions | Inside `require("...")`, module names from library chips on the chip's data network are suggested |
