@@ -30,7 +30,7 @@ IC10 assembly is powerful but painful at scale:
 - **VS Code Debugger** — Attach breakpoints, step execution, inspect stack/scopes/variables, and view runtime output externally
 - **Wireless Development Access** — Reach remote data networks through the wearable wireless development board on supported suits
 - **Save/Load Persistence** — Opt-in `serialize()`/`deserialize()` hooks for custom state
-- **Instruction Limits** — Built-in safety limits prevent infinite loops
+- **Instruction Limits** — Built-in safety limits prevent infinite loops (defaults configurable on the server/host under mod config **`[Lua VM]`**; see [Sandbox & Limits](/guide/sandbox))
 - **Multiplayer Compatible** — Fully synced across all connected clients
 - **Server-Authoritative** — All execution on the server/host; clients see results via game state sync
 - **MCP Server** — Built-in Model Context Protocol server for AI-aware editors (Cursor, Windsurf, etc.) with chip discovery, code sync, and debug tools
@@ -46,7 +46,7 @@ IC10 assembly is powerful but painful at scale:
        ▼
 ┌─────────────┐
 │ Compile/Init │  Lua VM created, ic table injected,
-│              │  module-level code runs (500K instruction budget)
+│              │  module-level code runs (default 500K instruction budget)
 └──────┬───────┘
        ▼
 ┌─────────────┐
@@ -55,7 +55,7 @@ IC10 assembly is powerful but painful at scale:
 │              │   2. Events dispatched
 │              │   3. Main coroutine resumed
 │              │   4. tick(dt) called if defined
-│              │  Budget: 50K instructions per tick
+│              │  Budget: default 50K instructions per tick (mod cfg `[Lua VM]`)
 └──────┬───────┘
        ▼
 ┌─────────────┐

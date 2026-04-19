@@ -87,6 +87,8 @@ local atmos = require("atmos", true)  -- Clears cache, re-compiles
 | `AllowMultiModule` | `true` | Allow multiple `--@module` annotations per chip |
 | `LibraryLoadInstructionBudget` | `200000` | Max instructions for loading a library module |
 
+Chip **startup** and **per-tick** Lua VM budgets (`InitInstructionLimit`, `TickInstructionLimit` in **`[Lua VM]`**) are separate from library loading; see [Sandbox & Limits](/guide/sandbox).
+
 ## Editor Completions
 
 When typing `require("...")`, both the in-game editor and VS Code suggest module names from library chips on the active data network. Suggestions include the module name and the housing it's on.

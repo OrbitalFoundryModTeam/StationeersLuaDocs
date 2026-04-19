@@ -6,8 +6,17 @@ Lua chip scripts run in a **deterministic sandbox** to ensure game stability and
 
 | Phase | Budget |
 |---|---|
-| Initialization (module-level code) | 500,000 instructions |
-| Per tick (coroutine + tick + events) | 50,000 instructions |
+| Initialization (module-level code) | 500,000 instructions (default) |
+| Per tick (coroutine + tick + events) | 50,000 instructions (default) |
+
+In the **StationeersLua** mod configuration (BepInEx / in-game mod panel), category **`[Lua VM]`**:
+
+| Setting | Default | Notes |
+|---|---|---|
+| `InitInstructionLimit` | `500000` | Startup budget (module-level code, first resume, serialize/deserialize hooks) |
+| `TickInstructionLimit` | `50000` | Per game tick, per chip |
+
+Values are clamped between **1,000** and **100,000,000**. Only the **simulation host** runs Lua chips (dedicated server or session host), so in multiplayer these settings apply from the host or server config, not from joining clients.
 
 Exceeding limits triggers a runtime error on the chip (red light on the housing).
 

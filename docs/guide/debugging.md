@@ -119,6 +119,6 @@ end
 
 ### Performance Issues
 
-- Keep code under instruction limits (50,000/tick)
+- Keep code under the per-tick instruction budget (default 50,000; server/host can change **`TickInstructionLimit`** in **`[Lua VM]`** mod config; see [Sandbox & Limits](/guide/sandbox))
 - Use `sleep()` or `yield()` in long loops
 - Avoid creating many tables per tick

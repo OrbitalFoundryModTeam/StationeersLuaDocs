@@ -11,7 +11,7 @@ When code is saved (or the housing powers on), StationeersLua:
 1. Creates a fresh **Lua 5.2 VM** for the chip
 2. Opens sandboxed standard libraries (`math`, `string`, `table`, etc.)
 3. Injects the **`ic` API table** with all device functions, enums, and networking
-4. Runs your **module-level code** (everything outside `tick()`) with a budget of **500,000 instructions**
+4. Runs your **module-level code** (everything outside `tick()`) with a budget of **500,000 bytecode instructions by default** (overridable with **`InitInstructionLimit`** in mod config **`[Lua VM]`** on the server/host)
 
 ```lua
 -- This code runs ONCE during initialization
@@ -35,7 +35,7 @@ Every game tick (~0.5 seconds), the runtime performs these steps **in order**:
 4. **Main coroutine** — If the script used `sleep()` or `yield()`, the coroutine is resumed
 5. **`tick(dt)`** — If a global `tick` function is defined, it's called with the delta time
 
-Each tick has a budget of **50,000 instructions**.
+Each tick has a budget of **50,000 bytecode instructions by default** (overridable with **`TickInstructionLimit`** in **`[Lua VM]`** on the server/host). See [Sandbox & Limits](/guide/sandbox) for the full table and clamp rules.
 
 ### 3. Shutdown
 
