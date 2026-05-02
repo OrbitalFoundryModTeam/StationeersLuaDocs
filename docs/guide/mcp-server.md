@@ -11,6 +11,10 @@ The HTTP listener runs locally inside your game client (default port `3030`). It
 
 Each surface is enabled independently via its own config toggle. Both share the same port.
 
+## Companion mods (`LuaMcpRegistry`)
+
+LaunchPad mods that reference **only** the released **`StationeersLua.dll`** can register extra MCP **documentation** (lazy Markdown URIs) and **tools** from `OnLoaded` via **`StationeersLua.LuaMcpRegistry`**, the same public pattern as **`LuaLibraryRegistry`** for chip VMs. Use namespaced URIs (for example `stationeers://your_mod/api`). Ship sample scripts under **`Examples/`** next to the mod DLL and call **`LuaMcpRegistry.RegisterBundledExampleDocumentation`** so each **`.lua`** / **`.md`** / **`.ic10`** file becomes an MCP resource plus an index (StationeersLua, ScriptedScreens, and **StationeersLuaAI** use this). **`search_docs`** scopes: built-in **`all`**, **`lua`** (everything except `stationeers://ss/`), or **`ss`** (ScriptedScreens only). Mods can also call **`LuaMcpRegistry.RegisterDocumentationSearchScope("my_mod", "stationeers://my_mod/")`** so clients may pass **`scope: "my_mod"`** and only match resources whose URI contains that substring (repeat calls OR additional needles). The **`list_search_docs_scopes`** MCP tool lists every valid scope; a non-empty unknown **`scope`** makes **`search_docs`** return an error (no silent fallback to **`all`**). After registering many resources, **`LuaMcpRegistry.RequestDocumentationSearchIndexRefresh()`** schedules a background index rebuild.
+
 ## MCP Tools
 
 ### Editor & Chip Management
@@ -42,7 +46,8 @@ Each surface is enabled independently via its own config toggle. Both share the 
 | Tool                  | Description                                                      |
 | --------------------- | ---------------------------------------------------------------- |
 | `get_game_state`      | Query world name, time, and other top-level game state           |
-| `search_docs`         | Full-text search across all embedded documentation resources     |
+| `list_search_docs_scopes` | JSON list of valid `search_docs` **`scope`** values: built-ins **`all`**, **`lua`**, **`ss`**, plus mod-registered scopes and their URI substring needles |
+| `search_docs`         | Full-text search across indexed documentation resources. Optional **`scope`**: omit or **`all`** for everything; built-ins **`lua`**, **`ss`**; mod names from **`list_search_docs_scopes`**. An unknown non-empty scope returns an **error** (no silent fallback to all) |
 | `search_stationpedia` | Full-text search over the in-game Stationpedia encyclopedia entries |
 
 ### Debugger Tools <Badge type="info" text="conditional" />

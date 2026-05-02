@@ -6,8 +6,8 @@ How **Stationeers-specific** help and **general Lua** (`lua-language-server`) co
 
 | Source | What it does |
 |--------|----------------|
-| **`LuaLanguageService`** (always) | In-process: Stationeers API completions, hover, diagnostics, format — no extra install. |
-| **Optional `lua-language-server` binary** | When configured, the mod **spawns** it as a **stdio LSP subprocess** (StationeersIC10Editor’s `LspClientStdio`) and merges **completions**, **signature help** at `(` / `,`, **hover** (fallback when the built-in hover is empty), **`textDocument/publishDiagnostics`** (squiggles on tokens), and **`textDocument/semanticTokens/full`** (syntax coloring, debounced ~400ms after you stop typing) with `LuaLanguageService`. On mod unload the client sends **`textDocument/didClose`**. |
+| **`LuaLanguageService`** | In-process Stationeers LSP used by the default **`LuaFormatter`** when **`ExternalLuaLanguageServerPath`** is empty (completions, hover, diagnostics, format). |
+| **Optional `lua-language-server` (stdio)** | When **`ExternalLuaLanguageServerPath`** is set, the mod registers **`LuaFormatterExternalLsp`** (`IC10Editor` **`LSPFormatter`**) with a shared **`LspClientStdio`**. The vanilla formatter integration drives document sync, diagnostics, completion, etc.; debounced **`textDocument/hover`** is merged into tooltips. **`LuaLanguageService`** is not the active formatter in that mode, but the TCP LSP for VS Code is unchanged. |
 
 ### Configure external Lua LS for the in-game editor
 
@@ -20,18 +20,11 @@ All keys are in **`[MCP Server]`** (same BepInEx section as the HTTP bridge / TC
 3. Leave **`ExternalLuaLanguageServerArguments`** empty unless your build needs extra flags (default stdio mode).
 4. Restart the game (or reload the mod) so the process can start the first time you open autocomplete in a Lua chip.
 
-The mod uses a small workspace under **`%LocalAppData%\StationeersLua\lua_ls_workspace\`** (a `chip-draft.lua` URI) so Lua LS has a root folder.
+When **`ExternalLuaLanguageServerWorkingDirectory`** is empty, the mod starts **lua-language-server** with working directory **`StationeersLua/Assets/LuaLibrary`** next to the deployed DLL, which ships a **`.luarc.json`** plus the same **LuaCATS** `*.lua` stubs as the VS Code extension (copied at build time). That sets **`Lua.runtime.version`** to **Lua 5.2** and disables builtins that the chip VM does not expose (`io`, `package`, `debug`, stock `os`, etc.), with a narrow **`stationeers-os.lua`** stub for the allowed `os` subset.
 
-**Lua version:** Lua LS defaults to **Lua 5.5** semantics. StationeersLua runs **Lua 5.2**, so you should add a **`.luarc.json`** in that same folder (next to the virtual `chip-draft.lua` workspace) so generic analysis matches the game, for example:
+The in-game document URI is a virtual buffer (`memory:///…`); Lua LS still reads workspace settings from the **`Assets/LuaLibrary`** folder above.
 
-```json
-{
-  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
-  "runtime.version": "Lua 5.2"
-}
-```
-
-In `.luarc.json`, settings use the short keys (no `Lua.` prefix). Optionally add **`workspace.library`** entries pointing at the Stationeers stub `.lua` files (same ones the VS Code extension ships) so `ic.*` and friends are not flagged as undefined globals.
+If you override **`ExternalLuaLanguageServerWorkingDirectory`**, place your own **`.luarc.json`** there and keep **`Lua.runtime.version": "Lua 5.2"`** so analysis matches **LuaCSharp** (Lua 5.2).
 
 **Notes**
 
