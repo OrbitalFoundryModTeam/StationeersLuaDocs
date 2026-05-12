@@ -110,7 +110,7 @@ The `stationeers://lua/readme` text is also provided as `initialize.result.instr
 
 ## Configuration
 
-All settings live in the StationeersLua config file under `[MCP Server]`:
+All settings live in the StationeersLua config file under `[MCP Server]`. The LSP-related keys (`EnableLspServer`, `LspPort`, and `ExternalLuaLanguageServer*`) also live in this section - see **[Language servers & editor intelligence](./language-servers.md)** for their full reference.
 
 | Setting                                       | Default | Description                                                                                                                                                                                                                                  |
 | --------------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

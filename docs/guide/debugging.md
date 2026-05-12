@@ -6,7 +6,7 @@ Writes to the **Lua Debugger Logs** tab (per-chip, bounded, cleared on power cyc
 
 ```lua
 print("Temperature:", temp, "Pressure:", pressure)
--- Output: Temperature:	300	Pressure:	101.3
+-- Output: Temperature: 300 Pressure: 101.3
 ```
 
 Multiple arguments are tab-separated.
@@ -26,7 +26,7 @@ The **MotherboardLuaDebugger** is a special motherboard you can craft and instal
 
 Select a target chip from the dropdown to view its debug information.
 
-## VS Code Debugger <Badge type="warning" text="Experimental" />
+## VS Code Debugger (Experimental)
 
 StationeersLua also supports attaching the **VS Code debugger** to an in-game Lua chip. This feature requires `EnableExperimentalDebugger = true` in the `[MCP Server]` config section (disabled by default).
 
@@ -48,6 +48,7 @@ When attached, the debugger can:
 - When a VS Code debug session is attached, log output and runtime errors are also forwarded to the attached debug session
 - Runtime errors include the cleaned error message plus the captured Lua traceback when available
 - ScriptedScreens-hosted Lua chips also surface through the same debug event/output path; the host board or cartridge appears as the endpoint device
+- Lua chips inside **Programmable Visor Glasses** are labelled with the **wearer's name** in the debugger dropdown and chip explorer, so you can tell visor targets apart at a glance
 
 ## Multiplayer & Remote Debugging
 
@@ -90,12 +91,12 @@ end
 
 ## Checking Nil Returns
 
-Many `ic.read*` helpers return `nil` when a device is missing:
+`ic.read*` helpers return `nil` when a device is **missing or disconnected**. If the device is present but the logic type is not supported, they raise a Lua error instead:
 
 ```lua
 local temp = ic.read(0, LT.Temperature)
 if temp == nil then
-    print("Device on d0 is not connected or doesn't support Temperature")
+    print("Device on d0 is not connected")
 else
     print("Temperature: " .. temp)
 end

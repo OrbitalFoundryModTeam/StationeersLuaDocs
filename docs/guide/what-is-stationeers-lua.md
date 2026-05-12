@@ -21,7 +21,7 @@ IC10 assembly is powerful but painful at scale:
 
 - **Full Lua 5.2 Runtime** — Standard Lua syntax with loops, functions, tables, closures, coroutines
 - **Integrated Circuit (Lua)** — New chip item that accepts Lua code instead of IC10 assembly
-- **IC10 Editor Integration** — Syntax highlighting and formatting in the in-game code editor
+- **IC10 Editor Integration** - Syntax highlighting, formatting, completions, hover docs, and diagnostics in the in-game code editor
 - **Comprehensive Device API** — Read/write logic values, slots, reagents, memory, batch operations
 - **Coroutine Support** — `sleep()` and `yield()` for natural control flow without mandatory `tick()` loops
 - **Inter-Chip Networking** — Direct messaging, topic-based pub/sub, and RPC between Lua chips
@@ -65,7 +65,7 @@ IC10 assembly is powerful but painful at scale:
 
 ## Companion Mods
 
-**[ScriptedScreens](/guide/what-is-stationeers-lua#companion-mods)** — Build custom touchscreen UIs on computer consoles and tablets. Buttons, sliders, charts, gauges, canvas drawing, games, media playback, and more — all driven by Lua scripts on ScriptedScreens boards.
+**[ScriptedScreens](/guide/what-is-stationeers-lua#companion-mods)** - Build custom touchscreen UIs on computer consoles, tablets, and programmable visors. Buttons, sliders, charts, gauges, canvas drawing, games, media playback, and more - all driven by Lua scripts on ScriptedScreens boards and visor hosts.
 
 ## Community
 

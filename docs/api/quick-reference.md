@@ -26,7 +26,7 @@ Device logic (read/write by pin or id, slots, reagents, batch ops, find) is expo
 | `ic.batch_write_slot_name(hash, nameHash, slot, slotType, value [, net])` | Batch write slot + name                   |
 | `ic.find(name [, mode [, net]])`                                           | Find by label/pattern → ReferenceId (`mode`: auto/exact/glob/regex); one number only → `net` |
 | `ic.find_all(name [, mode [, net]])`                                      | Find all matches → ReferenceId[]                                    |
-| `ic.host_info()`                                                          | Host metadata (name, type, wearer for suits) |
+| `ic.host_info()`                                                          | Host metadata (name, type, wearer for wearable hosts) |
 
 ## Global functions
 
@@ -53,7 +53,7 @@ Device logic (read/write by pin or id, slots, reagents, batch ops, find) is expo
 | `device_label(dev, name)`                                              | Set device label                          |
 | `namehash_name(devHash, nameHash [, net])`                             | Resolve nameHash to display name          |
 | `device_list([net])`                                                   | List all devices on the data network      |
-| `host_info()`                                                          | Host metadata (name, type, wearer for suits) |
+| `host_info()`                                                          | Host metadata (name, type, wearer for wearable hosts) |
 | `pack_ascii6(str)`                                                     | Pack string to number                     |
 | `unpack_ascii6(num)`                                                   | Unpack number to string                   |
 | `strip_color_tags(str)`                                                | Remove Unity color tags                   |

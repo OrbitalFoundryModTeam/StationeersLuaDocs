@@ -15,6 +15,8 @@ mem_write(10, 42.5)
 mem_clear()
 ```
 
+> **Housing LED note:** `mem_read`, `mem_write`, and `mem_clear` flash the IC housing memory light, matching the memory-style operations players expect from vanilla.
+
 ::: tip
 Chip memory is the easiest way to persist simple values across save/load — no `serialize`/`deserialize` needed.
 :::
@@ -68,6 +70,8 @@ stack_set_sp(0)
 local ra = stack_get_ra()
 stack_set_ra(0)
 ```
+
+> **Housing LED note:** `stack_push`, `stack_pop`, and `stack_peek` flash the IC housing memory light like vanilla `push` / `pop` / `peek`. `stack_poke` matches vanilla `poke` and does **not** flash.
 
 ::: info
 In Lua, you'll almost always use local variables and tables instead of the IC10 stack. These functions exist for IC10 compatibility and for communicating with vanilla IC10 chips via shared memory.

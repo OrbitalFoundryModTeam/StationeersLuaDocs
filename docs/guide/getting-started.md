@@ -5,16 +5,16 @@ This guide walks you through creating and running your first Lua script on a pro
 ## What You Need
 
 1. A Stationeers world with **BepInEx**, **StationeersLaunchPad**, and **IC10Editor** installed
-2. The **StationeersLua** mod in your `mods/` folder
-3. An **Integrated Circuit (Lua)** item (prefab: `ItemIntegratedCircuitLua`)
+1. The **StationeersLua** mod in your `mods/` folder
+1. An **Integrated Circuit (Lua)** item (prefab: `ItemIntegratedCircuitLua`)
 
 ## Your First Script
 
 1. Craft or spawn an **Integrated Circuit (Lua)**
-2. Insert it into any **IC Housing**
-3. Open the housing's code editor
-4. If your script is getting too long, click the **`?`** button in IC10Editor to disable the script-length and line-length limits
-5. Paste this:
+1. Insert it into any **IC Housing**
+1. Open the housing's code editor
+1. If your script is getting too long, click the **`?`** button in IC10Editor to disable the script-length and line-length limits
+1. Paste this:
 
 ```lua
 -- Blink a light on d0 every second
@@ -28,11 +28,7 @@ while true do
 end
 ```
 
-6. Save. The light on device pin **d0** will blink on/off every second.
-
-::: tip
-The editor automatically detects Lua code. A `-- LUA_SRC` marker is appended internally when you save — you never need to add it yourself.
-:::
+1. Save. The light on device pin **d0** will blink on and off every second.
 
 ## Understanding the Script
 
@@ -45,21 +41,21 @@ local LT = ic.enums.LogicType  -- [!code focus]
 -- Track our on/off state
 local on = false
 
--- Main loop — runs forever
+-- Main loop - runs forever
 while true do
-    on = not on                          -- Toggle the state
-    ic.write(0, LT.On, on and 1 or 0)      -- Write to device on pin d0  // [!code focus]
-    sleep(1)                             -- Wait 1 second  // [!code focus]
+    on = not on                        -- Toggle the state
+    ic.write(0, LT.On, on and 1 or 0) -- Write to device on pin d0  // [!code focus]
+    sleep(1)                          -- Wait 1 second  // [!code focus]
 end
 ```
 
-- **`ic.enums.LogicType`** — Game enum containing property names like `On`, `Temperature`, `Pressure`, etc.
-- **`ic.write(0, LT.On, value)`** — Write a value to the device connected to pin `d0`
-- **`sleep(1)`** — Pause execution for 1 second (the script resumes automatically)
+- **`ic.enums.LogicType`** - Game enum containing property names like `On`, `Temperature`, `Pressure`, and more.
+- **`ic.write(0, LT.On, value)`** - Write a value to the device connected to pin `d0`.
+- **`sleep(1)`** - Pause execution for 1 second, then resume automatically.
 
 ## Reading Sensor Data
 
-Here's a more practical example — a temperature controller:
+Here's a more practical example - a temperature controller:
 
 ```lua
 local LT = ic.enums.LogicType
@@ -70,10 +66,10 @@ local SETPOINT = 295  -- ~22°C in Kelvin
 
 function tick(dt)
     local temp = ic.read(0, LT.Temperature)
-    
+
     -- ic.read() returns nil if device is missing
     if temp == nil then return end
-    
+
     if temp > SETPOINT + 2 then
         ic.write(1, LT.On, 1)  -- Turn on cooler
     elseif temp < SETPOINT - 2 then
@@ -82,13 +78,13 @@ function tick(dt)
 end
 ```
 
-::: info Two Script Patterns
-**Pattern A: `tick(dt)`** — Define a global `tick` function. Called every game tick (~0.5s). Great for polling sensors.
+:::: info Two Script Patterns
+**Pattern A: `tick(dt)`** - Define a global `tick` function. Called every game tick (~0.5s). Great for polling sensors.
 
-**Pattern B: `while true do ... yield() end`** — Use a loop with `yield()` or `sleep()`. More natural for sequential logic like airlock cycles.
+**Pattern B: `while true do ... yield() end`** - Use a loop with `yield()` or `sleep()`. More natural for sequential logic like airlock cycles.
 
 Both are valid. Choose whichever fits your use case.
-:::
+::::
 
 ## Using Batch Operations
 
@@ -105,7 +101,7 @@ local lightHash  = hash("StructureWallLight")
 function tick(dt)
     -- Read average temperature from ALL gas sensors on the network
     local avgTemp = ic.batch_read(sensorHash, LT.Temperature, LBM.Average)
-    
+
     if avgTemp ~= nil and avgTemp > 310 then
         -- Turn on ALL wall lights (as a warning)
         ic.batch_write(lightHash, LT.On, 1)
@@ -118,7 +114,7 @@ end
 
 ## Next Steps
 
-- **[How Lua Chips Work](/guide/how-it-works)** — Understand the execution lifecycle
-- **[Device I/O API](/api/device-io)** — Full reference for reading and writing devices
-- **[Common Patterns](/examples/patterns)** — Copy-paste recipes for common automation tasks
-- **[Migrating from IC10](/guide/migrating-from-ic10)** — Quick translation table if you're coming from IC10
+- **[How Lua Chips Work](/guide/how-it-works)** - Understand the execution lifecycle
+- **[Device I/O API](/api/device-io)** - Full reference for reading and writing devices
+- **[Common Patterns](/examples/patterns)** - Copy-paste recipes for common automation tasks
+- **[Migrating from IC10](/guide/migrating-from-ic10)** - Quick translation table if you're coming from IC10

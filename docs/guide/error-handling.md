@@ -2,19 +2,26 @@
 
 ## Nil-Checking Reads
 
-Most logic **read** helpers on `ic` (`ic.read`, `ic.read_id`, `ic.read_slot`, …) return `nil` when a device is missing or doesn't support the requested property:
+Most logic **read** helpers on `ic` (`ic.read`, `ic.read_id`, `ic.read_slot`, ...) return `nil` when a device is **missing or disconnected**:
 
 ```lua
 local temp = ic.read(0, LT.Temperature)
 if temp == nil then
-    -- Device missing, disconnected, or doesn't support this logic type
+    -- Device missing or disconnected
     return
 end
 ```
 
+If a connected device **does not support the requested logic type**, these functions raise a Lua error rather than returning `nil`. If you are reading a property that might not be present on all devices, wrap the call in `pcall()`:
+
+```lua
+local ok, temp = pcall(ic.read, 0, LT.Temperature)
+if not ok or temp == nil then return end
+```
+
 ## Protected Calls for Writes
 
-`ic.write()` can throw if the device is missing. Use `pcall()` for safe writes:
+`ic.write()` can throw if the device is missing or the logic type is not writable. Use `pcall()` for safe writes:
 
 ```lua
 local ok, err = pcall(function()

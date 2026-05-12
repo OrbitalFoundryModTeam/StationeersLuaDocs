@@ -44,6 +44,7 @@ Exceeding limits triggers a runtime error on the chip (red light on the housing)
 
 | Blocked | Reason |
 |---|---|
+| `debug` | Intentionally unavailable on chips - the Lua `debug` library exposes internal VM state and is not available in the chip sandbox |
 | `io` | Filesystem access |
 | `package` | Filesystem module loading (replaced by `require()` from data network) |
 | `dofile`, `loadfile` | Filesystem access |

@@ -5,7 +5,7 @@ How **Stationeers-specific** help and **general Lua** (`lua-language-server`) co
 ## In-game IC10Editor
 
 | Source | What it does |
-|--------|----------------|
+| ------ | ------------ |
 | **`LuaLanguageService`** | In-process Stationeers LSP used by the default **`LuaFormatter`** when **`ExternalLuaLanguageServerPath`** is empty (completions, hover, diagnostics, format). |
 | **Optional `lua-language-server` (stdio)** | When **`ExternalLuaLanguageServerPath`** is set, the mod registers **`LuaFormatterExternalLsp`** (`IC10Editor` **`LSPFormatter`**) with a shared **`LspClientStdio`**. The vanilla formatter integration drives document sync, diagnostics, completion, etc.; debounced **`textDocument/hover`** is merged into tooltips. **`LuaLanguageService`** is not the active formatter in that mode, but the TCP LSP for VS Code is unchanged. |
 
@@ -26,10 +26,11 @@ The in-game document URI is a virtual buffer (`memory:///…`); Lua LS still rea
 
 If you override **`ExternalLuaLanguageServerWorkingDirectory`**, place your own **`.luarc.json`** there and keep **`Lua.runtime.version": "Lua 5.2"`** so analysis matches **LuaCSharp** (Lua 5.2).
 
-**Notes**
+## Notes
 
 - First autocomplete after a change can take a moment while the subprocess initializes and syncs the buffer.
 - Dedicated / batch servers do not start the external LS.
+- Player-facing setup assumes **IC10Editor** is installed. The no-editor fallback mainly matters for dedicated or stripped-down technical installs.
 - If the path is wrong, the mod logs a warning once and skips the external client.
 - **Squiggles** only apply while your buffer matches the last text synced to Lua LS; typing clears external errors until the next sync/diagnostic round.
 
@@ -37,10 +38,12 @@ If you override **`ExternalLuaLanguageServerWorkingDirectory`**, place your own 
 
 ## TCP: game as **server** (Stationeers LSP for VS Code, etc.)
 
-`[MCP Server] EnableLspServer` / `LspPort` start a **TCP listener inside the game**. External programs connect **in** to the mod’s **Stationeers** LSP server — **not** the same thing as `ExternalLuaLanguageServerPath` (which runs **out-of-process** general Lua LS **for** the in-game editor).
+`[MCP Server] EnableLspServer` / `LspPort` start a **TCP listener inside the game**. External programs connect **in** to the mod’s **Stationeers** LSP server - **not** the same thing as `ExternalLuaLanguageServerPath` (which runs **out-of-process** general Lua LS **for** the in-game editor).
 
 1. **`EnableLspServer = true`**, **`LspPort`** (e.g. **3031**, not the HTTP **3030** port).
 2. VS Code: **`stationeers-lua.lspPort`** matches **`LspPort`**, extension connected to the game.
+
+The Stationeers TCP LSP provides **completions, hover, signature help, diagnostics, `require()` network completions, document symbols (Outline panel), and go-to-definition** in VS Code.
 
 Details: **[VS Code Extension](./vscode-extension.md)** → *IntelliSense & Language Server*.
 
@@ -49,11 +52,11 @@ Details: **[VS Code Extension](./vscode-extension.md)** → *IntelliSense & Lang
 ## “Stacked” in VS Code (Sumneko + Stationeers TCP)
 
 | Layer | Role |
-|-------|------|
+| ----- | ---- |
 | **Sumneko Lua** | Runs **lua-language-server** for normal Lua in the editor. |
 | **Stationeers LSP** | TCP client to the game when `EnableLspServer` is on. |
 
-That stack is **desktop-only**. The in-game path uses **`LuaLanguageService` + optional `ExternalLuaLanguageServerPath`** instead of Sumneko.
+That stack is **desktop-only**. The in-game path uses **The internal mod language server + optional `ExternalLuaLanguageServerPath`** instead of Sumneko.
 
 ---
 
@@ -72,7 +75,7 @@ The **ScriptedScreens** repo’s **`lsp`** branch does not add a language server
 ## Mod config reference
 
 | Setting | Section | Purpose |
-|---------|---------|---------|
+| ------- | ------- | ------- |
 | `EnableLspServer` | `[MCP Server]` | TCP listener for **external** Stationeers LSP clients (VS Code). |
 | `LspPort` | `[MCP Server]` | TCP port (default **3031**). |
 | `ExternalLuaLanguageServerPath` | `[MCP Server]` | Full path to **lua-language-server** for **in-game** merged completions, signature help, hover fallback, diagnostics, semantic tokens; empty = off. |

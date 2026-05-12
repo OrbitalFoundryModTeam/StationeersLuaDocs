@@ -123,7 +123,7 @@ local info = ic.host_info()
 print(info.name)         -- "Hardsuit", "Circuit Housing", etc.
 print(info.ref_id)       -- host ReferenceId
 print(info.prefab_hash)  -- host prefab hash
-print(info.type)         -- "suit", "circuit_housing", "tablet", "device", or "unknown"
+print(info.type)         -- "suit", "scripted_visor", "circuit_housing", "tablet", "motherboard", "device", or "unknown"
 ```
 
 | Field         | Type           | Description                                            |
@@ -132,25 +132,29 @@ print(info.type)         -- "suit", "circuit_housing", "tablet", "device", or "u
 | `ref_id`      | number         | Host device ReferenceId                                |
 | `prefab_hash` | number         | Host device prefab hash                                |
 | `type`        | string         | Host category (see below)                              |
-| `wearer`      | string \| nil  | Player name (suits only; `nil` for all other hosts)    |
+| `wearer`      | string \| nil  | Player name for wearable hosts (`suit`, `scripted_visor`) |
+| `wearer_ref_id` | number \| nil | Wearer ReferenceId for wearable hosts                  |
+| `wearer_prefab_hash` | number \| nil | Wearer prefab hash for wearable hosts           |
 
 **Type values:**
 
 | Type              | Host device                                       |
 | ----------------- | ------------------------------------------------- |
 | `"suit"`          | EVA suit (HardSuit, SpaceSuit, etc.)               |
+| `"scripted_visor"` | ScriptedScreens programmable visor                 |
 | `"circuit_housing"` | Standard IC housing                              |
 | `"tablet"`        | Tablet                                             |
+| `"motherboard"`   | Standalone motherboard / circuitboard item          |
 | `"device"`        | Pipe device, machine, or other `Device` subclass   |
 | `"unknown"`       | Unrecognized host                                  |
 
 Lua chips in **pipe-style machine hosts** (for example filtration units, deep miners, dispersal towers — types using `DeviceInputOutputCircuit`) report `type` `"device"` and behave like other powered device hosts on their data network.
 
-For suits, the `wearer` field contains the display name of the player currently wearing the suit. This is particularly useful for multiplayer telemetry:
+For wearable hosts, the `wearer` field contains the display name of the player currently wearing the item. This is particularly useful for multiplayer telemetry:
 
 ```lua
 local info = ic.host_info()
-if info.type == "suit" and info.wearer then
+if (info.type == "suit" or info.type == "scripted_visor") and info.wearer then
     ic.net.publish("suit/telemetry", {
         player = info.wearer,
         pressure = ic.read(ic.const.BASE_UNIT_INDEX, LT.Pressure),
@@ -182,7 +186,7 @@ local ch0 = ic.read(ic.const.BASE_UNIT_INDEX, LT.Channel0, 0)
 | `device_list([net])`                       | table[]       | List all network devices                             |
 | `prefab_name(hash)`                        | string \| nil | Hash → prefab name                                   |
 | `namehash_name(devHash, nameHash [, net])` | string \| nil | Resolve nameHash                                     |
-| `ic.host_info()`                           | table         | Host device metadata (name, type, wearer for suits)  |
+| `ic.host_info()`                           | table         | Host device metadata (name, type, wearer for wearable hosts)  |
 | `raise_error(state)`                       | —             | Set the IC housing error state (1=error, 0=clear)    |
 | `clear_error()`                            | —             | Clear the IC housing error state                     |
 | `hcf()`                                    | —             | Halt and catch fire (stops the chip)                 |
