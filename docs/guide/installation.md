@@ -29,7 +29,7 @@ ScriptedScreens requires StationeersLua - it validates the version on load and w
 
 ## Optional: VS Code Extension
 
-For external editing, chip browsing, and debugger attach, install the **[StationeersLua VS Code extension](https://marketplace.visualstudio.com/items?itemName=OrbitalFoundryModdingCrew.stationeers-lua)** from the VS Code Marketplace.
+For external editing, chip browsing, and debugger attach, install the **StationeersLua VS Code extension** from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=OrbitalFoundryModdingCrew.stationeers-lua) or from [Open VSX](https://open-vsx.org/extension/OrbitalFoundryModdingCrew/stationeers-lua) (VSCodium and other Open VSX-based editors).
 
 For full Stationeers-specific code intelligence (enum completions, diagnostics, `require()` suggestions), enable `EnableLspServer = true` in the mod config under `[MCP Server]`. The extension connects to the mod's built-in LSP server alongside Sumneko Lua for a dual-LSP experience.
 
