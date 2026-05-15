@@ -58,6 +58,10 @@ end
 Best for **sequential logic** — airlock cycles, state machines, multi-step processes where the order of operations matters.
 :::
 
+::: tip Save/load with `serialize` / `deserialize`
+If you restore custom state from `deserialize(blob)`, do not branch on that state in module-level code before the loop — init runs **before** `deserialize`. Put post-load recovery at the top of the loop (after the first init `yield`) or in `tick()`. See [Load order](/guide/persistence#load-order).
+:::
+
 ## Pattern C: Hybrid
 
 You can combine both: module-level init code, a main coroutine that yields, *and* a `tick()` function. Both the resumed coroutine and `tick(dt)` can execute in the same tick.

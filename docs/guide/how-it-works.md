@@ -11,7 +11,8 @@ When code is saved (or the housing powers on), StationeersLua:
 1. Creates a fresh **Lua 5.2 VM** for the chip
 2. Opens sandboxed standard libraries (`math`, `string`, `table`, etc.)
 3. Injects the **`ic` API table** with all device functions, enums, and networking
-4. Runs your **module-level code** (everything outside `tick()`) with a budget of **500,000 bytecode instructions by default** (overridable with **`InitInstructionLimit`** in mod config **`[Lua VM]`** on the server/host)
+4. Runs your **module-level code** (everything outside `tick()`) with a budget of **500,000 bytecode instructions by default** (overridable with **`InitInstructionLimit`** in mod config **`[Lua VM]`** on the server/host). For `while true` scripts, init runs the loop until the first `yield()` or `sleep()`.
+5. On **world load**, if the chip has saved script state, calls **`deserialize(blob)`** after init completes. Module-level code that ran in step 4 cannot rely on values restored here. See [Save/Load Persistence — Load order](/guide/persistence#load-order).
 
 ```lua
 -- This code runs ONCE during initialization
@@ -19,7 +20,7 @@ local LT = ic.enums.LogicType
 local threshold = 25.0
 print("Script initialized!")  -- Printed once
 
--- tick() is called every game tick after init
+-- tick() is called every game tick after init (and after deserialize on load)
 function tick(dt)
     -- ...
 end
