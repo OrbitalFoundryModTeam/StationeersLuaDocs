@@ -65,7 +65,7 @@ IC10 assembly is powerful but painful at scale:
 
 ## Companion Mods
 
-**[ScriptedScreens](/guide/what-is-stationeers-lua#companion-mods)** - Build custom touchscreen UIs on computer consoles, tablets, and programmable visors. Buttons, sliders, charts, gauges, canvas drawing, games, media playback, and more - all driven by Lua scripts on ScriptedScreens boards and visor hosts.
+**[ScriptedScreens](https://orbitalfoundrymodteam.github.io/ScriptedScreensDocs/)** - Build custom touchscreen UIs on computer consoles, tablets, and programmable visors. Buttons, sliders, charts, gauges, canvas drawing, games, media playback, and more - all driven by Lua scripts on ScriptedScreens boards and visor hosts.
 
 ## Community
 
