@@ -8,7 +8,7 @@ The game automatically persists:
 
 So `mem_read`/`mem_write` values survive save/load with no extra work.
 
-Chip memory also survives **housing power off/on** when the chip stays in the housing (same as vanilla IC memory).
+Chip memory also survives **housing power off/on** when the chip stays in the housing (same as vanilla IC memory). This is separate from `ic.persist` - use chip memory for simple numeric values, `ic.persist` for strings and JSON blobs.
 
 ## What's NOT Automatic
 
@@ -16,7 +16,7 @@ Chip memory also survives **housing power off/on** when the chip stays in the ho
 
 ## Recommended: `ic.persist`
 
-Use the string key/value store for custom state. It survives **world save/load** and **housing power off/on** (when the script source hash still matches).
+Use the string key/value store for custom state. It survives **world save/load**, **IC housing power off/on** (chip stays in the housing), and **pulling the chip out and putting it back** (same source code). State is keyed by the chip itself, so it follows the chip if you move it to another housing or ScriptedScreens host.
 
 ```lua
 local function saveTable(key, tbl)

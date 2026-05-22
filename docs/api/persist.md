@@ -1,6 +1,6 @@
 # `ic.persist` — Save/Load & Power Cycle
 
-String key/value store for custom chip state. Survives **world save/load** and **housing power off/on** when the script source hash still matches.
+String key/value store for custom chip state. Survives **world save/load**, **IC housing power off/on** (chip stays in the housing), and **chip pull/reinsert** when the script source hash still matches. Works on vanilla IC housings and on ScriptedScreens hosts (console board, tablet cartridge, programmable visor).
 
 Legacy global `serialize()` / `deserialize(blob)` still work but are deprecated; new scripts should use `ic.persist`.
 

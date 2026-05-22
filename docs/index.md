@@ -39,7 +39,7 @@ features:
     details: Built-in Model Context Protocol server lets AI-aware editors discover chips, read/write code, and drive the debugger.
   - icon: 💾
     title: Save/Load Persistence
-    details: Chip memory persists automatically. Use ic.persist for custom string state across saves and housing power cycles.
+    details: Chip memory persists automatically. Use ic.persist for custom string state across saves, housing power cycles, and chip pull/reinsert.
   - icon: 🎮
     title: ScriptedScreens Integration
     details: Build custom touchscreen UIs on computer consoles with the companion ScriptedScreens mod — buttons, charts, gauges, and more.
