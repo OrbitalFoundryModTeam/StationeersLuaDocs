@@ -58,8 +58,8 @@ end
 Best for **sequential logic** — airlock cycles, state machines, multi-step processes where the order of operations matters.
 :::
 
-::: tip Save/load with `serialize` / `deserialize`
-If you restore custom state from `deserialize(blob)`, do not branch on that state in module-level code before the loop — init runs **before** `deserialize`. Put post-load recovery at the top of the loop (after the first init `yield`) or in `tick()`. See [Load order](/guide/persistence#load-order).
+::: tip Save/load with `ic.persist`
+Persisted keys are hydrated **before** init, so you can read `ic.persist.get` at module level. Legacy `deserialize(blob)` still runs **after** init — do not rely on it in module-level code before the loop. See [Load order](/guide/persistence#load-order).
 :::
 
 ## Pattern C: Hybrid

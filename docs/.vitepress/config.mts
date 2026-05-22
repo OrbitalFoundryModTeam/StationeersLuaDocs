@@ -69,6 +69,7 @@ export default defineConfig({
             { text: 'Batch Operations', link: '/api/batch' },
             { text: 'Slots & Reagents', link: '/api/slots-reagents' },
             { text: 'Memory & Stack', link: '/api/memory-stack' },
+            { text: 'Persistence', link: '/api/persist' },
             { text: 'Bitwise Operations', link: '/api/bitwise' },
             { text: 'String & Hash', link: '/api/string-hash' },
           ]

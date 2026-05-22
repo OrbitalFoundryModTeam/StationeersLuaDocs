@@ -13,12 +13,24 @@ In the **StationeersLua** mod configuration (BepInEx / in-game mod panel), categ
 
 | Setting | Default | Notes |
 |---|---|---|
-| `InitInstructionLimit` | `500000` | Startup budget (module-level code, first resume, serialize/deserialize hooks) |
+| `InitInstructionLimit` | `500000` | Startup budget (module-level code, first resume, legacy serialize/deserialize hooks) |
 | `TickInstructionLimit` | `50000` | Per game tick, per chip |
 
 Values are clamped between **1,000** and **100,000,000**. Only the **simulation host** runs Lua chips (dedicated server or session host), so in multiplayer these settings apply from the host or server config, not from joining clients.
 
 Exceeding limits triggers a runtime error on the chip (red light on the housing).
+
+## `ic.persist` size limits
+
+Category **`[Lua Persist]`** in the same mod configuration panel:
+
+| Setting | Default | Range |
+|---|---|---|
+| `MaxKeyLength` | `128` | 1 - 4096 |
+| `MaxValueLength` | `8192` | 1 - 1,048,576 |
+| `MaxTotalBytes` | `32768` | 256 - 4,194,304 |
+
+Server-authoritative (same host rule as instruction limits). See [Save/Load Persistence](/guide/persistence).
 
 ## Available Libraries
 

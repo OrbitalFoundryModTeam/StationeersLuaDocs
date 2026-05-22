@@ -18,7 +18,7 @@ mem_clear()
 > **Housing LED note:** `mem_read`, `mem_write`, and `mem_clear` flash the IC housing memory light, matching the memory-style operations players expect from vanilla.
 
 ::: tip
-Chip memory is the easiest way to persist simple values across save/load — no `serialize`/`deserialize` needed.
+Chip memory is the easiest way to persist simple values across save/load — no `ic.persist` needed. For tables or strings, use [`ic.persist`](/api/persist).
 :::
 
 ## External Device Memory
