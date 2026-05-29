@@ -18,10 +18,11 @@ The extension depends on the [Lua Language Server](https://marketplace.visualstu
 4. Run **StationeersLua: Connect to Game Server** from the command palette
 5. Ensure the game exposes chips to the bridge:
    - **Wired:** open the in-game IC editor on a computer and select a chip, **or**
-   - **Wireless:** equip a suit with the **Wireless Development Board** connected to a network, with `AllowNetworkChipAccess` enabled in the StationeersLua config (see the [Wireless Development Board](./wireless-dev-board.md) guide)
+   - **Wireless:** equip a suit with the **Wireless Development Board** connected to a network, with `AllowNetworkChipAccess` enabled (see [Wireless Development Board](./wireless-dev-board.md)), **or**
+   - **PAN:** wear a **Suit Networking Module** or dev board with `AllowPersonalAreaNetworkChipAccess` enabled (see [Suit Networking Module](./suit-networking-module.md))
 6. Use the **Chips** sidebar to browse and open chips
 
-You do **not** need the IC editor open when wireless remote access alone is enough — the explorer lists every chip the server reports as accessible.
+You do **not** need the IC editor open when wireless or PAN remote access alone is enough — the explorer lists every chip the game reports as accessible for your player.
 
 ## Chip Explorer
 
@@ -105,7 +106,9 @@ Debugging is **Lua chips only** — IC10 chips can be opened and exported but no
 
 ### Multiplayer
 
-In multiplayer, debug sessions are proxied through the mod's network layer. VS Code connects to your local game client, which routes debug traffic to the authoritative server over mod network messages. This requires `AllowMultiplayerDebugProxy` to be enabled on the server.
+Your extension always connects to the **local** HTTP listener in your game client (`EnableExtensionApi` on that machine). On a dedicated server or when you are a pure client, chip list, code export, and editor state are executed on the **server** via the mod proxy; the server applies the same access rules as single-player (editor, wireless board, PAN module, config toggles).
+
+Debugging requires `AllowMultiplayerDebugProxy` on the server. VS Code still attaches through your local client; debug commands are proxied to the server and attributed to your player connection.
 
 ## IntelliSense & Language Server
 

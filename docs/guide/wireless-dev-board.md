@@ -25,7 +25,7 @@ For full compile and runtime error diagnostics over wireless, install a **Lua De
 
 ## Board Controls
 
-The board has three interactions (accessible from your suit inventory):
+The board has three interactions (accessible from your suit inventory). In multiplayer, the server applies connect, disconnect, and mesh changes only when the request comes from the player **wearing** that board.
 
 | Control | Description |
 |---|---|

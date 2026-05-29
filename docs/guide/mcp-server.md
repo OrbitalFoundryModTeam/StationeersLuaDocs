@@ -119,12 +119,24 @@ All settings live in the StationeersLua config file under `[MCP Server]`. The LS
 | `Port`                                        | `3030`  | Shared HTTP listener port for both surfaces                                                                                                                                                                                                  |
 | `BindAddress`                                 | `127.0.0.1` | Bind address for the HTTP listener. Use `AllowRemoteConnections` instead of changing this to `0.0.0.0`                                                                                                                                   |
 | `AllowRemoteConnections`                      | `false` | Bind to all interfaces instead of localhost only                                                                                                                                                                                             |
+| `AllowedBrowserOrigins`                       | *(empty)* | Comma-separated browser `Origin` values that may call the HTTP listener (e.g. `https://my-tool.example`). When empty, requests that include an `Origin` header are rejected. Desktop MCP clients and the VS Code extension do not send `Origin` and are not affected. |
+| `AllowPersonalAreaNetworkChipAccess`          | `false` | When `true`, MCP and the VS Code extension can list and edit Lua chips on your **worn PAN gear** (suit networking module or dev board) without the IC editor or a wireless data link. See [Suit Networking Module](./suit-networking-module.md). |
 | `AllowNetworkChipAccess`                      | `false` | Master toggle for network-wide chip access. When disabled, both MCP and the VS Code extension stay single-chip scoped.                                                                                                                       |
 | `AllowNetworkChipAccessOnlyForWirelessBoards` | `true`  | When network access is enabled, keep the normal IC editor single-chip scoped and allow only the Wireless Development Board to expose full network scope. Set to `false` to let the normal wired IC editor expose its whole data network too. |
 | `AllowMultiplayerDebugProxy`                  | `false` | Allow multiplayer clients to proxy VS Code debugger traffic to the authoritative server over in-game mod network messages                                                                                                                    |
 | `EnableExperimentalDebugger`                  | `false` | **[Experimental]** Enable the VS Code DAP debugger integration. When disabled, debug session endpoints and MCP debug tools are unavailable, and the VS Code extension hides the Debug button in the Chip Explorer                            |
 
 The HTTP listener only starts if at least one of `Enabled` or `EnableExtensionApi` is `true`.
+
+### Local HTTP listener
+
+The listener has **no login or API key**. Access control is environmental:
+
+- **Binding** — By default the listener binds to loopback (`127.0.0.1` / `localhost`). Only processes on the same machine can reach it unless you set `AllowRemoteConnections = true`, which binds all interfaces (`0.0.0.0`) for LAN use.
+- **Browser traffic** — Web pages send an `Origin` header. Only origins listed in `AllowedBrowserOrigins` are accepted; an empty list rejects all browser-origin calls. This prevents arbitrary sites from using your browser to call `http://localhost:3030` while you play.
+- **Host header** — When bound locally, requests whose `Host` is not a loopback name or address are rejected (DNS-rebinding mitigation). This check is skipped when `AllowRemoteConnections` is enabled.
+
+Treat `AllowRemoteConnections` as exposing read/write chip access on your LAN to anyone who can reach the port.
 
 ### Network Access Mode Defaults
 
@@ -133,8 +145,14 @@ The HTTP listener only starts if at least one of `Enabled` or `EnableExtensionAp
 - If you want the older behavior where opening a normal IC editor also exposes the whole wired data network, set `AllowNetworkChipAccessOnlyForWirelessBoards = false`.
 
 ::: warning Dedicated Servers
-Dedicated servers **never** start the local HTTP listener. In multiplayer, the listener runs in each non-dedicated game client. The VS Code debugger's multiplayer path proxies debug traffic to the authoritative server over in-game mod network messages — it does not expose the HTTP listener remotely.
+Dedicated servers **never** start the local HTTP listener. In multiplayer, the listener runs in each non-dedicated game client. MCP and REST calls from your machine are forwarded to the **authoritative server** over in-game mod messages; the dedicated server does not open port 3030.
 :::
+
+### Multiplayer scope
+
+On a multiplayer client, the server decides which chips and networks each proxy request may touch. Scope comes from your in-game state (IC editor selection, worn wireless or PAN modules, held laptop, and the relevant config toggles), not from chip lists you send in the request envelope.
+
+The VS Code debugger uses the same model: your client talks to its local listener, and debug traffic is proxied to the server when `AllowMultiplayerDebugProxy` is enabled. Debug session ownership is tied to your connection on the server.
 
 ## Wireless Development Board & IC Editor Integration
 
@@ -157,6 +175,13 @@ When the suit **Wireless Development Board** supplies MCP/REST scope but **no** 
 - `selected_chip_ref_id`, `selected_housing_ref_id`, and `selected_housing_name` are unset (`null`) in that mode. Use `network_id`, `network_ids`, and `network_names` for where you are connected.
 
 When a normal IC editor is open, `wireless_remote_access_only` is `false` and the holder fields describe the dropdown-selected chip’s holder as usual. Wired plus wireless scope can be merged when both are active and config allows it.
+
+When scope comes from a worn **Suit Networking Module** or dev-board **PAN** only (`AllowPersonalAreaNetworkChipAccess`), the response includes:
+
+- `pan_remote_access_only`: `true` — worn PAN gear only, not a remote data network.
+- `personal_area_network_name` — display label for the PAN group (for example `YourName (PAN)`).
+
+PAN and wireless-remote modes can both be active; check both flags and `network_ids` / `network_names` together.
 
 ## In-Game Lua Reference Panel
 

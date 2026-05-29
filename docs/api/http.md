@@ -79,6 +79,16 @@ HTTP limits are configurable by the server admin.
 | `MaxCustomHeaders` | `8` | Maximum custom headers per request |
 | `MaxUrlLength` | `2048` | Maximum URL length |
 
+## URL requirements
+
+When `AllowHttp` is enabled:
+
+- URLs must use **`http://`** or **`https://`** (other schemes are rejected).
+- The host must not be **`localhost`**, a **loopback IP** (`127.0.0.0/8`, `::1`), or a **link-local** address (including `169.254.169.254`). Requests to those hosts fail at enqueue time with an error string from `ic.http.poll()`.
+- **Private LAN** addresses (RFC1918) are allowed so scripts can reach devices on your base network.
+
+Hostname-only URLs that resolve to blocked ranges are not checked at enqueue time; use literal IPs or public hostnames when you need predictable behavior.
+
 ## Tips
 
 - Keep request/response bodies small

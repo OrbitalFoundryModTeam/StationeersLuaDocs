@@ -40,7 +40,9 @@ The laptop must stay in your hand (dropped laptops do not keep PAN entries). Rem
 
 With **`AllowPersonalAreaNetworkChipAccess`** enabled in the StationeersLua BepInEx config (`[MCP Server]` section), MCP and the VS Code extension can list and edit Lua chips on your **worn PAN gear** without opening the IC editor and without a wireless data access point link. This is separate from **`AllowNetworkChipAccess`** (remote wireless data network via the dev board).
 
-`get_editor_state` reports **`pan_remote_access_only`** when scope comes from the suit module alone. Chips appear under **`personal_area_network_name`** (for example `YourName (PAN)`).
+`get_editor_state` reports **`pan_remote_access_only`** when scope comes from the suit module alone. Chips appear under **`personal_area_network_name`** (for example `YourName (PAN)`). In multiplayer, the server builds that chip list from your worn gear; other players cannot widen your MCP or VS Code scope by ID spoofing.
+
+See [MCP Server](./mcp-server.md) for `AllowedBrowserOrigins`, multiplayer proxy behavior, and the full `[MCP Server]` config table.
 
 ## Example (visor reading suit data)
 
