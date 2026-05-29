@@ -84,8 +84,14 @@ HTTP limits are configurable by the server admin.
 When `AllowHttp` is enabled:
 
 - URLs must use **`http://`** or **`https://`** (other schemes are rejected).
-- The host must not be **`localhost`**, a **loopback IP** (`127.0.0.0/8`, `::1`), or a **link-local** address (including `169.254.169.254`). Requests to those hosts fail at enqueue time with an error string from `ic.http.poll()`.
+- **`localhost`** and **loopback** IPs (`127.0.0.0/8`, `::1`) are blocked unless **`[Features] AllowHttpLocalhost`** is `true` on the host or dedicated server (typical for single-player or local tools on the same machine).
+- **Link-local** addresses (including `169.254.169.254`) are always blocked.
 - **Private LAN** addresses (RFC1918) are allowed so scripts can reach devices on your base network.
+
+| Setting | Default | Description |
+|---|---|---|
+| `AllowHttp` | `false` | Master toggle for `ic.http` |
+| `AllowHttpLocalhost` | `false` | When `AllowHttp` is true, also permit localhost and loopback URLs |
 
 Hostname-only URLs that resolve to blocked ranges are not checked at enqueue time; use literal IPs or public hostnames when you need predictable behavior.
 
