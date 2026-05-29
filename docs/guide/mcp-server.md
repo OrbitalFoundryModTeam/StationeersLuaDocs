@@ -83,6 +83,7 @@ The server exposes the following resources that AI editors can read for context:
 | `stationeers://lua/api/memory`  | Chip memory API reference                    |
 | `stationeers://lua/api/network` | Inter-chip networking API reference          |
 | `stationeers://lua/api/http`    | HTTP request API reference                   |
+| `stationeers://lua/api/timer`   | Timer / scheduler API (`ic.timer`)           |
 | `stationeers://lua/api/utility` | Utility functions reference                  |
 | `stationeers://lua/api/events`  | Event system reference                       |
 | `stationeers://lua/api/library` | Library chip / `require()` reference         |
@@ -194,4 +195,4 @@ The IC10 editor's built-in help buttons (**f**, **x**, **s(x)**) are replaced wi
 
 When ScriptedScreens is also installed, its API sections (surface, element, canvas, layout, etc.) are appended to the panel automatically via cross-mod reflection.
 
-Reference data is shipped as bilingual embedded XML assets (`LuaReference_EN.xml`, `LuaReference_RU.xml`) and loaded based on the game's current language.
+Reference data is shipped as multilingual embedded XML assets (`LuaReference_EN.xml`, `LuaReference_RU.xml`, `LuaReference_FR.xml`, `LuaReference_DE.xml`) and loaded based on the game's current language (falls back to EN).

@@ -32,9 +32,10 @@ Every game tick (~0.5 seconds), the runtime performs these steps **in order**:
 
 1. **Network messages** — Incoming messages from other Lua chips are delivered to handlers
 2. **Events** — Registered event handlers are dispatched
-3. **User coroutines** — Any user-created coroutines that called `sleep()`/`yield()` and whose timers have expired are resumed
-4. **Main coroutine** — If the script used `sleep()` or `yield()`, the coroutine is resumed
-5. **`tick(dt)`** — If a global `tick` function is defined, it's called with the delta time
+3. **Scheduled timers** — `ic.timer.every` and `ic.timer.cron` callbacks run here (after events, before coroutine resume)
+4. **User coroutines** — Any user-created coroutines that called `sleep()`/`yield()` and whose timers have expired are resumed (`ic.timer.in_seconds` uses this path)
+5. **Main coroutine** — If the script used `sleep()` or `yield()`, the coroutine is resumed
+6. **`tick(dt)`** — If a global `tick` function is defined, it's called with the delta time
 
 Each tick has a budget of **50,000 bytecode instructions by default** (overridable with **`TickInstructionLimit`** in **`[Lua VM]`** on the server/host). See [Sandbox & Limits](/guide/sandbox) for the full table and clamp rules.
 

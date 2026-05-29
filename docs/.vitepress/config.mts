@@ -90,6 +90,7 @@ export default defineConfig({
             { text: 'Time', link: '/api/time' },
             { text: 'JSON', link: '/api/json' },
             { text: 'HTTP', link: '/api/http' },
+            { text: 'Timer', link: '/api/timer' },
             { text: 'Events', link: '/api/events' },
           ]
         },
