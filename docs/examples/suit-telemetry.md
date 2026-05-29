@@ -4,7 +4,7 @@ A multiplayer suit monitoring system where each player's EVA suit chip broadcast
 
 ## Suit Chip (Publisher)
 
-Install this on a Lua chip inside each player's suit. Requires a Wireless Development Board connected to a shared omni transmitter network.
+Install this on a Lua chip inside each player's suit. Requires a Wireless Development Board connected to a shared wireless data access point network.
 
 ```lua
 local LT   = ic.enums.LogicType
@@ -146,7 +146,7 @@ end
 ## Setup
 
 1. Install a Lua chip in each player's suit with the publisher script
-2. Install a Wireless Development Board in each suit, connected to a shared omni transmitter network
+2. Install a Wireless Development Board in each suit, connected to a shared wireless data access point network
 3. Place a ScriptedScreens console on the same data network
 4. Load the subscriber script onto the console
 
