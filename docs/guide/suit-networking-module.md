@@ -46,7 +46,9 @@ See [MCP Server](./mcp-server.md) for `AllowedBrowserOrigins`, multiplayer proxy
 
 ## Example (visor reading suit data)
 
-With the networking module in your suit and a Lua visor equipped:
+With the networking module in your suit and a Lua visor equipped, load **`ScriptedScreens/Examples/VisorHudSuitPan.lua`** on the visor chip for a draggable HUD panel (O2, internal/external pressure, ambient temp, filtration) that refreshes over PAN.
+
+Minimal probe:
 
 ```lua
 local list = ic.device_list()
