@@ -28,7 +28,7 @@ IC10 assembly is powerful but painful at scale:
 - **Library Chips** — Write reusable modules loaded via `require()` across the data network
 - **Event System** — Register handlers for game and mod events
 - **VS Code Debugger** — Attach breakpoints, step execution, inspect stack/scopes/variables, and view runtime output externally
-- **Wireless Development Access** — Reach remote data networks through the wearable wireless development board on supported suits
+- **Wireless Development Access** — Reach remote data networks through the wearable wireless development board on supported suits (and Survival Toolbelt chips on the same player)
 - **Save/Load Persistence** — `ic.persist` string KV (save/load and housing power cycles); legacy `serialize()`/`deserialize()` still supported
 - **Instruction Limits** — Built-in safety limits prevent infinite loops (defaults configurable on the server/host under mod config **`[Lua VM]`**; see [Sandbox & Limits](/guide/sandbox))
 - **Multiplayer Compatible** — Fully synced across all connected clients

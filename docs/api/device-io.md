@@ -123,7 +123,7 @@ local info = ic.host_info()
 print(info.name)         -- "Hardsuit", "Circuit Housing", etc.
 print(info.ref_id)       -- host ReferenceId
 print(info.prefab_hash)  -- host prefab hash
-print(info.type)         -- "suit", "scripted_visor", "circuit_housing", "tablet", "motherboard", "device", or "unknown"
+print(info.type)         -- "suit", "toolbelt", "scripted_visor", "circuit_housing", "tablet", "motherboard", "device", or "unknown"
 ```
 
 | Field         | Type           | Description                                            |
@@ -132,7 +132,7 @@ print(info.type)         -- "suit", "scripted_visor", "circuit_housing", "tablet
 | `ref_id`      | number         | Host device ReferenceId                                |
 | `prefab_hash` | number         | Host device prefab hash                                |
 | `type`        | string         | Host category (see below)                              |
-| `wearer`      | string \| nil  | Player name for wearable hosts (`suit`, `scripted_visor`) |
+| `wearer`      | string \| nil  | Player name for wearable hosts (`suit`, `toolbelt`, `scripted_visor`) |
 | `wearer_ref_id` | number \| nil | Wearer ReferenceId for wearable hosts                  |
 | `wearer_prefab_hash` | number \| nil | Wearer prefab hash for wearable hosts           |
 
@@ -141,6 +141,7 @@ print(info.type)         -- "suit", "scripted_visor", "circuit_housing", "tablet
 | Type              | Host device                                       |
 | ----------------- | ------------------------------------------------- |
 | `"suit"`          | EVA suit (HardSuit, SpaceSuit, etc.)               |
+| `"toolbelt"`      | Survival Toolbelt                                  |
 | `"scripted_visor"` | ScriptedScreens programmable visor                 |
 | `"circuit_housing"` | Standard IC housing                              |
 | `"tablet"`        | Tablet                                             |
@@ -154,13 +155,15 @@ For wearable hosts, the `wearer` field contains the display name of the player c
 
 ```lua
 local info = ic.host_info()
-if (info.type == "suit" or info.type == "scripted_visor") and info.wearer then
+if (info.type == "suit" or info.type == "toolbelt" or info.type == "scripted_visor") and info.wearer then
     ic.net.publish("suit/telemetry", {
         player = info.wearer,
         pressure = ic.read(ic.const.BASE_UNIT_INDEX, LT.Pressure),
     }, { retain = true, ttl = 30 })
 end
 ```
+
+**Survival Toolbelt (Sanitation Update):** chips in the belt's IC slot report `type = "toolbelt"`. While worn, `SELF` reads include wearer `HealthDamage`, `StunDamage`, and `EntityState`. The belt can address its own internal slots (like the Advanced Tablet) — use `ic.device_name(pin)` and `ic.write(pin, LT.Activate, 1)` to fire Auto-Injectors in the belt's injector slots. Mod examples: `SurvivalToolbeltChip.lua`, `SurvivalBeltAutoInjector.lua`.
 
 ## Network Index
 
