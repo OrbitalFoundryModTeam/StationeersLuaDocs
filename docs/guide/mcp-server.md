@@ -119,12 +119,15 @@ All settings live in the StationeersLua config file under `[MCP Server]`. The LS
 | `Port`                                        | `3030`  | Shared HTTP listener port for both surfaces                                                                                                                                                                                                  |
 | `BindAddress`                                 | `127.0.0.1` | Bind address for the HTTP listener. Use `AllowRemoteConnections` instead of changing this to `0.0.0.0`                                                                                                                                   |
 | `AllowRemoteConnections`                      | `false` | Bind to all interfaces instead of localhost only                                                                                                                                                                                             |
+| `AllowedBrowserOrigins`                       | `` (empty) | Comma-separated allowlist of browser `Origin` values permitted to call the listener. Empty blocks all browser origins (anti CSRF / DNS-rebinding). Native MCP/REST clients send no `Origin` and are unaffected. |
 | `AllowNetworkChipAccess`                      | `false` | Master toggle for network-wide chip access. When disabled, both MCP and the VS Code extension stay single-chip scoped.                                                                                                                       |
 | `AllowNetworkChipAccessOnlyForWirelessBoards` | `true`  | When network access is enabled, keep the normal IC editor single-chip scoped and allow only the Wireless Development Board to expose full network scope. Set to `false` to let the normal wired IC editor expose its whole data network too. |
 | `AllowMultiplayerDebugProxy`                  | `false` | Allow multiplayer clients to proxy VS Code debugger traffic to the authoritative server over in-game mod network messages                                                                                                                    |
 | `EnableExperimentalDebugger`                  | `false` | **[Experimental]** Enable the VS Code DAP debugger integration. When disabled, debug session endpoints and MCP debug tools are unavailable, and the VS Code extension hides the Debug button in the Chip Explorer                            |
 
 The HTTP listener only starts if at least one of `Enabled` or `EnableExtensionApi` is `true`.
+
+The listener also validates the HTTP `Host` header and rejects browser requests whose `Origin` is not listed in `AllowedBrowserOrigins`. CORS responses no longer use a wildcard.
 
 ### Network Access Mode Defaults
 

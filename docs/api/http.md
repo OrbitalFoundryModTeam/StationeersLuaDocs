@@ -3,8 +3,17 @@
 StationeersLua can make outbound HTTP requests through the `ic.http` namespace when the server enables it.
 
 ::: warning Server-Gated Feature
-`ic.http` is disabled by default. The server admin must enable `AllowHttp` before requests will succeed.
+`ic.http` is disabled by default. The server admin must enable `AllowHttp` in the `[Features]` section before requests will succeed.
 :::
+
+## Server configuration
+
+| Setting | Default | Description |
+|---|---|---|
+| `AllowHttp` | `false` | Master toggle for outbound HTTP from Lua chips |
+| `AllowHttpLocalhost` | `false` | When `AllowHttp` is on, permits `localhost` and loopback literal URLs. Link-local addresses stay blocked even when this is enabled |
+
+When `AllowHttp` is enabled, the mod blocks loopback and link-local literal URLs by default (SSRF guard). Set `AllowHttpLocalhost = true` only when you deliberately need chips to call services on the same machine (for example a local API on `127.0.0.1`).
 
 ## Request Flow
 
