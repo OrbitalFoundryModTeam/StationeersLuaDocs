@@ -36,6 +36,19 @@ ic.net.unregister("get_status")
 while true do yield() end
 ```
 
+### Handlers with `yield()` or `sleep()`
+
+RPC handlers may call `yield()` or `sleep()` before returning. The runtime resumes the handler through the RPC machinery only (not the generic user-coroutine scheduler), honors the sleep duration, and delivers the handler's return value or error to the caller when the handler finishes.
+
+```lua
+ic.net.register("slow_status", function(payload, fromId, fromName)
+    sleep(2)  -- pause inside the handler; caller waits until this completes or times out
+    return { ok = true, from = fromName }
+end)
+```
+
+If the handler throws (including after a `yield()` or `sleep()`), the caller receives `ok = false` and `err` contains the message.
+
 ## Client Side — Call Methods
 
 ```lua
@@ -69,6 +82,7 @@ while true do yield() end
 |---|---|
 | Method name max | 64 characters |
 | Timeout | Default 10s, max 120s |
+| Handler pauses | `yield()` and `sleep()` are allowed; return value and errors reach the caller when the handler completes |
 | Error handling | If handler throws, `ok = false` and `err` contains the message |
 | Timed-out requests | Silently expired (no callback) |
 

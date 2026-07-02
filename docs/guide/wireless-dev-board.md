@@ -59,17 +59,19 @@ When mesh is disabled, the board stays locked to the specific access point you s
 Dedicated servers do not expose the HTTP/MCP listener directly. In multiplayer, a client can use its own local StationeersLua bridge while the game routes debug traffic to the server over mod network messages.
 :::
 
-## Suit Chip Scripting
+## Suit and Toolbelt Chip Scripting
 
-Lua chips installed directly in a suit run automatically while the suit has battery power and the player is wearing it. If a Wireless Development Board is also installed, the chip gains full network access (read/write devices, pub/sub, RPC).
+Lua chips installed directly in a **suit** run automatically while the suit has battery power and the player is wearing it. If a Wireless Development Board is also installed in that suit, the chip gains full network access (read/write devices, pub/sub, RPC).
 
 When **either** the wireless development board **or** the suit networking module is in the suit module slot, worn Lua hosts also gain **personal area network** access to other top-level equipped gear via `device_list` / `read_id` / `write_id`. See [Suit Networking Module](suit-networking-module.md).
 
-See the `SuitTelemetry.lua` and `SuitDashboard.lua` examples for a complete per-player telemetry system using pub/sub.
+Lua chips in the **Survival Toolbelt** run while the belt has battery charge. If the same player wears a suit with a connected Wireless Development Board, the **belt chip shares that suit board's wireless network** the same way a suit chip does.
+
+See `SuitTelemetry.lua` in the mod for suit pub/sub telemetry. For the Survival Toolbelt, see `SurvivalToolbeltChip.lua` and `SurvivalBeltAutoInjector.lua` (`ic.host_info().type == "toolbelt"`; Auto-Injectors via `ic.write(pin, LT.Activate, 1)` on the belt's own slot pins).
 
 ## Scripting API (`ic.wireless`)
 
-Suit chips and wireless tablet cartridges can programmatically control their wireless connection via the `ic.wireless` table:
+Suit chips, **Survival Toolbelt** chips (via the wearer's suit board), and wireless tablet cartridges can programmatically control their wireless connection via the `ic.wireless` table:
 
 | Function | Description |
 |---|---|
