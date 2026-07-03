@@ -64,11 +64,6 @@ That stack is **desktop-only**. The in-game path uses **The internal mod languag
 
 Run **lua-language-server** from upstream and point your editor at it. Add Stationeers API stubs with **`workspace.library`** pointing at the **`library/`** folder shipped inside the **Stationeers Lua VS Code extension** install ([VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=OrbitalFoundryModdingCrew.stationeers-lua) · [Open VSX](https://open-vsx.org/extension/OrbitalFoundryModdingCrew/stationeers-lua)) (on disk, under your editor’s extensions directory, for example `%USERPROFILE%\.vscode\extensions\orbitalfoundrymoddingcrew.stationeers-lua-*\library\` on Windows, or the same path under **`.cursor\extensions\`** if you use Cursor). If your checkout includes the extension sources next to these docs, the stubs live at **`StationeersLua-VSCode/library/`**. Attaching **also** to the game’s Stationeers TCP LSP depends on your editor supporting two Lua LSP clients.
 
----
-
-## ScriptedScreens git branch `lsp`
-
-The **ScriptedScreens** repo’s **`lsp`** branch does not add a language server; **`scriptedvisor`** supersedes it.
 
 ---
 
