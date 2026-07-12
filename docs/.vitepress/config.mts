@@ -56,6 +56,7 @@ export default defineConfig({
             { text: 'Debugging', link: '/guide/debugging' },
             { text: 'Wireless Development Board', link: '/guide/wireless-dev-board' },
             { text: 'MCP Server & Reference Panel', link: '/guide/mcp-server' },
+            { text: 'Extension REST API (Swagger)', link: '/guide/extension-rest-api' },
             { text: 'Error Handling', link: '/guide/error-handling' },
             { text: 'Migrating from IC10', link: '/guide/migrating-from-ic10' },
           ]

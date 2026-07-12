@@ -1,0 +1,1050 @@
+openapi: 3.0.3
+info:
+  title: StationeersLua Extension REST API
+  version: 1.0.0
+  description: |
+    HTTP REST surface used by the **StationeersLua VS Code extension** for chip discovery,
+    code sync, and experimental debugging. Runs inside the game client on the same port as
+    the MCP JSON-RPC server (default **3030**).
+
+    **Enable in-game:** BepInEx config section `[MCP Server]` → `EnableExtensionApi = true`.
+
+    **Not the in-game Lua `ic.http` client API** — see the [HTTP API reference](/StationeersLuaDocs/api/http)
+    for chip-side outbound HTTP.
+
+    Reference documentation only. The VS Code extension is the supported client for live requests.
+
+tags:
+  - name: Status
+    description: Server health
+  - name: Editor
+    description: In-game IC editor state and draft code
+  - name: Chips
+    description: Programmable chip listing, source, and errors
+  - name: Debug
+    description: Experimental VS Code debugger bridge (requires EnableExperimentalDebugger)
+
+paths:
+  /api/status:
+    get:
+      tags: [Status]
+      summary: Server health and version
+      operationId: getStatus
+      responses:
+        '200':
+          description: Server is reachable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerStatus'
+
+  /api/editor:
+    get:
+      tags: [Editor]
+      summary: Current editor selection and network scope
+      operationId: getEditorState
+      responses:
+        '200':
+          description: Editor context
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditorState'
+        '403':
+          $ref: '#/components/responses/ExtensionApiDisabled'
+
+  /api/editor/code:
+    get:
+      tags: [Editor]
+      summary: Read IC editor draft code
+      description: Returns the live editor draft, not necessarily the compiled chip source.
+      operationId: getEditorCode
+      parameters:
+        - $ref: '#/components/parameters/refIdQuery'
+      responses:
+        '200':
+          description: Editor draft
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditorCode'
+        '400':
+          $ref: '#/components/responses/BridgeError'
+        '403':
+          $ref: '#/components/responses/ExtensionApiDisabled'
+    put:
+      tags: [Editor]
+      summary: Update IC editor draft code
+      description: Updates the in-game editor display only. Does not compile or export to the chip.
+      operationId: setEditorCode
+      parameters:
+        - $ref: '#/components/parameters/refIdQuery'
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              description: Raw Lua source
+      responses:
+        '200':
+          description: Draft updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetEditorCodeResponse'
+        '400':
+          $ref: '#/components/responses/BridgeError'
+        '403':
+          $ref: '#/components/responses/ExtensionApiDisabled'
+
+  /api/chips:
+    get:
+      tags: [Chips]
+      summary: List accessible programmable chips
+      description: Scoped to the current editor / data-network context.
+      operationId: listChips
+      responses:
+        '200':
+          description: Chip list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChipInfo'
+        '403':
+          $ref: '#/components/responses/ExtensionApiDisabled'
+
+  /api/chips/{refId}/code:
+    get:
+      tags: [Chips]
+      summary: Read chip source code
+      operationId: getChipCode
+      parameters:
+        - $ref: '#/components/parameters/refIdPath'
+      responses:
+        '200':
+          description: Chip source
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChipCode'
+        '400':
+          $ref: '#/components/responses/BridgeError'
+        '403':
+          $ref: '#/components/responses/ExtensionApiDisabled'
+    put:
+      tags: [Chips]
+      summary: Write chip source code
+      description: |
+        Body is raw Lua source (not JSON). Compiles and exports to the chip immediately
+        unless `mode` selects editor-only staging.
+      operationId: setChipCode
+      parameters:
+        - $ref: '#/components/parameters/refIdPath'
+        - name: mode
+          in: query
+          schema:
+            type: string
+            enum: [chip, editor_only, editor_then_chip]
+            default: chip
+          description: |
+            `chip` (default) — compile and export directly.
+            `editor_only` — update editor draft only.
+            `editor_then_chip` — update editor then export.
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Source written
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetChipCodeResponse'
+        '400':
+          $ref: '#/components/responses/BridgeError'
+        '403':
+          $ref: '#/components/responses/ExtensionApiDisabled'
+
+  /api/chips/{refId}/errors:
+    get:
+      tags: [Chips]
+      summary: Read chip compile/runtime errors
+      operationId: getChipErrors
+      parameters:
+        - $ref: '#/components/parameters/refIdPath'
+      responses:
+        '200':
+          description: Error details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChipErrors'
+        '400':
+          $ref: '#/components/responses/BridgeError'
+        '403':
+          $ref: '#/components/responses/ExtensionApiDisabled'
+
+  /api/debug/session:
+    post:
+      tags: [Debug]
+      summary: Create debugger session
+      operationId: createDebugSession
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ref_id]
+              properties:
+                ref_id:
+                  type: integer
+                  format: int64
+                source_path:
+                  type: string
+      responses:
+        '200':
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebugSessionState'
+        '400':
+          $ref: '#/components/responses/BridgeError'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}:
+    get:
+      tags: [Debug]
+      summary: Get debugger session state
+      operationId: getDebugSession
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      responses:
+        '200':
+          description: Session state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebugSessionState'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+    delete:
+      tags: [Debug]
+      summary: Close debugger session
+      operationId: closeDebugSession
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      responses:
+        '200':
+          description: Session closed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/events:
+    get:
+      tags: [Debug]
+      summary: Poll debugger events
+      operationId: pollDebugEvents
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      responses:
+        '200':
+          description: Event batch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebugEventsResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/stack:
+    get:
+      tags: [Debug]
+      summary: Get stack trace
+      operationId: getDebugStack
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      responses:
+        '200':
+          description: Stack frames
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebugStackTraceResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/scopes:
+    get:
+      tags: [Debug]
+      summary: Get scopes for a stack frame
+      operationId: getDebugScopes
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+        - name: frameId
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Scopes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebugScopesResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/variables:
+    get:
+      tags: [Debug]
+      summary: Get variables for a scope reference
+      operationId: getDebugVariables
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+        - name: variablesReference
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Variables
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebugVariablesResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/evaluate:
+    post:
+      tags: [Debug]
+      summary: Evaluate expression in debug context
+      operationId: evaluateDebug
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [expression]
+              properties:
+                expression:
+                  type: string
+                frame_id:
+                  type: integer
+      responses:
+        '200':
+          description: Evaluation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebugEvaluateResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/setVariable:
+    post:
+      tags: [Debug]
+      summary: Set a variable in debug context
+      operationId: setDebugVariable
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [variablesReference, name, value]
+              properties:
+                variablesReference:
+                  type: integer
+                name:
+                  type: string
+                value:
+                  type: string
+      responses:
+        '200':
+          description: Variable updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebugSetVariableResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/completions:
+    post:
+      tags: [Debug]
+      summary: Request debug completions
+      operationId: debugCompletions
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+      responses:
+        '200':
+          description: Completion targets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebugCompletionsResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/breakpoints:
+    post:
+      tags: [Debug]
+      summary: Set breakpoints
+      operationId: setDebugBreakpoints
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                breakpoints:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/BreakpointRequest'
+      responses:
+        '200':
+          description: Breakpoints applied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebugBreakpointsResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/continue:
+    post:
+      tags: [Debug]
+      summary: Continue execution
+      operationId: debugContinue
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/DebugControlResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/pause:
+    post:
+      tags: [Debug]
+      summary: Pause execution
+      operationId: debugPause
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/DebugControlResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/next:
+    post:
+      tags: [Debug]
+      summary: Step over
+      operationId: debugNext
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/DebugControlResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/stepin:
+    post:
+      tags: [Debug]
+      summary: Step into
+      operationId: debugStepIn
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/DebugControlResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/stepout:
+    post:
+      tags: [Debug]
+      summary: Step out
+      operationId: debugStepOut
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/DebugControlResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+  /api/debug/session/{sessionId}/restart:
+    post:
+      tags: [Debug]
+      summary: Restart debug session
+      operationId: debugRestart
+      parameters:
+        - $ref: '#/components/parameters/sessionIdPath'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          $ref: '#/components/responses/DebugControlResponse'
+        '403':
+          $ref: '#/components/responses/DebuggerDisabled'
+
+components:
+  parameters:
+    refIdPath:
+      name: refId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+      description: Chip reference ID from the game
+    refIdQuery:
+      name: ref_id
+      in: query
+      schema:
+        type: integer
+        format: int64
+      description: Optional chip reference ID
+    sessionIdPath:
+      name: sessionId
+      in: path
+      required: true
+      schema:
+        type: string
+
+  responses:
+    ExtensionApiDisabled:
+      description: Extension REST API disabled in mod config
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    DebuggerDisabled:
+      description: Experimental debugger disabled in mod config
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BridgeError:
+      description: Request failed (success=false or error field in JSON body)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    DebugControlResponse:
+      description: Debug control command accepted
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/SuccessResponse'
+              - type: object
+                properties:
+                  warning:
+                    type: string
+
+  schemas:
+    ServerStatus:
+      type: object
+      properties:
+        name:
+          type: string
+          example: StationeersLua
+        status:
+          type: string
+          example: ok
+        version:
+          type: string
+        debugger_enabled:
+          type: boolean
+
+    EditorState:
+      type: object
+      properties:
+        editor_open:
+          type: boolean
+        allow_network_chip_access:
+          type: boolean
+        wireless_remote_access_only:
+          type: boolean
+        pan_remote_access_only:
+          type: boolean
+        personal_area_network_name:
+          type: string
+        allow_personal_area_network_chip_access:
+          type: boolean
+        selected_chip_ref_id:
+          type: integer
+          format: int64
+          nullable: true
+        selected_housing_ref_id:
+          type: integer
+          format: int64
+          nullable: true
+        selected_housing_name:
+          type: string
+          nullable: true
+        network_id:
+          type: integer
+          nullable: true
+        network_ids:
+          type: array
+          items:
+            type: integer
+        network_names:
+          type: object
+          additionalProperties:
+            type: string
+        accessible_chip_count:
+          type: integer
+        mcp_debug_tools_available:
+          type: boolean
+        mcp_debug_tools_reason:
+          type: string
+        selected_chip_debugger_available:
+          type: boolean
+        selected_chip_debugger_reason:
+          type: string
+        selected_screen_size:
+          type: string
+
+    LoadedLibraryInfo:
+      type: object
+      properties:
+        module_name:
+          type: string
+        housing_name:
+          type: string
+        chip_ref_id:
+          type: integer
+          format: int64
+
+    ChipInfo:
+      type: object
+      properties:
+        ref_id:
+          type: integer
+          format: int64
+        housing_ref_id:
+          type: integer
+          format: int64
+        housing_name:
+          type: string
+        housing_type:
+          type: string
+        is_lua:
+          type: boolean
+        is_library:
+          type: boolean
+        has_error:
+          type: boolean
+        is_on:
+          type: boolean
+        is_selected:
+          type: boolean
+        network_id:
+          type: integer
+          nullable: true
+        modules:
+          type: array
+          items:
+            type: string
+        loaded_libraries:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoadedLibraryInfo'
+        source_length:
+          type: integer
+        source_version:
+          type: integer
+          description: Monotonic counter incremented on external writes
+
+    ChipCode:
+      type: object
+      properties:
+        ref_id:
+          type: integer
+          format: int64
+        source:
+          type: string
+        is_lua:
+          type: boolean
+        is_library:
+          type: boolean
+
+    EditorCode:
+      allOf:
+        - $ref: '#/components/schemas/ChipCode'
+        - type: object
+          properties:
+            editor:
+              type: string
+
+    ChipErrors:
+      type: object
+      properties:
+        ref_id:
+          type: integer
+          format: int64
+        error_code:
+          type: string
+        last_error_kind:
+          type: string
+        last_error_line:
+          type: integer
+        last_error_message:
+          type: string
+        last_error_traceback:
+          type: string
+        has_runtime:
+          type: boolean
+        is_library:
+          type: boolean
+
+    SetEditorCodeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        ref_id:
+          type: integer
+          format: int64
+        exported:
+          type: boolean
+        editor:
+          type: string
+        error:
+          type: string
+
+    SetChipCodeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        ref_id:
+          type: integer
+          format: int64
+        mode:
+          type: string
+        editor_synced:
+          type: boolean
+        editor_sync_path:
+          type: string
+        editor_sync_reason:
+          type: string
+        source_version:
+          type: integer
+        error:
+          type: string
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        session_id:
+          type: string
+        warning:
+          type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+
+    DebugSessionState:
+      type: object
+      properties:
+        success:
+          type: boolean
+        session_id:
+          type: string
+        chip_ref_id:
+          type: integer
+          format: int64
+        chip_name:
+          type: string
+        source_path:
+          type: string
+        network_id:
+          type: integer
+        debug_available:
+          type: boolean
+        unavailable_reason:
+          type: string
+        is_paused:
+          type: boolean
+        stop_reason:
+          type: string
+        stop_description:
+          type: string
+        stop_line:
+          type: integer
+        stop_column:
+          type: integer
+        stack_frame_count:
+          type: integer
+
+    DebugEventEnvelope:
+      type: object
+      properties:
+        event:
+          type: string
+        body:
+          type: object
+          additionalProperties: true
+        timestamp_utc:
+          type: string
+          format: date-time
+
+    DebugEventsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        session_id:
+          type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/DebugEventEnvelope'
+
+    DebugStackFrame:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        line:
+          type: integer
+        column:
+          type: integer
+        source_path:
+          type: string
+        source_name:
+          type: string
+        locals_ref:
+          type: integer
+        upvalues_ref:
+          type: integer
+        globals_ref:
+          type: integer
+
+    DebugStackTraceResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        session_id:
+          type: string
+        stack_frames:
+          type: array
+          items:
+            $ref: '#/components/schemas/DebugStackFrame'
+
+    DebugScope:
+      type: object
+      properties:
+        name:
+          type: string
+        variables_reference:
+          type: integer
+        expensive:
+          type: boolean
+
+    DebugScopesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        session_id:
+          type: string
+        frame_id:
+          type: integer
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DebugScope'
+
+    DebugVariable:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+        type:
+          type: string
+        variables_reference:
+          type: integer
+        indexed_variables:
+          type: integer
+        named_variables:
+          type: integer
+
+    DebugVariablesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        session_id:
+          type: string
+        variables_reference:
+          type: integer
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/DebugVariable'
+
+    DebugEvaluateResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        result:
+          type: string
+        type:
+          type: string
+        variables_reference:
+          type: integer
+        indexed_variables:
+          type: integer
+        named_variables:
+          type: integer
+
+    DebugSetVariableResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        value:
+          type: string
+        type:
+          type: string
+        variables_reference:
+          type: integer
+
+    DebugCompletionItem:
+      type: object
+      properties:
+        label:
+          type: string
+        type:
+          type: string
+
+    DebugCompletionsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/DebugCompletionItem'
+
+    BreakpointRequest:
+      type: object
+      required: [line]
+      properties:
+        line:
+          type: integer
+        condition:
+          type: string
+        hitCondition:
+          type: string
+        logMessage:
+          type: string
+
+    DebugBreakpoint:
+      type: object
+      properties:
+        line:
+          type: integer
+        verified:
+          type: boolean
+
+    DebugBreakpointsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        session_id:
+          type: string
+        breakpoints:
+          type: array
+          items:
+            $ref: '#/components/schemas/DebugBreakpoint'
+        debug_available:
+          type: boolean
+        unavailable_reason:
+          type: string

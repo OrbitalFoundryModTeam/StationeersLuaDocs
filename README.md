@@ -4,6 +4,12 @@ Documentation site for [StationeersLua](https://github.com/orbitalfoundrymodteam
 
 Built with [VitePress](https://vitepress.dev/).
 
+## Extension REST API (Swagger)
+
+OpenAPI 3 spec: `docs/public/openapi/extension-api.yaml`
+
+Swagger reference UI: [Guide → Extension REST API (Swagger)](docs/guide/extension-rest-api.md) (embedded in the VitePress site).
+
 ## Local Development
 
 ```bash
