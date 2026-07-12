@@ -1,0 +1,282 @@
+/* Swagger UI dark theme for VitePress .dark — no invert filter */
+
+.dark .swagger-ui-host .swagger-ui {
+  color: #e2e8f0;
+}
+
+.dark .swagger-ui-host .swagger-ui .wrapper {
+  background: transparent;
+}
+
+.dark .swagger-ui-host .swagger-ui .topbar {
+  display: none;
+}
+
+/* Info header */
+.dark .swagger-ui-host .swagger-ui .info .title,
+.dark .swagger-ui-host .swagger-ui .info p,
+.dark .swagger-ui-host .swagger-ui .info li,
+.dark .swagger-ui-host .swagger-ui .info a,
+.dark .swagger-ui-host .swagger-ui .info .base-url {
+  color: #f1f5f9;
+}
+
+.dark .swagger-ui-host .swagger-ui .info .title small.version-stamp {
+  background: #1e293b;
+  color: #94a3b8;
+}
+
+/* Filter bar */
+.dark .swagger-ui-host .swagger-ui .filter-container input[type='text'] {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #f1f5f9;
+}
+
+.dark .swagger-ui-host .swagger-ui .filter-container input[type='text']::placeholder {
+  color: #64748b;
+}
+
+/* Section tags */
+.dark .swagger-ui-host .swagger-ui .opblock-tag {
+  color: #f1f5f9;
+  border-bottom-color: #334155;
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock-tag small {
+  color: #94a3b8;
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock-tag:hover {
+  background: rgba(30, 41, 59, 0.6);
+}
+
+/* Operation blocks */
+.dark .swagger-ui-host .swagger-ui .opblock {
+  background: #111827;
+  border-color: #334155;
+  box-shadow: none;
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock .opblock-section-header {
+  background: #1e293b;
+  border-color: #334155;
+  box-shadow: none;
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock .opblock-section-header h4 {
+  color: #f1f5f9;
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock .opblock-summary-method {
+  color: #fff;
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock .opblock-summary-path,
+.dark .swagger-ui-host .swagger-ui .opblock .opblock-summary-path__deprecated,
+.dark .swagger-ui-host .swagger-ui .opblock .opblock-summary-description,
+.dark .swagger-ui-host .swagger-ui .opblock .opblock-summary-operation-id {
+  color: #e2e8f0;
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock.opblock-get {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.35);
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock.opblock-get .opblock-summary {
+  border-color: rgba(59, 130, 246, 0.35);
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock.opblock-post {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock.opblock-post .opblock-summary {
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock.opblock-put {
+  background: rgba(234, 179, 8, 0.08);
+  border-color: rgba(234, 179, 8, 0.35);
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock.opblock-put .opblock-summary {
+  border-color: rgba(234, 179, 8, 0.35);
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock.opblock-delete {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock.opblock-delete .opblock-summary {
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock.opblock-patch {
+  background: rgba(168, 85, 247, 0.08);
+  border-color: rgba(168, 85, 247, 0.35);
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock.opblock-patch .opblock-summary {
+  border-color: rgba(168, 85, 247, 0.35);
+}
+
+.dark .swagger-ui-host .swagger-ui .opblock-body,
+.dark .swagger-ui-host .swagger-ui .opblock-description-wrapper,
+.dark .swagger-ui-host .swagger-ui .opblock-external-docs-wrapper,
+.dark .swagger-ui-host .swagger-ui .opblock-title_normal,
+.dark .swagger-ui-host .swagger-ui .opblock-description-wrapper p,
+.dark .swagger-ui-host .swagger-ui .opblock-external-docs-wrapper p {
+  color: #cbd5e1;
+}
+
+/* Parameters and tables */
+.dark .swagger-ui-host .swagger-ui table thead tr td,
+.dark .swagger-ui-host .swagger-ui table thead tr th {
+  color: #f1f5f9;
+  border-color: #334155;
+}
+
+.dark .swagger-ui-host .swagger-ui table tbody tr td {
+  color: #e2e8f0;
+  border-color: #334155;
+}
+
+.dark .swagger-ui-host .swagger-ui .parameter__name,
+.dark .swagger-ui-host .swagger-ui .parameter__type,
+.dark .swagger-ui-host .swagger-ui .parameter__in,
+.dark .swagger-ui-host .swagger-ui .parameter__extension,
+.dark .swagger-ui-host .swagger-ui .parameter__deprecated {
+  color: #e2e8f0;
+}
+
+.dark .swagger-ui-host .swagger-ui .parameter__name.required span {
+  color: #f87171;
+}
+
+.dark .swagger-ui-host .swagger-ui .parameter__name.required::after {
+  color: #f87171;
+}
+
+/* Responses — this was the washed-out gray box */
+.dark .swagger-ui-host .swagger-ui .responses-inner,
+.dark .swagger-ui-host .swagger-ui .response,
+.dark .swagger-ui-host .swagger-ui .response-col_status,
+.dark .swagger-ui-host .swagger-ui .response-col_links,
+.dark .swagger-ui-host .swagger-ui .response-col_description,
+.dark .swagger-ui-host .swagger-ui .response-col_description__inner,
+.dark .swagger-ui-host .swagger-ui .response-col_description__inner div {
+  background: #111827 !important;
+  color: #e2e8f0 !important;
+  border-color: #334155;
+}
+
+.dark .swagger-ui-host .swagger-ui .response-control-media-type__title,
+.dark .swagger-ui-host .swagger-ui .response-control-media-type__accept-message {
+  color: #94a3b8;
+}
+
+.dark .swagger-ui-host .swagger-ui .response-control-media-type select,
+.dark .swagger-ui-host .swagger-ui select {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #f1f5f9;
+}
+
+.dark .swagger-ui-host .swagger-ui .responses-header td {
+  color: #94a3b8;
+  border-color: #334155;
+}
+
+/* Code blocks / examples */
+.dark .swagger-ui-host .swagger-ui .highlight-code,
+.dark .swagger-ui-host .swagger-ui .microlight,
+.dark .swagger-ui-host .swagger-ui pre.microlight,
+.dark .swagger-ui-host .swagger-ui .body-param__textarea,
+.dark .swagger-ui-host .swagger-ui textarea,
+.dark .swagger-ui-host .swagger-ui input[type='text'],
+.dark .swagger-ui-host .swagger-ui input[type='password'],
+.dark .swagger-ui-host .swagger-ui input[type='search'],
+.dark .swagger-ui-host .swagger-ui input[type='email'] {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+  border-color: #334155;
+}
+
+.dark .swagger-ui-host .swagger-ui .copy-to-clipboard {
+  background: #1e293b;
+}
+
+.dark .swagger-ui-host .swagger-ui .copy-to-clipboard button {
+  background: #334155;
+}
+
+/* Models / schemas */
+.dark .swagger-ui-host .swagger-ui section.models {
+  border-color: #334155;
+}
+
+.dark .swagger-ui-host .swagger-ui section.models h4 {
+  color: #f1f5f9;
+}
+
+.dark .swagger-ui-host .swagger-ui section.models .model-container {
+  background: #111827;
+}
+
+.dark .swagger-ui-host .swagger-ui .model-box,
+.dark .swagger-ui-host .swagger-ui .model {
+  background: #111827;
+}
+
+.dark .swagger-ui-host .swagger-ui .model-title,
+.dark .swagger-ui-host .swagger-ui .model .property,
+.dark .swagger-ui-host .swagger-ui .model .property.primitive,
+.dark .swagger-ui-host .swagger-ui .prop-type,
+.dark .swagger-ui-host .swagger-ui .prop-format,
+.dark .swagger-ui-host .swagger-ui .model .brace-open,
+.dark .swagger-ui-host .swagger-ui .model .brace-close,
+.dark .swagger-ui-host .swagger-ui .model-toggle::after {
+  color: #e2e8f0;
+}
+
+.dark .swagger-ui-host .swagger-ui .model-toggle:hover {
+  background: rgba(30, 41, 59, 0.6);
+}
+
+/* Links and misc */
+.dark .swagger-ui-host .swagger-ui a {
+  color: #4ade80;
+}
+
+.dark .swagger-ui-host .swagger-ui a.nostyle {
+  color: inherit;
+}
+
+.dark .swagger-ui-host .swagger-ui .btn {
+  color: #f1f5f9;
+  border-color: #334155;
+  background: #1e293b;
+}
+
+.dark .swagger-ui-host .swagger-ui .btn:hover {
+  background: #334155;
+}
+
+.dark .swagger-ui-host .swagger-ui .loading-container .loading::after {
+  color: #94a3b8;
+}
+
+.dark .swagger-ui-host .swagger-ui .markdown p,
+.dark .swagger-ui-host .swagger-ui .markdown li,
+.dark .swagger-ui-host .swagger-ui .markdown code {
+  color: #cbd5e1;
+}
+
+.dark .swagger-ui-host .swagger-ui .markdown code {
+  background: rgba(15, 23, 42, 0.8);
+  color: #4ade80;
+}

@@ -31,6 +31,7 @@ Documents the **VS Code extension HTTP API** (`/api/*` on port 3030), not `ic.ht
 | `docs/public/openapi/extension-api.yaml` | OpenAPI 3.0 spec (source of truth for published docs) |
 | `docs/guide/extension-rest-api.md` | Guide page + embedded Swagger UI |
 | `docs/.vitepress/theme/components/SwaggerUI.vue` | VitePress component (`swagger-ui-dist`) |
+| `docs/.vitepress/theme/swagger-dark.css` | Dark-mode overrides for Swagger UI (no invert filter) |
 
 **Keep in sync with:** `StationeersLuaFinal/McpServer/McpHttpListener.cs` (routes) and `StationeersLua-VSCode/src/gameClient.ts` (TypeScript types).
 
