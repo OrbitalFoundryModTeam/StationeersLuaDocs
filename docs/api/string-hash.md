@@ -15,7 +15,7 @@ local name = prefab_name(h)
 Pack a short string into a single number (for IC10 interop):
 
 ```lua
--- Pack string to number (ASCII-6 encoding, up to ~10 chars)
+-- Pack string to number (ASCII-6 encoding, up to 6 ASCII characters; empty string returns 0)
 local packed = pack_ascii6("HELLO")
 local str = unpack_ascii6(packed)  -- "HELLO"
 ```
@@ -37,7 +37,7 @@ local int = to_int53(42.7)  -- 42
 |---|---|---|
 | `hash(str)` | number | String → hash (Animator.StringToHash) |
 | `prefab_name(hash)` | string \| nil | Hash → prefab name |
-| `pack_ascii6(str)` | number | Pack string to number |
+| `pack_ascii6(str)` | number | Pack string to number (max 6 ASCII chars; empty → 0) |
 | `unpack_ascii6(num)` | string | Unpack number to string |
 | `strip_color_tags(str)` | string | Remove Unity color tags |
 | `to_int53(value)` | number | Convert to 53-bit integer |

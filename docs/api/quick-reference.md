@@ -54,8 +54,8 @@ Device logic (read/write by pin or id, slots, reagents, batch ops, find) is expo
 | `namehash_name(devHash, nameHash [, net])`                             | Resolve nameHash to display name          |
 | `device_list([net])`                                                   | List all devices on the data network      |
 | `host_info()`                                                          | Host metadata (name, type, wearer for wearable hosts) |
-| `pack_ascii6(str)`                                                     | Pack string to number                     |
-| `unpack_ascii6(num)`                                                   | Unpack number to string                   |
+| `pack_ascii6(str)`                                                     | number | Pack string (max 6 ASCII chars; empty → 0) |
+| `unpack_ascii6(num)`                                                   | string | Unpack number to string                    |
 | `strip_color_tags(str)`                                                | Remove Unity color tags                   |
 | `to_int53(value)`                                                      | Convert to 53-bit int                     |
 | `util.game_time()`                                                     | Seconds since world start                 |
