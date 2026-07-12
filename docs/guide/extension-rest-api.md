@@ -23,12 +23,7 @@ See also [MCP Server & Reference Panel](./mcp-server) and [VS Code Extension](./
 
 ## OpenAPI spec
 
-The machine-readable spec lives at [`/openapi/extension-api.yaml`](/openapi/extension-api.yaml)
-(relative to the deployed site root). Source of truth in the repo:
-`docs/public/openapi/extension-api.yaml`.
-
-Routes are implemented in `StationeersLuaFinal/McpServer/McpHttpListener.cs`.
-TypeScript client types: `StationeersLua-VSCode/src/gameClient.ts`.
+The machine-readable spec is at [`/openapi/extension-api.yaml`](/openapi/extension-api.yaml).
 
 ## API reference
 
