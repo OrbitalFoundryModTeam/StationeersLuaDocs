@@ -42,3 +42,8 @@ Documents the **VS Code extension HTTP API** (`/api/*` on port 3030), not `ic.ht
 - `StationeersLuaFinal/` - mod source; MCP/REST server implementation
 - `StationeersLua-VSCode/` - extension REST client
 - `ScriptedScreensDocs/` - same VitePress layout for ScriptedScreens
+
+## Branches
+
+- **`master`** - live site (GitHub Pages).
+- **`1.0`** - 1.0-line docs. Merged from `master` on 2026-07-13 (`480d6cd`: Swagger embed, Extension REST API guide, dark-mode CSS).
