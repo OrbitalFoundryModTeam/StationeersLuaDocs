@@ -24,6 +24,8 @@ The extension depends on the [Lua Language Server](https://marketplace.visualstu
 
 You do **not** need the IC editor open when wireless or PAN remote access alone is enough — the explorer lists every chip the game reports as accessible for your player.
 
+For the full HTTP route reference (OpenAPI / Swagger), see [Extension REST API (Swagger)](./extension-rest-api).
+
 ## Chip Explorer
 
 The extension adds a **StationeersLua** panel to the VS Code activity bar with a **Chips** tree view.
