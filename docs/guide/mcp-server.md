@@ -27,6 +27,8 @@ LaunchPad mods that reference **only** the released **`StationeersLua.dll`** can
 | `get_editor_code`      | Read the live IC editor draft text (not the compiled chip source)        |
 | `set_editor_code`      | Update the IC editor draft — does **not** compile or export to the chip  |
 | `list_chips`           | Enumerate accessible Lua chips on the current data network(s)            |
+| `list_disks`           | List vanilla Data Disks on computers hosting accessible chips (read-only; excludes Configuration Disk) |
+| `get_disk`             | Read a vanilla Data Disk UTF-8 blob by ref ID (read-only; write via `ic.disk.write`) |
 | `get_chip_code`        | Read a chip's current source by ref ID                                   |
 | `set_chip_code`        | Write source to a chip by ref ID — compiles and exports immediately      |
 | `patch_chip_code`      | Apply exact substring replacements to a chip's source without rewriting the entire file. Supports ordered replacements, `replace_all`, and `occurrence` targeting |
@@ -83,6 +85,8 @@ The server exposes the following resources that AI editors can read for context:
 | `stationeers://lua/api/logic`   | Logic read/write and batch API reference     |
 | `stationeers://lua/api/device`  | Device discovery and slot API reference      |
 | `stationeers://lua/api/memory`  | Chip memory API reference                    |
+| `stationeers://lua/api/persist` | Per-chip `ic.persist` key/value store        |
+| `stationeers://lua/api/disk`    | Portable vanilla Data Disk `ic.disk` API     |
 | `stationeers://lua/api/network` | Inter-chip networking API reference          |
 | `stationeers://lua/api/http`    | HTTP request API reference                   |
 | `stationeers://lua/api/timer`   | Timer / scheduler API (`ic.timer`)           |

@@ -22,6 +22,8 @@ Deploy: push to `master` → GitHub Actions → GitHub Pages at `https://orbital
 | `docs/examples/` | Example walkthroughs |
 | `docs/public/` | Static assets copied to site root (logo, favicon, OpenAPI spec) |
 
+`docs/api/disk.md` covers portable vanilla Data Disk storage (`ic.disk`) vs chip-local `ic.persist`, Configuration Disk exclusion, and MCP-only disk tools (`list_disks` / `get_disk`).
+
 ## Extension REST API (Swagger)
 
 Documents the **VS Code extension HTTP API** (`/api/*` on port 3030), not `ic.http`.

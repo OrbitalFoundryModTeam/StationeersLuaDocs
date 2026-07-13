@@ -71,6 +71,7 @@ export default defineConfig({
             { text: 'Slots & Reagents', link: '/api/slots-reagents' },
             { text: 'Memory & Stack', link: '/api/memory-stack' },
             { text: 'Persistence', link: '/api/persist' },
+            { text: 'Data Disk (ic.disk)', link: '/api/disk' },
             { text: 'Bitwise Operations', link: '/api/bitwise' },
             { text: 'String & Hash', link: '/api/string-hash' },
           ]
