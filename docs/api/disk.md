@@ -13,6 +13,10 @@ Use **[`ic.persist`](/api/persist)** for chip-local state that follows the chip.
 
 Configuration Disk shares Data Disk slots but is excluded from `ic.disk` and from MCP disk listings.
 
+## Labeller names on vanilla Data Disks
+
+Vanilla Data Disks accept a powered **Labeller**. Clients print bold text on the yellow front face (two wrapped lines) and exposed edge; the front text hides while the disk is inserted in a computer.
+
 ## Slot indexing
 
 - Lua and MCP use **1-based** slot indices.
@@ -44,6 +48,7 @@ Blobs are encoded into the vanilla save field `ThingSaveData.LogicStack` so worl
 
 Writes stay in-game via `ic.disk.write`. Scope matches chip editor allow-lists. No Extension REST routes for disks.
 
-## Example
+## Examples
 
-See `Examples/DataDiskPortableSettings.lua` in StationeersLua: `util.json.encode` / `decode` settings on an inserted vanilla disk, compatible with ScriptedScreens computers that also accept a Configuration Disk in another slot.
+- StationeersLua: `Examples/DataDiskPortableSettings.lua` - `util.json.encode` / `decode` settings on an inserted vanilla disk.
+- ScriptedScreens: `Examples/DataDiskPortableTheme.lua` - SAVE/LOAD panel theme + accent via `ic.disk` (works alongside a Configuration Disk in another slot).
