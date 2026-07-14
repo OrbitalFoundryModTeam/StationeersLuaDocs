@@ -18,7 +18,7 @@ Chip memory also survives **housing power off/on** when the chip stays in the ho
 
 Use the string key/value store for custom state. It survives **world save/load**, **IC housing power off/on** (chip stays in the housing), and **pulling the chip out and putting it back** (same source code). State is keyed by the chip itself, so it follows the chip if you move it to another housing or ScriptedScreens host.
 
-For settings that should travel on a removable disk instead of the chip, use [`ic.disk`](/api/disk) (vanilla `ItemDataDisk` only; ScriptedScreens **Configuration Disk** is a mode key, not storage).
+For settings that should travel on a removable disk instead of the chip, use [`ic.disk`](/api/disk) on a vanilla **Data Disk**. ScriptedScreens **Configuration Disks** open config mode only - they are not storage.
 
 ```lua
 local function saveTable(key, tbl)
@@ -56,15 +56,11 @@ end
 | `ic.persist.delete(key)` | Removes a key. Returns `true` if it existed. |
 | `ic.persist.clear()` | Removes **all** keys for this chip (including legacy serialize blob). Returns `true` if anything was stored. |
 
-Default limits (per chip, server/host config under **Lua Persist**): key length 128, value length 8192, total stored size 32 KiB. Host or dedicated server config is authoritative in multiplayer. Use `util.json.encode` / `decode` for tables.
-
-On disk, the chip's persisted blob uses MessagePack with **LZ4** compression (`MP_LUA_STATE_V3:` prefix). Older worlds may still have uncompressed `MP_LUA_STATE_V2:` blobs; both load correctly.
+Default limits (per chip, mod settings under **Lua Persist**): key length 128, value length 8192, total stored size 32 KiB. Use `util.json.encode` / `decode` for tables.
 
 ## Legacy: `serialize()` / `deserialize(blob)`
 
-These still work. The runtime stores the blob in the same KV store under the hood (`__script_state__`) and migrates old saves that only had `ScriptState` on load.
-
-**Prefer `ic.persist` for new scripts** - you can read values during init without waiting for `deserialize`, and you can split state across multiple keys.
+These still work, and older saves that used them continue to load. Prefer **`ic.persist`** for new scripts - you can read values during init without waiting for `deserialize`, and you can split state across multiple keys.
 
 ## Load order
 

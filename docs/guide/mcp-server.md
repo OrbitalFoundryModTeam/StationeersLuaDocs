@@ -27,8 +27,8 @@ LaunchPad mods that reference **only** the released **`StationeersLua.dll`** can
 | `get_editor_code`      | Read the live IC editor draft text (not the compiled chip source)        |
 | `set_editor_code`      | Update the IC editor draft — does **not** compile or export to the chip  |
 | `list_chips`           | Enumerate accessible Lua chips on the current data network(s)            |
-| `list_disks`           | List vanilla Data Disks on computers hosting accessible chips (read-only; excludes Configuration Disk) |
-| `get_disk`             | Read a vanilla Data Disk UTF-8 blob by ref ID (read-only; write via `ic.disk.write`) |
+| `list_disks`           | List vanilla Data Disks near accessible chips (read-only; skips Configuration Disks) |
+| `get_disk`             | Read a Data Disk's stored text by ref ID (read-only; write with `ic.disk.write`) |
 | `get_chip_code`        | Read a chip's current source by ref ID                                   |
 | `set_chip_code`        | Write source to a chip by ref ID — compiles and exports immediately      |
 | `patch_chip_code`      | Apply exact substring replacements to a chip's source without rewriting the entire file. Supports ordered replacements, `replace_all`, and `occurrence` targeting |

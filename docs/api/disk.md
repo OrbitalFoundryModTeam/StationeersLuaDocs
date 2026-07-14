@@ -1,27 +1,27 @@
 # `ic.disk` — Portable Data Disk Storage
 
-UTF-8 string blob storage on **vanilla** Data Disks (`ItemDataDisk`) inserted into the enclosing Computer. Data travels with the physical disk between computers.
+Store a UTF-8 string on a **vanilla Data Disk** in the computer that hosts your chip. The data travels with the physical disk.
 
-Use **[`ic.persist`](/api/persist)** for chip-local state that follows the chip. Use **`ic.disk`** for settings or payloads you want on a removable disk.
+Use **[`ic.persist`](/api/persist)** for state that should stay on the chip. Use **`ic.disk`** for settings you want to carry between computers.
 
 ## Configuration Disk vs Data Disk
 
-| Item | Prefab | Role |
-| --- | --- | --- |
-| Vanilla Data Disk | `ItemDataDisk` | Portable `ic.disk` blob storage |
-| Configuration Disk | `ConfigurationDisk` | ScriptedScreens config-mode key only |
+| Item | Role |
+| --- | --- |
+| **Data Disk** | Portable `ic.disk` storage |
+| **Configuration Disk** | Opens ScriptedScreens config mode only (not storage) |
 
-Configuration Disk shares Data Disk slots but is excluded from `ic.disk` and from MCP disk listings.
+Configuration Disks use the same computer slots but are ignored by `ic.disk` and MCP disk tools.
 
-## Labeller names on vanilla Data Disks
+## Labeller names
 
-Vanilla Data Disks accept a powered **Labeller**. Clients print bold text on the yellow front face (two wrapped lines) and exposed edge; the front text hides while the disk is inserted in a computer.
+Rename a Data Disk with a powered **Labeller**. The name appears on the yellow front (wrapping to two lines) and on the exposed edge. The front text hides while the disk is inserted in a computer.
 
 ## Slot indexing
 
-- Lua and MCP use **1-based** slot indices.
-- Omit `slot` / `slot_index` only when exactly one vanilla storage disk is present. Multiple disks require an explicit slot or you get an ambiguity error.
-- Slot `0` is rejected.
+- Slot numbers are **1-based**.
+- You can omit the slot when exactly one Data Disk is present. With more than one, pass the slot or you get an ambiguity error.
+- Slot `0` is not allowed.
 
 ## Functions
 
@@ -29,26 +29,18 @@ Vanilla Data Disks accept a powered **Labeller**. Clients print bold text on the
 | --- | --- | --- |
 | `ic.disk.list()` | table | `{ {slot, ref_id, bytes, capacity}, ... }` |
 | `ic.disk.present([slot])` | boolean | Any disk, or disk in that slot |
-| `ic.disk.read([slot])` | string or nil | Stored blob, or nil when blank/missing |
-| `ic.disk.write(blob [, slot])` | boolean | Write one string; throws on no disk / oversize |
-| `ic.disk.clear([slot])` | boolean | Erase the blob |
+| `ic.disk.read([slot])` | string or nil | Stored text, or nil when blank/missing |
+| `ic.disk.write(blob [, slot])` | boolean | Write one string; throws if missing disk or oversize |
+| `ic.disk.clear([slot])` | boolean | Erase the stored text |
 | `ic.disk.info([slot])` | table or nil | `{slot, ref_id, bytes, capacity}` |
 
-Default capacity is **8 KiB** UTF-8 (`[Lua Data Disk] MaxBytes`, clamped). Writes are server-authoritative.
+Default capacity is **8 KiB** (configurable in mod settings under **Lua Data Disk**).
 
-## Persistence
+## MCP
 
-Blobs are encoded into the vanilla save field `ThingSaveData.LogicStack` so worlds remain loadable without StationeersLua (the field is ignored). Wire bodies are always **gzip(UTF-8)** (same `GZipStream` as Lua source compression). An **unmodded re-save may strip the blob**.
-
-## MCP (read-only)
-
-| Surface | Read |
-| --- | --- |
-| MCP | `list_disks`, `get_disk` |
-
-Writes stay in-game via `ic.disk.write`. Scope matches chip editor allow-lists. No Extension REST routes for disks.
+Read-only tools: `list_disks`, `get_disk`. Write with `ic.disk.write` in-game.
 
 ## Examples
 
-- StationeersLua: `Examples/DataDiskPortableSettings.lua` - `util.json.encode` / `decode` settings on an inserted vanilla disk.
-- ScriptedScreens: `Examples/DataDiskPortableTheme.lua` - SAVE/LOAD panel theme + accent via `ic.disk` (works alongside a Configuration Disk in another slot).
+- StationeersLua: `Examples/DataDiskPortableSettings.lua`
+- ScriptedScreens: `Examples/DataDiskPortableTheme.lua` (SAVE/LOAD panel theme + accent)
