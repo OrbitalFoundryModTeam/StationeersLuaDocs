@@ -22,7 +22,7 @@ Deploy: push to `master` → GitHub Actions → GitHub Pages at `https://orbital
 | `docs/examples/` | Example walkthroughs |
 | `docs/public/` | Static assets copied to site root (logo, favicon, OpenAPI spec) |
 
-`docs/api/disk.md` covers portable vanilla Data Disk storage (`ic.disk`) vs chip-local `ic.persist`, Configuration Disk exclusion, and MCP-only disk tools (`list_disks` / `get_disk`).
+`docs/api/disk.md` covers portable vanilla Data Disk storage (`ic.disk`) vs chip-local `ic.persist`, Configuration Disk exclusion, Labeller rename notes, and MCP-only disk tools (`list_disks` / `get_disk`). Features sidebar includes **Suit Networking Module** (`docs/guide/suit-networking-module.md`) next to the Wireless Development Board guide.
 
 ## Extension REST API (Swagger)
 
