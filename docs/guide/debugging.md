@@ -22,6 +22,7 @@ The **MotherboardLuaDebugger** is a special motherboard you can craft and instal
 - Event/net **queue sizes** and **sleep state**
 - **Library chip** status (modules provided/loaded)
 - A **Copy** button to copy the snapshot to clipboard
+- A **Detach** button (shown only while a VS Code debug session is attached to the selected chip) that force-resumes and closes that session
 - An **Edit** button to open the IC10 editor for the selected target
 
 Select a target chip from the dropdown to view its debug information.
@@ -36,11 +37,18 @@ The VS Code debugger is experimental and may have bugs. If you encounter issues,
 
 When attached, the debugger can:
 
-- Set and clear **source breakpoints**
+- Set and clear **source breakpoints** (including per-file breakpoints for `require()`d modules)
 - **Pause**, **continue**, **step over**, **step in**, and **step out**
 - Inspect **stack frames**, **scopes**, and **variables**
 - Surface `print(...)` output and runtime diagnostics in the **Debug Console** / **Output** view
 - Attach to chips discovered from the current file, the in-game editor selection, or the chip explorer sidebar
+
+### Session lifecycle and recovery
+
+- Conditional breakpoints, hit-count filters, and logpoints are evaluated **after** the VM has stopped at the line (not nested inside the line hook). A false condition or a logpoint auto-resumes without showing a stop in VS Code.
+- If VS Code disconnects or stops polling, the game force-resumes and closes the session after **`DebugSessionTimeoutSeconds`** (default 60, minimum 5) in the `[MCP Server]` config.
+- You can also press **Detach** on the in-game debugger motherboard (visible only while a session is attached) to clear a stuck session immediately.
+- For crash diagnosis only, set **`DebugVerboseLogging = true`** to write flushed stop-path stage markers (`hook-enter`, `cond-begin/end`, `snapshot-begin/end`, `notify-end`, `yield-begin/end`) to the BepInEx log.
 
 ## Output & Error Surfacing
 
@@ -54,9 +62,10 @@ When attached, the debugger can:
 
 - All Lua execution remains **server-authoritative**
 - In multiplayer, VS Code connects to a **local bridge in the player’s own game client**, not to the dedicated server over HTTP
-- If the server has `AllowMultiplayerDebugProxy = true` in the `[MCP Server]` config, that local bridge forwards debug traffic to the authoritative server over in-game mod network messages
+- If the server has `AllowMultiplayerDebugProxy = true` **and** `EnableExperimentalDebugger = true` in the `[MCP Server]` config, that local bridge forwards debug traffic to the authoritative server over in-game mod network messages
 - **Dedicated servers do not expose the HTTP/MCP listener**
 - Multiplayer debug sessions are owned by the attaching client, so one client cannot drive another client’s active chip session
+- Remote debug authority is **owner-aware**: the server checks a powered debugger computer on the chip’s network, or **that client’s** suit wireless development board with an installed debugger motherboard. Enabling the proxy alone is not enough - the same hardware rules apply as in single-player
 
 ## In-Game Lua Reference Panel
 

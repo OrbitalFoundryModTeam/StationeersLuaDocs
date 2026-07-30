@@ -63,5 +63,32 @@ The machine-readable spec is at [`/openapi/extension-api.yaml`](/openapi/extensi
 - **404** — Unknown path
 - **500** — Unhandled server error
 
+Debug session JSON errors may include a structured **`reason`** field:
+
+| `reason` | Meaning |
+|----------|---------|
+| `unknown_session` | Session id is not registered (closed, timed out, or never created) |
+| `session_owned_by_other_client` | Another multiplayer client owns this session |
+
 Code PUT endpoints (`/api/editor/code`, `/api/chips/{refId}/code`) expect **`text/plain`**
 raw Lua source, not a JSON wrapper.
+
+## Debug protocol notes
+
+`GET /api/status` includes:
+
+```json
+{
+  "debugger_enabled": true,
+  "debug_protocol": {
+    "breakpoints_source_path": true,
+    "event_seq": true,
+    "session_timeout_seconds": 60
+  }
+}
+```
+
+- **Breakpoints:** `POST .../breakpoints` accepts optional request-level `source_path` and per-breakpoint `source_path`. Breakpoints are keyed by `(source_path, line)` so `require()`d modules do not collide with the main chunk. Omitting `source_path` falls back to the session’s attached source (legacy clients).
+- **Verification:** each returned breakpoint includes `verified` (against the compiled prototype line table when available) and optional `message`.
+- **Events:** each polled event includes a monotonic `seq` so the extension can detect gaps / ordering.
+- **Session timeout:** if the client stops contacting the session for `DebugSessionTimeoutSeconds`, the game force-resumes the chip and closes the session.
