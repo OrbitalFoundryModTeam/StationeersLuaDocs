@@ -140,6 +140,11 @@ paths:
       description: |
         Body is raw Lua source (not JSON). Compiles and exports to the chip immediately
         unless `mode` selects editor-only staging.
+
+        On a multiplayer client the two halves run in different places: the editor draft is
+        applied locally by the client that has the IC editor open, and the export is performed
+        by the authoritative server. `editor_synced` / `editor_sync_path` / `editor_sync_reason`
+        describe the local half, and the rest of the response comes from the server.
       operationId: setChipCode
       parameters:
         - $ref: '#/components/parameters/refIdPath'
@@ -151,8 +156,10 @@ paths:
             default: chip
           description: |
             `chip` (default) — compile and export directly.
-            `editor_only` — update editor draft only.
-            `editor_then_chip` — update editor then export.
+            `editor_only` — update editor draft only. Never leaves the client; requires the
+            IC editor to be open locally with this chip selected.
+            `editor_then_chip` — update editor then export. The export can still succeed with
+            `editor_synced: false` when the editor is closed or another chip is selected.
       requestBody:
         required: true
         content:

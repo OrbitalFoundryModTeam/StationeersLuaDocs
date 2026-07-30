@@ -161,6 +161,8 @@ On a multiplayer client, the server decides which chips and networks each proxy 
 
 The VS Code debugger uses the same model: your client talks to its local listener, and debug traffic is proxied to the server when `AllowMultiplayerDebugProxy` is enabled. Debug session ownership is tied to your connection on the server.
 
+Anything that touches the **in-game IC editor** is the exception, because the editor is a window in your own game rather than a piece of world state the server owns. `get_editor_state`, `get_editor_code`, `set_editor_code` and the REST endpoints behind them always run on your client. A `set_chip_code` or `patch_chip_code` call with `mode: editor_only` also stays entirely on your client, since it never writes the chip. With `mode: editor_then_chip` the call is split: your client applies the editor draft, then the export is proxied to the server, and the single response reports both halves. If the editor is closed or another chip is selected when the write arrives, the export still succeeds and the response carries `editor_synced: false` with a reason.
+
 ## Wireless Development Board & IC Editor Integration
 
 When a player has the **Wireless Development Board** installed in their equipped EVA suit and connected to a wireless network:
