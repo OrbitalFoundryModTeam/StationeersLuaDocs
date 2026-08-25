@@ -95,6 +95,22 @@ When typing `require("...")`, both the in-game editor and VS Code suggest module
 
 In VS Code, completions are scoped to the specific chip's network — if you have files open for chips on different networks, each gets the correct set of module suggestions.
 
+## Function hover comments
+
+The in-game editor (and the Stationeers TCP LSP) reads **triple-dash** comments immediately above a function, including functions on a `require()`d library chip. `--@module` stays two dashes and is not a doc comment.
+
+```lua
+---Return true when the atmosphere is safe to breathe.
+---@param pressure number kPa
+---@param temp number Kelvin
+---@param co2 number percent
+---@return boolean ok
+---@return string reason
+function atmos.is_breathable(pressure, temp, co2)
+```
+
+Hovering `is_breathable` (or `atmos.is_breathable`) shows the typed signature, returns, and description. Consecutive `---` lines chain together; a blank line is allowed between the comment block and `function`.
+
 ## Key Rules
 
 - Library chips have **no VM** — they don't tick, can't read devices, and don't consume CPU

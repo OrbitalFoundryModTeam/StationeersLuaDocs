@@ -6,7 +6,7 @@ How **Stationeers-specific** help and **general Lua** (`lua-language-server`) co
 
 | Source | What it does |
 | ------ | ------------ |
-| **`LuaLanguageService`** | In-process Stationeers LSP used by the default **`LuaFormatter`** when **`ExternalLuaLanguageServerPath`** is empty (completions, hover, diagnostics, format). |
+| **`LuaLanguageService`** | In-process Stationeers LSP used by the default **`LuaFormatter`** when **`ExternalLuaLanguageServerPath`** is empty (completions, hover, diagnostics, format). Hover/signature/completions for **your own functions** come from consecutive `---` comments above the definition (`@param` / `@return`), including functions on `require()` library chips. `--@module` is not a doc comment. |
 | **Optional `lua-language-server` (stdio)** | When **`ExternalLuaLanguageServerPath`** is set, the mod registers **`LuaFormatterExternalLsp`** (`IC10Editor` **`LSPFormatter`**) with a shared **`LspClientStdio`**. The vanilla formatter integration drives document sync, diagnostics, completion, etc.; debounced **`textDocument/hover`** is merged into tooltips. **`LuaLanguageService`** is not the active formatter in that mode, but the TCP LSP for VS Code is unchanged. |
 
 ### Configure external Lua LS for the in-game editor

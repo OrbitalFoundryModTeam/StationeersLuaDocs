@@ -140,7 +140,7 @@ When `EnableLspServer` is enabled in the mod config, the extension also connects
 | Constant completions | `ic.const.` triggers all game constants |
 | Parameter-aware completions | Second arg of `ic.read()` suggests LogicType members; third arg of `ic.read_slot()` suggests LogicSlotType members |
 | `require()` completions | Inside `require("...")`, module names from library chips on the chip's data network are suggested |
-| Hover | Enum member and constant values, API signatures and descriptions |
+| Hover | Enum member and constant values, API signatures and descriptions, plus your own functions from `---` `@param` / `@return` comments (including `require()` libraries) |
 | Signature help | Function parameter highlighting with documentation |
 
 Completions are **scoped to the data network** of the chip being edited — `require()` suggestions only show modules reachable from that chip's network. This works correctly with wired editors, wireless development boards, and combined access.
