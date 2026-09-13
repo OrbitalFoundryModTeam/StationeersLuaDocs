@@ -39,7 +39,8 @@ The board has three interactions (accessible from your suit inventory). In multi
 - You cycle through available access points and pick one to connect to
 - Once connected, all Lua chips on that access point's data network become visible to MCP and VS Code
 - The connection **persists across save/load** — on relog, the board reconnects automatically if the network is still in range
-- Brief outages (momentary power loss, multiplayer replication/streaming gaps) are tolerated with a **reconnect grace period** (~5 seconds) before the panel shows the selected network as unavailable
+- Brief outages (momentary power loss, multiplayer replication/streaming gaps) are tolerated with a **reconnect grace period** (~5 seconds) before the panel shows the selected network as unavailable. Suit board, programmable visor, and wireless tablet cartridge all keep the **live data path** soft for that same window (not UI-only).
+- An already-connected link uses a small **range hysteresis** (~1.5 m past the access point max) so walking the edge of range does not strobe connect/disconnect. First Connect and the in-range list still use the advertised max range.
 - **Removing the suit or the board** immediately drops the wireless connection
 - **Power:** while you stay **connected and in range**, the board slowly draws extra power from the **suit battery**. When you inspect the board, the description includes a note while this extra drain is happening. The wireless **Lua tablet cartridge** uses the same drain rate (see ScriptedScreens docs).
 
