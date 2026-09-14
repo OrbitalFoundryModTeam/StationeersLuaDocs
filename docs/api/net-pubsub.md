@@ -53,7 +53,32 @@ ic.net.unsubscribe("sensors/*")
 | Wildcards | `*` (any sequence), `?` (single char) |
 | Retained | New subscribers get the last retained value on subscription |
 | TTL | Retained messages auto-expire after `ttl` seconds |
+| Delivery | Only chips with a matching subscription are sent the message |
 | Queue limit | 128 messages per subscriber queue (backpressure) |
+
+## Delivery and backpressure
+
+A publish is only queued on chips that have a matching `ic.net.subscribe` filter. Chips that never subscribed cost the publisher nothing and never spend any of their own tick on your topic, so a busy topic cannot crowd out unrelated traffic on the same network.
+
+`ic.net.publish` returns two values:
+
+```lua
+local delivered, dropped = ic.net.publish("sensors/temp", { temp = 300 })
+
+if delivered == 0 then
+    print("nobody is subscribed to sensors/temp")
+end
+
+if dropped > 0 then
+    print(dropped .. " subscriber(s) could not keep up")
+end
+```
+
+`delivered` counts **matching subscribers**. `dropped` counts subscribers whose queue was full, which previously failed silently.
+
+::: tip Publishing faster than subscribers consume
+A subscriber drains its queue using a per-tick instruction budget (see [Sandbox & Limits](/guide/sandbox)). If `dropped` keeps climbing, the subscriber's handler is too slow or the publish rate is too high. Publishing one table instead of many individual values is usually the fix.
+:::
 
 ## Example: Sensor Network
 
@@ -87,6 +112,6 @@ while true do yield() end
 
 | Function | Returns | Description |
 |---|---|---|
-| `ic.net.publish(topic, payload [, opts])` | number | Publish to topic |
+| `ic.net.publish(topic, payload [, opts])` | delivered, dropped | Publish to matching subscribers |
 | `ic.net.subscribe(pattern, handler)` | — | Subscribe to topic pattern |
 | `ic.net.unsubscribe(pattern)` | — | Unsubscribe from topic |

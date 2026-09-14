@@ -71,6 +71,27 @@ end
 | Max payload size | 128 KB (MessagePack encoded) |
 | Supported types | `nil`, `boolean`, `number`, `string`, `table` |
 | Unsupported | Functions, userdata, cyclic tables |
+| Queue limit | 128 pending messages per chip (backpressure) |
+
+## Backpressure
+
+Each chip holds at most **128** pending direct messages (queued handler deliveries plus anything waiting for `ic.net.recv()`). Beyond that, further messages are refused.
+
+The sender is told. `ic.net.send` raises a Lua error when the target's queue is full, and `ic.net.broadcast` returns a second value counting recipients that refused:
+
+```lua
+local delivered, dropped = ic.net.broadcast("status", { online = true })
+
+if dropped > 0 then
+    print(dropped .. " peer(s) could not keep up")
+end
+```
+
+How fast a receiver drains that queue is governed by a per-tick instruction budget rather than a fixed message count. See [Sandbox & Limits](/guide/sandbox).
+
+::: warning Unhandled channels still queue
+A message on a channel with no `ic.net.listen` handler is parked for `ic.net.recv()`. If a script never calls `recv()`, those messages accumulate until the queue is full and then start being refused. Register a handler or poll with `recv()` for every channel you actually receive.
+:::
 
 ## Function Reference
 
@@ -79,6 +100,6 @@ end
 | `ic.net.id()` | number | Get own endpoint ID |
 | `ic.net.peers()` | table[] | List all Lua chip peers |
 | `ic.net.send(target, channel, payload)` | — | Send to target (name or ID) |
-| `ic.net.broadcast(channel, payload)` | number | Broadcast to all peers |
+| `ic.net.broadcast(channel, payload)` | delivered, dropped | Broadcast to all peers |
 | `ic.net.listen(channel, handler)` | — | Register/unregister listener |
 | `ic.net.recv()` | fromId, fromName, channel, payload | Poll for messages |
