@@ -16,10 +16,13 @@ In the **StationeersLua** mod configuration (BepInEx / in-game mod panel), categ
 |---|---|---|
 | `InitInstructionLimit` | `500000` | Startup budget (module-level code, first resume, legacy serialize/deserialize hooks) |
 | `TickInstructionLimit` | `50000` | Per game tick, per chip |
+| `AsyncExportUseInitInstructionLimit` | `false` | When true, MCP / editor `SetSourceCode` runs one-shot init under `InitInstructionLimit` (same as power-cycle). Default spreads that init across ticks at `TickInstructionLimit` |
 | `NetInstructionLimit` | `50000` | Per game tick, per chip, for incoming `ic.net` handlers |
 | `NetMaxMessagesPerTick` | `128` | Ceiling on queued `ic.net` messages examined per tick, per queue |
 
 Values are clamped between **1,000** and **100,000,000** (`NetMaxMessagesPerTick`: **8** to **4,096**). Only the **simulation host** runs Lua chips (dedicated server or session host), so in multiplayer these settings apply from the host or server config, not from joining clients.
+
+Power-cycle and chip reinsert always use the full **InitInstructionLimit** in one shot. MCP / editor `SetSourceCode` defaults to spreading that same module-level init across ticks at **TickInstructionLimit** so a heavy boot cannot hitch the host; enable **AsyncExportUseInitInstructionLimit** on the host if you want those exports to use the one-shot init budget instead.
 
 Exceeding limits triggers a runtime error on the chip (red light on the housing).
 
