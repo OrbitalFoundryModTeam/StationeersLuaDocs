@@ -48,6 +48,10 @@ end
 -- Use nil for networkIndex when you only pass mode, e.g.:
 -- local id = ic.find("(?i)power", "regex")
 -- local id = ic.find("2 * 5kPa", "exact")
+
+-- Prefab id (Thing.PrefabName), not the Labeller label. Same modes.
+local dual = ic.find_all_prefab("SolarPanelDual")
+local panels = ic.find_all_prefab("SolarPanel*")
 ```
 
 ## Writing Logic Values
@@ -184,6 +188,8 @@ local ch0 = ic.read(ic.const.BASE_UNIT_INDEX, LT.Channel0, 0)
 | `ic.write_id(id, logicType, value [, net])`   | —             | Write by ReferenceId                                 |
 | `ic.find(name [, mode [, net]])`              | number \| nil | Find by display name; `mode`: auto / exact / glob / regex; a single number is `net` only |
 | `ic.find_all(name [, mode [, net]])`          | number[]      | Find all matches; same modes as `ic.find`                 |
+| `ic.find_prefab(name [, mode [, net]])`       | number \| nil | Find by prefab name (`SolarPanelDual`); same modes as `ic.find` |
+| `ic.find_all_prefab(name [, mode [, net]])`   | number[]      | Find all prefab-name matches; `SolarPanel*` covers every solar prefab |
 | `device_name(dev [, net])`                 | string \| nil | Get device display name                              |
 | `device_label(dev, name)`                  | —             | Set device label (also `ic.device_label`) |
 | `device_list([net])`                       | table[]       | List all network devices                             |

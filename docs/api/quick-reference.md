@@ -26,6 +26,8 @@ Device logic (read/write by pin or id, slots, reagents, batch ops, find) is expo
 | `ic.batch_write_slot_name(hash, nameHash, slot, slotType, value [, net])` | Batch write slot + name                   |
 | `ic.find(name [, mode [, net]])`                                           | Find by label/pattern → ReferenceId (`mode`: auto/exact/glob/regex); one number only → `net` |
 | `ic.find_all(name [, mode [, net]])`                                      | Find all matches → ReferenceId[]                                    |
+| `ic.find_prefab(name [, mode [, net]])`                                    | Find by prefab name → ReferenceId; same modes as `ic.find`          |
+| `ic.find_all_prefab(name [, mode [, net]])`                               | Find all prefab-name matches → ReferenceId[]                        |
 | `ic.host_info()`                                                          | Host metadata (name, type, wearer for wearable hosts) |
 
 ## Global functions
